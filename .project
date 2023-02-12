@@ -30,9 +30,24 @@
 			<locationURI>s32sdk_s32k1xx_rtm_402/rtos/osif/doxygen/osif.dox</locationURI>
 		</link>
 		<link>
+			<name>doc/SDK/platform/drivers/src/adc/doxygen/adc_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/adc/doxygen/adc_driver.dox</locationURI>
+		</link>
+		<link>
 			<name>doc/SDK/platform/drivers/src/clock/doxygen/clock_manager.dox</name>
 			<type>1</type>
 			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/clock/doxygen/clock_manager.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/crc/doxygen/crc.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/crc/doxygen/crc.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/csec/doxygen/csec.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/csec/doxygen/csec.dox</locationURI>
 		</link>
 		<link>
 			<name>doc/SDK/platform/drivers/src/edma/doxygen/edma_driver.dox</name>
@@ -40,9 +55,109 @@
 			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/edma/doxygen/edma_driver.dox</locationURI>
 		</link>
 		<link>
+			<name>doc/SDK/platform/drivers/src/eim/doxygen/eim_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/eim/doxygen/eim_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/erm/doxygen/erm.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/erm/doxygen/erm.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/ewm/doxygen/ewm.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/ewm/doxygen/ewm.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/ewm/doxygen/ewm_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/ewm/doxygen/ewm_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/flash/doxygen/flash_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/flash/doxygen/flash_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/flexcan/doxygen/flexcan_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/flexcan/doxygen/flexcan_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/flexio/doxygen/flexio.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/flexio/doxygen/flexio.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/flexio/doxygen/flexio_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/flexio/doxygen/flexio_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/flexio/doxygen/flexio_i2c_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/flexio/doxygen/flexio_i2c_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/flexio/doxygen/flexio_i2s_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/flexio/doxygen/flexio_i2s_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/flexio/doxygen/flexio_spi_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/flexio/doxygen/flexio_spi_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/flexio/doxygen/flexio_uart_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/flexio/doxygen/flexio_uart_driver.dox</locationURI>
+		</link>
+		<link>
 			<name>doc/SDK/platform/drivers/src/interrupt/doxygen/interrupt.dox</name>
 			<type>1</type>
 			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/interrupt/doxygen/interrupt.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/lpit/doxygen/lpit.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/lpit/doxygen/lpit.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/lpit/doxygen/lpit_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/lpit/doxygen/lpit_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/lptmr/doxygen/lptmr.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/lptmr/doxygen/lptmr.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/lptmr/doxygen/lptmr_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/lptmr/doxygen/lptmr_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/lpuart/doxygen/lpuart_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/lpuart/doxygen/lpuart_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/mpu/doxygen/mpu_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/mpu/doxygen/mpu_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/pdb/doxygen/pdb.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/pdb/doxygen/pdb.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/pdb/doxygen/pdb_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/pdb/doxygen/pdb_driver.dox</locationURI>
 		</link>
 		<link>
 			<name>doc/SDK/platform/drivers/src/pins/doxygen/pins.dox</name>
@@ -50,9 +165,34 @@
 			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/pins/doxygen/pins.dox</locationURI>
 		</link>
 		<link>
+			<name>doc/SDK/platform/drivers/src/power/doxygen/power_manager.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/power/doxygen/power_manager.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/rtc/doxygen/rtc_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/rtc/doxygen/rtc_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/trgmux/doxygen/trgmux_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/trgmux/doxygen/trgmux_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/wdog/doxygen/wdog_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/wdog/doxygen/wdog_driver.dox</locationURI>
+		</link>
+		<link>
 			<name>doc/SDK/platform/drivers/src/clock/S32K1xx/doxygen/clock_S32K1xx.dox</name>
 			<type>1</type>
 			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/clock/S32K1xx/doxygen/clock_S32K1xx.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/power/S32K1xx/doxygen/power_manager_S32K1xx.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/power/S32K1xx/doxygen/power_manager_S32K1xx.dox</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
