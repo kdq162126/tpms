@@ -13,6 +13,9 @@
 
 /* Including necessary configuration files. */
 #include "sdk_project_config.h"
+#include "at_modem.h"
+
+ATmodem atModem;
 
 volatile int exit_code = 0;
 /* User includes */
@@ -23,6 +26,8 @@ volatile int exit_code = 0;
  * - startup asm routine
  * - main()
 */
+
+
 int main(void)
 {
     /* Write your code here */
