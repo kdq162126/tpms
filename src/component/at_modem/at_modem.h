@@ -1,7 +1,7 @@
 /*
  * at_modem.h
  *
- *  Created on: Feb 12, 2023
+ *  Created on: Feb 14, 2023
  *      Author: khanh
  */
 
@@ -9,13 +9,23 @@
 #define COMPONENT_AT_MODEM_AT_MODEM_H_
 
 #include "stdint.h"
-#include "clock.h"
+#include "timeout_clock.h"
+
+#define AT_MODEM_BUILD_HEAD(buff) \
+    *buff++ = 'A';                \
+    *buff++ = 'T';                \
+    *buff++ = '+'
+#define AT_MODEM_BUILD_TAIL(buff) \
+    *buff++ = '\r';               \
+    *buff++ = '\n';               \
+    *buff++ = '\0'
+
 
 #define AT_MODEM_RX_BUFFER_LEN 1000UL
 
 typedef struct ATmodem_t ATmodem;
 struct ATmodem_t {
-    bool isResponse;
+    volatile bool isResponse;
     char* rxBuff;
     Clock clock;
     void (*sendCmd)(const char* cmd);

@@ -41,15 +41,23 @@ instance:
   - flexio_uart_driver:
     - flexio_uart_Configuration:
       - 0:
-        - name: 'Flexio_uart_Config0'
+        - name: 'Flexio_uart_Config0_TX'
         - readonly: 'true'
         - driverType: 'FLEXIO_DRIVER_TYPE_INTERRUPTS'
         - baudRate: '115200'
         - bitCount: '8'
         - direction: 'FLEXIO_UART_DIRECTION_TX'
-        - dataPin: '0'
+        - dataPin: '2'
         - callback: 'NULL'
-    - quick_selection: 'default_flexio_uart'
+      - 1:
+        - name: 'Flexio_uart_Config0_RX'
+        - readonly: 'true'
+        - driverType: 'FLEXIO_DRIVER_TYPE_INTERRUPTS'
+        - baudRate: '115200'
+        - bitCount: '8'
+        - direction: 'FLEXIO_UART_DIRECTION_RX'
+        - dataPin: '1'
+        - callback: 'flexio_uart_RX_Callback0'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 
@@ -63,13 +71,23 @@ instance:
  */
 
 /* FlexioUART configuration structure */
-const flexio_uart_user_config_t Flexio_uart_Config0 = {
+const flexio_uart_user_config_t Flexio_uart_Config0_TX = {
   .driverType = FLEXIO_DRIVER_TYPE_INTERRUPTS,
   .baudRate = 115200UL,
   .bitCount = 8U,
   .direction = FLEXIO_UART_DIRECTION_TX,
-  .dataPin = 0U,
+  .dataPin = 2U,
   .callback = NULL,
+  .callbackParam = NULL
+};
+
+const flexio_uart_user_config_t Flexio_uart_Config0_RX = {
+  .driverType = FLEXIO_DRIVER_TYPE_INTERRUPTS,
+  .baudRate = 115200UL,
+  .bitCount = 8U,
+  .direction = FLEXIO_UART_DIRECTION_RX,
+  .dataPin = 1U,
+  .callback = flexio_uart_RX_Callback0,
   .callbackParam = NULL
 };
 

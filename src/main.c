@@ -1,49 +1,26 @@
-/*!
-** Copyright 2020 NXP
-** @file main.c
-** @brief
-**         Main module.
-**         This module contains user's application code.
-*/
-/*!
-**  @addtogroup main_module main module documentation
-**  @{
-*/
-/* MODULE main */
+#include "app.h"
 
-/* Including necessary configuration files. */
-#include "sdk_project_config.h"
-#include "at_modem.h"
+int main(void) {
+    SystemClockConfig();
+    SystemPinsConfig();
 
-ATmodem atModem;
+    UartHwInit();
+    MqttAppInit(&tpmsApp);
 
-volatile int exit_code = 0;
-/* User includes */
-
-/*!
-  \brief The main function for the project.
-  \details The startup initialization sequence is the following:
- * - startup asm routine
- * - main()
-*/
-
-
-int main(void)
-{
-    /* Write your code here */
-    PINS_DRV_Init(50, g_pin_mux_InitConfigArr0);
-
-    for (;;)
-    {
-        if (exit_code != 0)
-        {
+    while (1) {
+        switch (tpmsApp.mqtt.state) {
+        case MQTT_CLIENT_ST_INIT:
+            MqttClientInit(&tpmsApp.mqtt);
+            break;
+        case MQTT_CLIENT_ST_OPEN_NETWORK:
+            MqttClientOpenNetwork(&tpmsApp.mqtt);
+            break;
+        case MQTT_CLIENT_ST_CONNECT_SERVER:
+            MqttClientConnectServer(&tpmsApp.mqtt);
+            break;
+        case MQTT_CLIENT_ST_STREAM_DATA:
+            MqttClientPublishMessage(&tpmsApp.mqtt);
             break;
         }
     }
-    return exit_code;
 }
-
-/* END main */
-/*!
-** @}
-*/
