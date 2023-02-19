@@ -26,6 +26,7 @@
 typedef struct ATmodem_t ATmodem;
 struct ATmodem_t {
     volatile bool isResponse;
+    char* expectMsg;
     char* receiveData;
     Clock clock;
     void (*sendCmd)(const char* cmd);

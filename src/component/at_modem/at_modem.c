@@ -22,6 +22,8 @@ void ATmodemInit(ATmodem* this, void (*sendHandle)(const char*), uint32_t* times
 
 // Retry if command was excutived fail
 bool ATmodemExcutiveCmd(ATmodem* this, const char* cmd, const char* resp, uint32_t timeoutMs, uint8_t retryNum) {
+    this->expectMsg = resp;
+
     for (uint8_t retryCnt = 0; retryCnt < retryNum; retryCnt++) {
         ATmodemClean(this);
         ClockEnableTimeout(&this->clock, timeoutMs);
@@ -33,9 +35,7 @@ bool ATmodemExcutiveCmd(ATmodem* this, const char* cmd, const char* resp, uint32
             continue;
 
         ClockDisableTimeout(&this->clock);
-        bool isMatched = ATmodemCheckResponse(this, resp);
-        if (isMatched)
-            return true;
+        return true;
     }
     return false;
 }

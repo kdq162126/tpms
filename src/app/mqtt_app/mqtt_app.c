@@ -31,11 +31,10 @@ void MqttAppInit() {
 }
 
 static void ec200uHwReceiveHandle(UartHw* this) {
-    if (this->rxBuff[this->rxIndex - 1] != '\n')
+    if (strstr(this->rxBuff, pApp->lteModule.base.expectMsg) == NULL)
         return;
 
-    this->rxBuff[this->rxIndex - 1] = '\0';
-    ATmodemDetectNewMessage((ATmodem*)&pApp->lteModule, this->rxBuff);
+    pApp->lteModule.base.isResponse = true;
 }
 
 static void lteAtCmdSend(const char* msg) {
