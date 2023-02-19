@@ -63,13 +63,49 @@ static void MqttClientOpenNetworkHandle(MqttClient* this) {
 }
 
 static void MqttClientConnectServerHandle(MqttClient* this) {
-    bool isSuccess = Ec200uConnectServer(&pApp->lteModule, "TPMS_01", MQTT_CLIENT_USERNAME, MQTT_CLIENT_PASSWORD);
+    bool isSuccess = Ec200uConnectServer(&pApp->lteModule, DEVICE_ID, MQTT_CLIENT_USERNAME, MQTT_CLIENT_PASSWORD);
     if (!isSuccess) {
         MqttClientSetState(this, MQTT_CLIENT_ST_FAIL);
         return;
     }
 
     MqttClientSetState(this, MQTT_CLIENT_ST_STREAM_DATA);
+}
+
+// TEST
+void CreateMockSensorMessage(char* buff) {
+    buff = JsonOpen(buff);
+    buff = JsonFromString(buff, "deviceId", DEVICE_ID);
+    *buff++ = ',';
+    buff = JsonFromString(buff, "version", "123xxx");
+    *buff++ = ',';
+    buff = StringAppendStringWithQuote(buff, "tires");
+    *buff++ = ':';
+    *buff++ = '[';
+
+    char* tireIds[] = { "111","222","333","444" };
+    char* tireNames[] = { "L11", "L12", "R11" ,"R12" };
+    char* positions[] = { "L11", "L12", "R11" ,"R12" };
+    for (uint8_t i = 0; i < 4; i++) {
+        buff = JsonOpen(buff);
+        buff = JsonFromString(buff, "tireId", tireIds[i]);
+        *buff++ = ',';
+        buff = JsonFromString(buff, "tireName", tireNames[i]);
+        *buff++ = ',';
+        buff = JsonFromString(buff, "position", positions[i]);
+        *buff++ = ',';
+        buff = JsonFromInt(buff, "pressure", (i + 1) * 10);
+        *buff++ = ',';
+        buff = JsonFromInt(buff, "batteryLevel", (i + 2) * 10);
+        *buff++ = ',';
+        buff = JsonFromInt(buff, "temperature", (i + 1) * 10);
+        buff = JsonClose(buff);
+        *buff++ = ',';
+    }
+    buff--;
+    *buff++ = ']';
+    buff = JsonClose(buff);
+    *buff++ = '\0';
 }
 
 static void MqttClientPublishMessageHandle(MqttClient* this) {
@@ -78,7 +114,10 @@ static void MqttClientPublishMessageHandle(MqttClient* this) {
     strcat(topic, "TPMS_01");
     strcat(topic, MQTT_TOPIC_SENSOR_ENDPOINT);
 
-    bool isSuccess = Ec200uPublishMessage(&pApp->lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, topic, "hello");
+    char msg[200];
+    CreateMockSensorMessage(msg);
+
+    bool isSuccess = Ec200uPublishMessage(&pApp->lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, topic, msg);
     if (!isSuccess) {
         MqttClientSetState(this, MQTT_CLIENT_ST_FAIL);
         return;
@@ -86,3 +125,5 @@ static void MqttClientPublishMessageHandle(MqttClient* this) {
 
     MqttClientSetState(this, MQTT_CLIENT_ST_STREAM_DATA);
 }
+
+

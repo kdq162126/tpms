@@ -8,6 +8,8 @@
 #ifndef APP_CONFIG_MQTT_CONFIG_H_
 #define APP_CONFIG_MQTT_CONFIG_H_
 
+#define DEVICE_ID                       "TPMS001"
+
 #define MQTT_CONFIG_QOS					"2"
 #define MQTT_CONFIG_RETAIN				"0"
 
