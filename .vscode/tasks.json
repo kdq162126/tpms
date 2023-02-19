@@ -9,7 +9,11 @@
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "--include-directory=${workspaceFolder}/src/component/at_modem",
+                "--include-directory=${workspaceFolder}/src/component/ec200u",
+                "--include-directory=${workspaceFolder}/src/service/timeout_clock",
+                "--include-directory=${workspaceFolder}/src/utils/string_util"
             ],
             "options": {
                 "cwd": "${fileDirname}"

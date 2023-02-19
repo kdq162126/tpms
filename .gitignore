@@ -54,3 +54,4 @@ dkms.conf
 # S32 Studio Auto-generate files
 Debug_FLASH
 Project_Settings/Debugger/
+.project

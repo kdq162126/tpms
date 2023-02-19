@@ -1,49 +1,8 @@
-/*!
-** Copyright 2020 NXP
-** @file main.c
-** @brief
-**         Main module.
-**         This module contains user's application code.
-*/
-/*!
-**  @addtogroup main_module main module documentation
-**  @{
-*/
-/* MODULE main */
+#include "app.h"
 
-/* Including necessary configuration files. */
-#include "sdk_project_config.h"
-#include "at_modem.h"
+int main(void) {
+    BoardConfig();
+    TaskInit();
 
-ATmodem atModem;
-
-volatile int exit_code = 0;
-/* User includes */
-
-/*!
-  \brief The main function for the project.
-  \details The startup initialization sequence is the following:
- * - startup asm routine
- * - main()
-*/
-
-
-int main(void)
-{
-    /* Write your code here */
-    PINS_DRV_Init(50, g_pin_mux_InitConfigArr0);
-
-    for (;;)
-    {
-        if (exit_code != 0)
-        {
-            break;
-        }
-    }
-    return exit_code;
+    while (1);
 }
-
-/* END main */
-/*!
-** @}
-*/

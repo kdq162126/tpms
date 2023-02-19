@@ -35,10 +35,22 @@
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.sysroot.213686949" name="Sysroot" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.sysroot" useByScannerDiscovery="false" value="--sysroot=&quot;${S32DS_ARM32_NEWLIB_DIR}&quot;" valueType="string"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.include.paths.1612477317" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/at_modem}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/clock}&quot;"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/include"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app/task}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app/mqtt_app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/clock}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/mqtt}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board/core_hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board/uart_hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/at_modem}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/ec200u}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/utils/string_util}&quot;"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/ftm"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/board&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices/common&quot;"/>
@@ -56,6 +68,7 @@
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.preprocessor.def.symbols.587382156" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="CPU_S32K144HFT0VLLT"/>
 									<listOptionValue builtIn="false" value="CPU_S32K144"/>
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
 								</option>
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.instructionset.1065086464" name="Instruction set" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.instructionset" useByScannerDiscovery="true" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.instructionset.thumb" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.dialect.std.349447032" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.c.compiler.dialect.c99" valueType="enumerated"/>
@@ -134,8 +147,22 @@
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.sysroot.277272241" name="Sysroot" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.sysroot" useByScannerDiscovery="false" value="--sysroot=&quot;${S32DS_ARM32_NEWLIB_DIR}&quot;" valueType="string"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.both.asm.option.include.paths.1825349658" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/include"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app/task}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app/mqtt_app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/clock}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/mqtt}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board/core_hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board/uart_hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/at_modem}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/ec200u}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/utils/string_util}&quot;"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/ftm"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/board&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices/common&quot;"/>
@@ -153,6 +180,9 @@
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.instructionset.2098744059" name="Instruction set" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.instructionset" useByScannerDiscovery="true" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.instructionset.thumb" valueType="enumerated"/>
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.abi.353336537" name="Float ABI" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.abi" useByScannerDiscovery="true" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.abi.hard" valueType="enumerated"/>
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.unit.998299421" name="FPU Type" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.unit" useByScannerDiscovery="true" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.unit.fpv4spd16" valueType="enumerated"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.freescale.s32ds.cross.gnu.tool.assembler.option.defs.881239794" name="Defined symbols (-D)" superClass="com.freescale.s32ds.cross.gnu.tool.assembler.option.defs" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.37246052" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 								<inputType id="com.freescale.s32ds.cross.gnu.tool.assembler.inputType.asmfile.631219823" superClass="com.freescale.s32ds.cross.gnu.tool.assembler.inputType.asmfile"/>
 							</tool>
@@ -172,61 +202,13 @@
 							<tool id="com.freescale.s32ds.cross.gnu.disassembler.831085367" name="Standard S32DS Disassembler" superClass="com.freescale.s32ds.cross.gnu.disassembler"/>
 						</toolChain>
 					</folderInfo>
-					<folderInfo id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.exe.debug.1617437285.851477033" name="/" resourcePath="src/component/at_modem">
-						<toolChain id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.toolchain.debug.1495095833" name="NXP GCC 6.3 for Arm 32-bit Bare-Metal" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.toolchain.debug" unusedChildren="">
-							<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.option.addtools.printsize.660066594.1793966741" name="Print size" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.option.addtools.printsize.660066594"/>
-							<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.option.compiler.path.692994928.1076196322" name="Path" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.option.compiler.path.692994928"/>
-							<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.option.target.libraries.2008208904.1323307138" name="Libraries support" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.option.target.libraries.2008208904"/>
-							<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.option.target.mcpu.1121183481.1235770307" name="Arm family" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.option.target.mcpu.1121183481"/>
-							<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.option.target.instructionset.1248871213.1035555210" name="Instruction set" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.option.target.instructionset.1248871213"/>
-							<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.option.target.fpu.abi.561796976.1050637337" name="Float ABI" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.option.target.fpu.abi.561796976"/>
-							<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.option.target.fpu.unit.550645258.1624924603" name="FPU Type" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.option.target.fpu.unit.550645258"/>
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
-							<tool id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.386432752" name="Standard S32DS C Compiler" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.231957303">
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.include.paths.492203756" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/clock}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/at_modem}&quot;"/>
-									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
-									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
-									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/ftm"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/board&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices/common&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices/S32K144/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/drivers/inc&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/drivers/src/clock/S32K1xx&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${S32K144_SDK_4.0.2_PATH}/platform&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${S32K144_SDK_4.0.2_PATH}/platform/devices&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${S32K144_SDK_4.0.2_PATH}/platform/devices/common&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${S32K144_SDK_4.0.2_PATH}/platform/devices/S32K144/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${S32K144_SDK_4.0.2_PATH}/platform/devices/S32K144/startup&quot;"/>
-								</option>
-								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1824132919" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
-							</tool>
-							<tool id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.cpp.compiler.1122404755" name="Standard S32DS C++ Compiler" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.cpp.compiler.930812020"/>
-							<tool id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.linker.255559346" name="Standard S32DS C Linker" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.linker.1582223972"/>
-							<tool id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.cpp.linker.1007703985" name="Standard S32DS C++ Linker" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.cpp.linker.1078478105"/>
-							<tool id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.archiver.249180272" name="Standard S32DS Archiver" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.archiver.2091914035"/>
-							<tool id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.689514407" name="Standard S32DS Assembler" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.655798171">
-								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1270550483" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
-								<inputType id="com.freescale.s32ds.cross.gnu.tool.assembler.inputType.asmfile.1900002113" superClass="com.freescale.s32ds.cross.gnu.tool.assembler.inputType.asmfile"/>
-							</tool>
-							<tool id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.createflash.673215377" name="Standard S32DS Create Flash Image" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.createflash.1006887900"/>
-							<tool id="com.freescale.s32ds.cross.gnu.tool.createlisting.1645422162" name="Standard S32DS Create Listing" superClass="com.freescale.s32ds.cross.gnu.tool.createlisting.139524250"/>
-							<tool id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.printsize.1485286194" name="Standard S32DS Print Size" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.printsize.1067416411"/>
-							<tool id="com.freescale.s32ds.cross.gnu.c.preprocessor.420517899" name="Standard S32DS C Preprocessor" superClass="com.freescale.s32ds.cross.gnu.c.preprocessor.1923168313"/>
-							<tool id="com.freescale.s32ds.cross.gnu.cpp.preprocessor.1826787232" name="Standard S32DS C++ Preprocessor" superClass="com.freescale.s32ds.cross.gnu.cpp.preprocessor.228603958"/>
-							<tool id="com.freescale.s32ds.cross.gnu.disassembler.2045521672" name="Standard S32DS Disassembler" superClass="com.freescale.s32ds.cross.gnu.disassembler.831085367"/>
-						</toolChain>
-					</folderInfo>
 					<fileInfo id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.exe.debug.1617437285.Project_Settings/Debugger" name="Debugger" rcbsApplicability="disable" resourcePath="Project_Settings/Debugger" toolsToInvoke=""/>
 					<fileInfo id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.exe.debug.1617437285.Project_Settings/Linker_Files" name="Linker_Files" rcbsApplicability="disable" resourcePath="Project_Settings/Linker_Files" toolsToInvoke=""/>
 					<sourceEntries>
 						<entry excluding="Linker_Files|Debugger" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Project_Settings"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="SDK"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="board"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="test|utils/string_util/test.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -266,9 +248,24 @@
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.sysroot.698720611" name="Sysroot" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.sysroot" useByScannerDiscovery="false" value="--sysroot=&quot;${S32DS_ARM32_NEWLIB_DIR}&quot;" valueType="string"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.include.paths.933326058" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/include"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app/task}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app/mqtt_app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/clock}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/mqtt}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board/core_hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board/uart_hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/at_modem}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/ec200u}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/utils/string_util}&quot;"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/ftm"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/timeout_clock}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/board&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices/common&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices&quot;"/>
@@ -285,6 +282,7 @@
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.preprocessor.def.symbols.2033319184" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="CPU_S32K144HFT0VLLT"/>
 									<listOptionValue builtIn="false" value="CPU_S32K144"/>
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
 								</option>
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.instructionset.1202809752" name="Instruction set" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.instructionset" useByScannerDiscovery="true" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.instructionset.thumb" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.dialect.std.135487573" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.c.compiler.dialect.c99" valueType="enumerated"/>
@@ -362,9 +360,24 @@
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.sysroot.1598925924" name="Sysroot" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.sysroot" value="--sysroot=&quot;${S32DS_ARM32_NEWLIB_DIR}&quot;" valueType="string"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.both.asm.option.include.paths.599870017" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/include"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app/task}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app/mqtt_app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/clock}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/mqtt}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board/core_hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board/uart_hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/at_modem}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/ec200u}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/utils/string_util}&quot;"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/ftm"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/timeout_clock}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/board&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices/common&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices&quot;"/>
@@ -381,6 +394,9 @@
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.instructionset.766461512" name="Instruction set" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.instructionset" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.instructionset.thumb" valueType="enumerated"/>
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.abi.2010705763" name="Float ABI" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.abi" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.abi.hard" valueType="enumerated"/>
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.unit.1182105961" name="FPU Type" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.unit" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.unit.fpv4spd16" valueType="enumerated"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.freescale.s32ds.cross.gnu.tool.assembler.option.defs.549347514" name="Defined symbols (-D)" superClass="com.freescale.s32ds.cross.gnu.tool.assembler.option.defs" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.66673463" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 								<inputType id="com.freescale.s32ds.cross.gnu.tool.assembler.inputType.asmfile.1253584493" superClass="com.freescale.s32ds.cross.gnu.tool.assembler.inputType.asmfile"/>
 							</tool>
@@ -406,6 +422,7 @@
 						<entry excluding="Linker_Files|Debugger" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Project_Settings"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="SDK"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="board"/>
+						<entry excluding="test|utils/string_util/test.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
@@ -446,9 +463,24 @@
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.sysroot.821108417" name="Sysroot" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.sysroot" useByScannerDiscovery="false" value="--sysroot=&quot;${S32DS_ARM32_NEWLIB_DIR}&quot;" valueType="string"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.include.paths.1499969758" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/include"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app/task}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app/mqtt_app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/clock}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/mqtt}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board/core_hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board/uart_hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/at_modem}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/ec200u}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/utils/string_util}&quot;"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/ftm"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/timeout_clock}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/board&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices/common&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices&quot;"/>
@@ -465,6 +497,7 @@
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.preprocessor.def.symbols.2087941057" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="CPU_S32K144HFT0VLLT"/>
 									<listOptionValue builtIn="false" value="CPU_S32K144"/>
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
 								</option>
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.instructionset.977705741" name="Instruction set" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.instructionset" useByScannerDiscovery="true" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.instructionset.thumb" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.dialect.std.2051612909" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.c.compiler.dialect.c99" valueType="enumerated"/>
@@ -542,9 +575,24 @@
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.sysroot.1273097868" name="Sysroot" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.sysroot" value="--sysroot=&quot;${S32DS_ARM32_NEWLIB_DIR}&quot;" valueType="string"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.both.asm.option.include.paths.1968113084" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/include"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app/task}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app/mqtt_app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/clock}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/mqtt}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board/core_hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board/uart_hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/at_modem}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/ec200u}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/utils/string_util}&quot;"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/ftm"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/timeout_clock}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/board&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices/common&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices&quot;"/>
@@ -561,6 +609,9 @@
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.instructionset.1065286992" name="Instruction set" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.instructionset" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.instructionset.thumb" valueType="enumerated"/>
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.abi.1136534895" name="Float ABI" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.abi" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.abi.hard" valueType="enumerated"/>
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.unit.51110635" name="FPU Type" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.unit" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.unit.fpv4spd16" valueType="enumerated"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.freescale.s32ds.cross.gnu.tool.assembler.option.defs.432691001" name="Defined symbols (-D)" superClass="com.freescale.s32ds.cross.gnu.tool.assembler.option.defs" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.998285344" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 								<inputType id="com.freescale.s32ds.cross.gnu.tool.assembler.inputType.asmfile.1176844811" superClass="com.freescale.s32ds.cross.gnu.tool.assembler.inputType.asmfile"/>
 							</tool>
@@ -586,6 +637,7 @@
 						<entry excluding="Linker_Files|Debugger" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Project_Settings"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="SDK"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="board"/>
+						<entry excluding="test|utils/string_util/test.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
@@ -626,9 +678,24 @@
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.sysroot.937761244" name="Sysroot" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.sysroot" useByScannerDiscovery="false" value="--sysroot=&quot;${S32DS_ARM32_NEWLIB_DIR}&quot;" valueType="string"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.include.paths.1522556228" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/include"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app/task}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app/mqtt_app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/clock}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/mqtt}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board/core_hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board/uart_hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/at_modem}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/ec200u}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/utils/string_util}&quot;"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/ftm"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/timeout_clock}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/board&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices/common&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices&quot;"/>
@@ -645,6 +712,7 @@
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.preprocessor.def.symbols.1770070350" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="CPU_S32K144HFT0VLLT"/>
 									<listOptionValue builtIn="false" value="CPU_S32K144"/>
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
 								</option>
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.instructionset.916379148" name="Instruction set" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.instructionset" useByScannerDiscovery="true" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.instructionset.thumb" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.dialect.std.1957136513" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.c.compiler.dialect.c99" valueType="enumerated"/>
@@ -722,9 +790,24 @@
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.sysroot.330046517" name="Sysroot" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.sysroot" value="--sysroot=&quot;${S32DS_ARM32_NEWLIB_DIR}&quot;" valueType="string"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.both.asm.option.include.paths.2048231825" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/include"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app/task}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app/mqtt_app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/app_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/clock}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/mqtt}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board/core_hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/board/uart_hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/at_modem}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/component/ec200u}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/utils/string_util}&quot;"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/ftm"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/service/timeout_clock}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/board&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices/common&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/SDK/platform/devices&quot;"/>
@@ -741,6 +824,9 @@
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.instructionset.279582281" name="Instruction set" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.instructionset" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.instructionset.thumb" valueType="enumerated"/>
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.abi.569893500" name="Float ABI" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.abi" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.abi.hard" valueType="enumerated"/>
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.unit.1554846528" name="FPU Type" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.unit" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.fpu.unit.fpv4spd16" valueType="enumerated"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.freescale.s32ds.cross.gnu.tool.assembler.option.defs.1782840867" name="Defined symbols (-D)" superClass="com.freescale.s32ds.cross.gnu.tool.assembler.option.defs" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="USING_OS_FREERTOS"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2015500273" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 								<inputType id="com.freescale.s32ds.cross.gnu.tool.assembler.inputType.asmfile.1400311416" superClass="com.freescale.s32ds.cross.gnu.tool.assembler.inputType.asmfile"/>
 							</tool>
@@ -766,6 +852,7 @@
 						<entry excluding="Linker_Files|Debugger" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Project_Settings"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="SDK"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="board"/>
+						<entry excluding="test|utils/string_util/test.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
@@ -793,20 +880,33 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="org.eclipse.embsys" parent_project="true" register_architecture="" register_board="---  none ---" register_chip="" register_core="" register_vendor=""/>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release_FLASH">
+			<resource resourceType="PROJECT" workspacePath="/tpms"/>
+		</configuration>
+		<configuration configurationName="Release_RAM">
+			<resource resourceType="PROJECT" workspacePath="/tpms"/>
+		</configuration>
+		<configuration configurationName="Debug_FLASH">
+			<resource resourceType="PROJECT" workspacePath="/tpms"/>
+		</configuration>
+		<configuration configurationName="Debug_RAM">
+			<resource resourceType="PROJECT" workspacePath="/tpms"/>
+		</configuration>
+	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 	<storageModule moduleId="com.nxp.s32ds.cle.uct.internal.core.toolchainSettings">
 		<COND_TOOLCHAIN_LIBRARIES/>
 		<COND_TOOLCHAIN_LIBRARIES_PATHS/>
-		<COND_TOOLCHAIN_DEFINES/>
-		<COND_TOOLCHAIN_ASM_DEFINES/>
+		<COND_TOOLCHAIN_DEFINES>USING_OS_FREERTOS;</COND_TOOLCHAIN_DEFINES>
+		<COND_TOOLCHAIN_ASM_DEFINES>USING_OS_FREERTOS;</COND_TOOLCHAIN_ASM_DEFINES>
 		<COND_TOOLCHAIN_CUSTOM_OPTION/>
 	</storageModule>
 	<storageModule moduleId="com.nxp.s32ds.cle.uct.internal.core.toolchainScriptProfile">
-		<COND_TOOLCHAIN_COMPONENTS_OPTION>COPY=platform.driver.ewm;platform.driver.trgmux;platform.driver.lpuart;platform.driver.lpi2c;platform.driver.cmp;platform.driver.lptmr;platform.driver.flash;platform.driver.eim;platform.driver.pdb;platform.driver.lpit;platform.driver.mpu;platform.driver.edma;platform.driver.flexio_uart;platform.driver.osif_baremetal;platform.driver.lpspi;platform.driver.wdog;platform.driver.erm;platform.driver.adc;platform.driver.osif;platform.driver.rtc;platform.driver.flexio_i2s;platform.driver.flexio_spi;platform.driver.powerS32K1xx;platform.driver.crc;platform.driver.flexio_i2c;platform.driver.csec;platform.driver.flexcan</COND_TOOLCHAIN_COMPONENTS_OPTION>
+		<COND_TOOLCHAIN_COMPONENTS_OPTION>COPY=platform.driver.osif_freertos;platform.os.freertosS32K14x;platform.os.freertos_heap_1;platform.driver.osif;platform.os.freertos;platform.driver.lpuart;platform.driver.edma;platform.driver.flexio_uart</COND_TOOLCHAIN_COMPONENTS_OPTION>
 	</storageModule>
 	<storageModule moduleId="com.nxp.s32ds.cle.uct.core">
-		<sdkComponents>platform.driver.osif;platform.driver.clock;platform.driver.interrupt_manager;platform.driver.pins;platform.driver.edma;platform.driver.osif_baremetal;platform.driver.adc;platform.driver.crc;platform.driver.eim;platform.driver.erm;platform.driver.ewm;platform.driver.flexcan;platform.driver.lpi2c;platform.driver.wdog;platform.driver.csec;platform.driver.powerS32K1xx;platform.driver.lpuart;platform.driver.lpit;platform.driver.pdb;platform.driver.lptmr;platform.driver.flexio_i2c;platform.driver.flexio_spi;platform.driver.flexio_i2s;platform.driver.flexio_uart;platform.driver.lpspi;platform.driver.trgmux;platform.driver.mpu;platform.driver.rtc;platform.driver.flash;platform.driver.cmp</sdkComponents>
+		<sdkComponents>platform.driver.clock;platform.driver.interrupt_manager;platform.driver.pins;platform.driver.edma;platform.driver.osif;platform.driver.lpuart;platform.driver.flexio_uart;platform.os.freertos;platform.driver.osif_freertos;platform.os.freertosS32K14x;platform.os.freertos_heap_1</sdkComponents>
 		<COND_TOOLCHAIN_ADD_REMOVE_COMPONENTS_OPTION>true</COND_TOOLCHAIN_ADD_REMOVE_COMPONENTS_OPTION>
 		<COND_TOOLCHAIN_COPY_SOURCES>true</COND_TOOLCHAIN_COPY_SOURCES>
 	</storageModule>

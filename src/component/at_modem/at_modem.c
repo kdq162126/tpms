@@ -1,52 +1,52 @@
+/*
+ * at_modem.c
+ *
+ *  Created on: Feb 14, 2023
+ *      Author: khanh
+ */
+
 #include "at_modem.h"
 #include "string.h"
 
-#define AT_MODEM_BUILD_HEAD(buff) \
-    *buff++ = 'A';                \
-    *buff++ = 'T';                \
-    *buff++ = '='
-#define AT_MODEM_BUILD_TAIL(buff) \
-    *buff++ = '\r';               \
-    *buff++ = '\n';               \
-    *buff++ = '\0'
-
-static inline bool ATmodemCheckResponse(ATmodem* this, const char* resp);
-static inline void ATmodemBuildCmd(char* str, const char* content);
-static inline void ATmodemClean(ATmodem* this);
+static bool ATmodemCheckResponse(ATmodem* this, const char* resp);
+static void ATmodemClean(ATmodem* this);
 
 char rxBuffer[AT_MODEM_RX_BUFFER_LEN];
 
-void ATmodemInit(ATmodem* this) {
-    this->rxBuff = rxBuffer;
+
+void ATmodemInit(ATmodem* this, void (*sendHandle)(const char*), uint32_t* timestampSource) {
+    this->receiveData = rxBuffer;
+    this->sendCmd = sendHandle;
+    this->clock.timestampMs = timestampSource;
 }
 
-bool ATmodemExcutiveCmd(ATmodem* this, const char* cmd, const char* resp, uint32_t timeoutMs) {
-    ATmodemClean(this);
-    ClockEnableTimeout(&this->clock, timeoutMs);
+// Retry if command was excutived fail
+bool ATmodemExcutiveCmd(ATmodem* this, const char* cmd, const char* resp, uint32_t timeoutMs, uint8_t retryNum) {
+    this->expectMsg = resp;
 
-    this->sendCmd(cmd);
-    while (!this->isResponse && !ClockIsTimeout(&this->clock));
+    for (uint8_t retryCnt = 0; retryCnt < retryNum; retryCnt++) {
+        ATmodemClean(this);
+        ClockEnableTimeout(&this->clock, timeoutMs);
 
-    if (ClockIsTimeout(&this->clock))
-        return false;
+        this->sendCmd(cmd);
+        while (!(this->isResponse || ClockIsTimeout(&this->clock)));
 
-    ClockDisableTimeout(&this->clock);
-    return ATmodemCheckResponse(this, resp);
+        if (ClockIsTimeout(&this->clock))
+            continue;
+
+        ClockDisableTimeout(&this->clock);
+        return true;
+    }
+    return false;
 }
 
-static inline bool ATmodemCheckResponse(ATmodem* this, const char* resp) {
-    return strstr(this->rxBuff, resp);
+
+static bool ATmodemCheckResponse(ATmodem* this, const char* resp) {
+    return (strstr(this->receiveData, resp) != NULL);
 }
 
-static inline void ATmodemBuildCmd(char* str, const char* content) {
-    char* buff = str;
-    AT_MODEM_BUILD_HEAD(buff);
-    strcat(buff, content);
-    buff += strlen(content);
-    AT_MODEM_BUILD_TAIL(buff);
-}
-
-static inline void ATmodemClean(ATmodem* this) {
+static void ATmodemClean(ATmodem* this) {
     this->isResponse = false;
-    memset(this->rxBuff, '\0', AT_MODEM_RX_BUFFER_LEN);
+    memset(this->receiveData, '\0', AT_MODEM_RX_BUFFER_LEN);
 }
+

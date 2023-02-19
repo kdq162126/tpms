@@ -4,7 +4,10 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/src/service/clock/"
+                "${workspaceFolder}/src/component/at_modem",
+                "${workspaceFolder}/src/component/ec200u",
+                "${workspaceFolder}/src/service/timeout_clock",
+                "${workspaceFolder}/src/utils/string_util"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang-10",

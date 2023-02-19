@@ -25,7 +25,14 @@
 #define INST_FLEXIO_UART_CONFIG_1  (0U)
 
 /* External declaration of FlexioUART configuration structure */
-extern const flexio_uart_user_config_t Flexio_uart_Config0;
+extern const flexio_uart_user_config_t Flexio_uart_Config0_TX;
+
+extern const flexio_uart_user_config_t Flexio_uart_Config0_RX;
+
+/* External declaration of user callback function */
+extern void flexio_uart_TX_Callback0(void *driverState, uart_event_t event, void *userData);
+
+extern void flexio_uart_RX_Callback0(void *driverState, uart_event_t event, void *userData);
 
 
 

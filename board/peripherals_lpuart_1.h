@@ -22,12 +22,12 @@
 /*******************************************************************************
  * Definitions 
  ******************************************************************************/
-#define INST_LPUART_1  0
+#define INST_LPUART_1  1
 
-extern lpuart_state_t lpUartState0;
+extern lpuart_state_t lpUartState1;
 
 /* External declaration of LPUART configuration structure */
-extern const lpuart_user_config_t lpuart_0_InitConfig0;
+extern const lpuart_user_config_t lpuart_1_InitConfig0;
 
 
 

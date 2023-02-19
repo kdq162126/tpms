@@ -137,12 +137,40 @@ BOARD_InitPins:
   - {pin_num: '6', peripheral: PORTE, signal: 'port, 10', pin_signal: PTE10, direction: OUTPUT}
   - {pin_num: '5', peripheral: PORTE, signal: 'port, 11', pin_signal: PTE11, direction: OUTPUT}
   - {pin_num: '19', peripheral: PORTE, signal: 'port, 12', pin_signal: PTE12, direction: OUTPUT}
+  - {pin_num: '79', peripheral: FLEXIO, signal: 'fxio_d, 2', pin_signal: PTA0}
+  - {pin_num: '91', peripheral: FLEXIO, signal: 'fxio_d, 1', pin_signal: PTA11}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
 
 /* Generate array of configured pin structures */
 pin_settings_config_t g_pin_mux_InitConfigArr0[NUM_OF_CONFIGURED_PINS0] = {
+    {
+        .base            = PORTA,
+        .pinPortIdx      = 0U,
+        .pullConfig      = PORT_INTERNAL_PULL_NOT_ENABLED,
+        .driveSelect     = PORT_LOW_DRIVE_STRENGTH,
+        .passiveFilter   = false,
+        .mux             = PORT_MUX_ALT4,
+        .pinLock         = false,
+        .intConfig       = PORT_DMA_INT_DISABLED,
+        .clearIntFlag    = false,
+        .gpioBase        = NULL,
+        .digitalFilter   = false,
+    },
+    {
+        .base            = PORTA,
+        .pinPortIdx      = 11U,
+        .pullConfig      = PORT_INTERNAL_PULL_NOT_ENABLED,
+        .driveSelect     = PORT_LOW_DRIVE_STRENGTH,
+        .passiveFilter   = false,
+        .mux             = PORT_MUX_ALT4,
+        .pinLock         = false,
+        .intConfig       = PORT_DMA_INT_DISABLED,
+        .clearIntFlag    = false,
+        .gpioBase        = NULL,
+        .digitalFilter   = false,
+    },
     {
         .base            = PORTA,
         .pinPortIdx      = 16U,
