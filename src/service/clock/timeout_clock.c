@@ -7,7 +7,7 @@ void ClockInit(Clock* this, uint32_t* timestampSource) {
 }
 
 void ClockEnableTimeout(Clock* this, const uint32_t timeoutMs) {
-    this->isTimeout = *this->timestampMs + timeoutMs;
+    this->timeoutMs = *this->timestampMs + timeoutMs;
     this->isActive = true;
     this->isTimeout = false;
 }

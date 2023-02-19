@@ -12,14 +12,16 @@
 #include "mqtt_client.h"
 #include "ec200u.h"
 
+#include "mqtt_app.h"
+#include "task_init.h"
+
 typedef struct TpmsApp_t TpmsApp;
 struct TpmsApp_t {
     MqttClient mqtt;
     Ec200u lteModule;
+    uint32_t timestamp;
 };
 
 extern TpmsApp tpmsApp;
-
-void MqttAppInit(TpmsApp* this);
 
 #endif /* APP_APP_H_ */

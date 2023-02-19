@@ -25,6 +25,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>doc/SDK/rtos/doxygen/freeRTOS.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/rtos/doxygen/freeRTOS.dox</locationURI>
+		</link>
+		<link>
 			<name>doc/SDK/rtos/osif/doxygen/osif.dox</name>
 			<type>1</type>
 			<locationURI>s32sdk_s32k1xx_rtm_402/rtos/osif/doxygen/osif.dox</locationURI>

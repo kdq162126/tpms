@@ -48,7 +48,7 @@ instance:
         - bitCount: '8'
         - direction: 'FLEXIO_UART_DIRECTION_TX'
         - dataPin: '2'
-        - callback: 'NULL'
+        - callback: 'flexio_uart_TX_Callback0'
       - 1:
         - name: 'Flexio_uart_Config0_RX'
         - readonly: 'true'
@@ -77,7 +77,7 @@ const flexio_uart_user_config_t Flexio_uart_Config0_TX = {
   .bitCount = 8U,
   .direction = FLEXIO_UART_DIRECTION_TX,
   .dataPin = 2U,
-  .callback = NULL,
+  .callback = flexio_uart_TX_Callback0,
   .callbackParam = NULL
 };
 

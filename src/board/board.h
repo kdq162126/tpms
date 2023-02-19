@@ -11,4 +11,8 @@
 #include "core_hw.h"
 #include "uart_hw.h"
 
+#define LTE_UART_INTERRUPT_PRIORITY             (1)
+
+void BoardConfig(void);
+
 #endif /* BOARD_BOARD_H_ */

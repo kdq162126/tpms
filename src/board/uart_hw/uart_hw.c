@@ -9,32 +9,30 @@
 #include "string.h"
 #include "sdk_project_config.h"
 
-void uartHwSendHandle(UartHw* this, const char* msg);
-
 flexio_uart_state_t   uartStateTX, uartStateRX;
 flexio_device_state_t flexIODeviceState;
-UartHw ec200uHw = {
-    .send = uartHwSendHandle,
-};
+UartHw ec200uHw;
 
-void UartHwInit(void) {
+void UartHwConfig(UartHw* this) {
     /* Init the FLEXIO device */
     FLEXIO_DRV_InitDevice(INST_FLEXIO_UART_CONFIG_1, &flexIODeviceState);
 
     FLEXIO_UART_DRV_Init(INST_FLEXIO_UART_CONFIG_1, &Flexio_uart_Config0_TX, &uartStateTX);
     FLEXIO_UART_DRV_Init(INST_FLEXIO_UART_CONFIG_1, &Flexio_uart_Config0_RX, &uartStateRX);
 
-    FLEXIO_UART_DRV_ReceiveData(&uartStateRX, (uint8_t*)ec200uHw.rxBuff, 1U);
-}
-
-void uartHwSendHandle(UartHw* this, const char* msg) {
-    uartHwClearRxBuffer(this);
-    FLEXIO_UART_DRV_SendDataBlocking(&uartStateTX, (uint8_t*)msg, strlen(msg), 100U);
+    FLEXIO_UART_DRV_ReceiveData(&uartStateRX, (uint8_t*)this->rxBuff, 1U);
 }
 
 void uartHwClearRxBuffer(UartHw* this) {
     this->rxIndex = 0;
     uartStateRX.rxData = (uint8_t*)this->rxBuff;
+}
+
+void UartHwSendMsg(UartHw* this, const char* msg) {
+    uartHwClearRxBuffer(this);
+    // FLEXIO_UART_DRV_SendDataBlocking(&uartStateTX, (uint8_t*)msg, strlen(msg), 100U);
+    FLEXIO_UART_DRV_SendData(&uartStateTX, (uint8_t*)msg, strlen(msg));
+    while (FLEXIO_UART_DRV_GetStatus(&uartStateTX, NULL) != STATUS_SUCCESS);
 }
 
 void flexio_uart_RX_Callback0(void* driverState, uart_event_t event, void* userData)
@@ -50,6 +48,11 @@ void flexio_uart_RX_Callback0(void* driverState, uart_event_t event, void* userD
     FLEXIO_UART_DRV_SetRxBuffer(&uartStateRX, (uint8_t*)&ec200uHw.rxBuff[ec200uHw.rxIndex], 1UL);
     ec200uHw.receive_handle(&ec200uHw);
 
+}
+
+void flexio_uart_TX_Callback0(void* driverState, uart_event_t event, void* userData) {
+    (void)userData;
+    (void)driverState;
 }
 
 // void uartHwSendMsg(UartHw* this, const char* msg);

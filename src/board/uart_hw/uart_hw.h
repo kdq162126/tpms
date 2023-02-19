@@ -20,16 +20,13 @@ struct UartHw_t {
     // void* sdkInitConfig;
     volatile uint8_t rxIndex;
     char rxBuff[UART_HW_RX_BUFFER_LEN];
-    void (*send)(UartHw*, const char* msg);
     void (*receive_handle)(UartHw*);    // TODO: Must be assign in app_init
 };
 
 extern UartHw ec200uHw;
 
-void UartHwInit(void);
+void UartHwConfig(UartHw* this);
+void UartHwSendMsg(UartHw* this, const char* msg);
 
-static inline void UartHwSend(UartHw* this, const char* msg) {
-    this->send(this, msg);
-}
 
 #endif /* BOARD_UART_HW_UART_HW_H_ */

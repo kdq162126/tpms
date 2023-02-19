@@ -3,8 +3,8 @@
  * will be overwritten if the respective S32 Config Tools is used to update this file.
  **********************************************************************************************************************/
 
-#ifndef flexio_uart_config_1_H
-#define flexio_uart_config_1_H
+#ifndef freertos_1_H
+#define freertos_1_H
 
 /**
  * @page misra_violations MISRA-C:2012 violations
@@ -17,23 +17,8 @@
 /*******************************************************************************
  * Included files 
  ******************************************************************************/
-#include "flexio_uart_driver.h"
-
-/*******************************************************************************
- * Definitions 
- ******************************************************************************/
-#define INST_FLEXIO_UART_CONFIG_1  (0U)
-
-/* External declaration of FlexioUART configuration structure */
-extern const flexio_uart_user_config_t Flexio_uart_Config0_TX;
-
-extern const flexio_uart_user_config_t Flexio_uart_Config0_RX;
-
-/* External declaration of user callback function */
-extern void flexio_uart_TX_Callback0(void *driverState, uart_event_t event, void *userData);
-
-extern void flexio_uart_RX_Callback0(void *driverState, uart_event_t event, void *userData);
+#include "FreeRTOS.h"
 
 
 
-#endif /* flexio_uart_config_1_H */
+#endif /* freertos_1_H */

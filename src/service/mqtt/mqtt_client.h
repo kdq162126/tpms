@@ -23,6 +23,7 @@ struct MqttClient_t {
     void (*openNetwork)(MqttClient*);
     void (*connectServer)(MqttClient*);
     void (*publishMessage)(MqttClient*);
+    void (*failHandle)(MqttClient*);
 };
 
 static inline void MqttClientSetState(MqttClient* this, MQTT_CLIENT_STATE state) {
@@ -47,6 +48,10 @@ static inline void MqttClientConnectServer(MqttClient* this) {
 
 static inline void MqttClientPublishMessage(MqttClient* this) {
     this->publishMessage(this);
+}
+
+static inline void MqttClientFailHandle(MqttClient* this) {
+    this->failHandle(this);
 }
 
 #endif /* SERVICE_MQTT_MQTT_CLIENT_H_ */

@@ -13,31 +13,40 @@ static void ATmodemClean(ATmodem* this);
 
 char rxBuffer[AT_MODEM_RX_BUFFER_LEN];
 
-void ATmodemInit(ATmodem* this) {
-    this->rxBuff = rxBuffer;
+
+void ATmodemInit(ATmodem* this, void (*sendHandle)(const char*), uint32_t* timestampSource) {
+    this->receiveData = rxBuffer;
+    this->sendCmd = sendHandle;
+    this->clock.timestampMs = timestampSource;
 }
 
-bool ATmodemExcutiveCmd(ATmodem* this, const char* cmd, const char* resp, uint32_t timeoutMs) {
-    ATmodemClean(this);
-    ClockEnableTimeout(&this->clock, timeoutMs);
+// Retry if command was excutived fail
+bool ATmodemExcutiveCmd(ATmodem* this, const char* cmd, const char* resp, uint32_t timeoutMs, uint8_t retryNum) {
+    for (uint8_t retryCnt = 0; retryCnt < retryNum; retryCnt++) {
+        ATmodemClean(this);
+        ClockEnableTimeout(&this->clock, timeoutMs);
 
-    this->sendCmd(cmd);
-    while (!(this->isResponse || ClockIsTimeout(&this->clock)));
+        this->sendCmd(cmd);
+        while (!(this->isResponse || ClockIsTimeout(&this->clock)));
 
-    if (ClockIsTimeout(&this->clock))
-        return false;
+        if (ClockIsTimeout(&this->clock))
+            continue;
 
-    ClockDisableTimeout(&this->clock);
-    return ATmodemCheckResponse(this, resp);
+        ClockDisableTimeout(&this->clock);
+        bool isMatched = ATmodemCheckResponse(this, resp);
+        if (isMatched)
+            return true;
+    }
+    return false;
 }
+
 
 static bool ATmodemCheckResponse(ATmodem* this, const char* resp) {
-	char* ret = strstr(this->rxBuff, resp);
-    return (ret != NULL);
+    return (strstr(this->receiveData, resp) != NULL);
 }
 
 static void ATmodemClean(ATmodem* this) {
     this->isResponse = false;
-    memset(this->rxBuff, '\0', AT_MODEM_RX_BUFFER_LEN);
+    memset(this->receiveData, '\0', AT_MODEM_RX_BUFFER_LEN);
 }
 

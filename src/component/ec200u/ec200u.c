@@ -1,16 +1,12 @@
 #include "ec200u.h"
 
-void Ec200uInit(Ec200u* this) {
-    ATmodemInit((ATmodem*)this);
-}
-
 bool Ec200uCheckATCmd(Ec200u* this) {
     char cmd[EC200U_TX_BUFFER_CMD_LENGTH];
     char* buff = cmd;
     buff = StringAppendString(buff, EC200U_CMD_CHECK_AT);
     AT_MODEM_BUILD_TAIL(buff);
 
-    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "OK", EC200U_NORMAL_CMD_TIMEOUT_MS);
+    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "OK", EC200U_NORMAL_CMD_TIMEOUT_MS, 3);
 }
 
 bool Ec200uTurnOffEcho(Ec200u* this) {
@@ -19,13 +15,18 @@ bool Ec200uTurnOffEcho(Ec200u* this) {
     buff = StringAppendString(buff, EC200U_CMD_TURN_OFF_ECHO);
     AT_MODEM_BUILD_TAIL(buff);
 
-    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "OK", EC200U_NORMAL_CMD_TIMEOUT_MS);
+    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "OK", EC200U_NORMAL_CMD_TIMEOUT_MS, 3);
 }
 
-// TODO: put your code logic here
-uint8_t Ec200uCheckNetworkStatus(Ec200u* this) {
-    (void)this;
-    return 0;
+bool Ec200uCheckSimReady(Ec200u* this) {
+    char cmd[EC200U_TX_BUFFER_CMD_LENGTH];
+    char* buff = cmd;
+
+    AT_MODEM_BUILD_HEAD(buff);
+    buff = StringAppendString(buff, EC200U_CMD_CHECK_NETWORK_STT);
+    AT_MODEM_BUILD_TAIL(buff);
+
+    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "+CREG: 0,2", EC200U_NORMAL_CMD_TIMEOUT_MS, 10);
 }
 
 bool Ec200uOpenNetwork(Ec200u* this, char* host, char* port) {
@@ -41,7 +42,7 @@ bool Ec200uOpenNetwork(Ec200u* this, char* host, char* port) {
     buff = StringAppendString(buff, port);
     AT_MODEM_BUILD_TAIL(buff);
 
-    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "+QMTOPEN: 0,0", EC200U_NORMAL_CMD_TIMEOUT_MS);
+    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "+QMTOPEN: 0,", 10000, 3);
 }
 
 bool Ec200uCloseNetwork(Ec200u* this) {
@@ -53,7 +54,7 @@ bool Ec200uCloseNetwork(Ec200u* this) {
     buff = StringAppendString(buff, "0");
     AT_MODEM_BUILD_TAIL(buff);
 
-    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "+QMTCLOSE: 0,0", EC200U_NORMAL_CMD_TIMEOUT_MS);
+    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "+QMTCLOSE: 0,0", 30000, 3);
 }
 
 bool Ec200uConnectServer(Ec200u* this, char* clientID, char* username, char* password) {
@@ -71,7 +72,7 @@ bool Ec200uConnectServer(Ec200u* this, char* clientID, char* username, char* pas
     buff = StringAppendStringWithQuote(buff, password);
     AT_MODEM_BUILD_TAIL(buff);
 
-    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "+QMTCONN: 0,0,0", EC200U_NORMAL_CMD_TIMEOUT_MS);
+    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "+QMTCONN: 0,0,0", 5000, 3);
 }
 
 bool Ec200uDisconnectServer(Ec200u* this) {
@@ -83,7 +84,7 @@ bool Ec200uDisconnectServer(Ec200u* this) {
     buff = StringAppendString(buff, "0");
     AT_MODEM_BUILD_TAIL(buff);
 
-    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "+QMTDISC: 0,0", EC200U_NORMAL_CMD_TIMEOUT_MS);
+    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "+QMTDISC: 0,0", 30000, 3);
 }
 
 bool Ec200uPublishMessage(Ec200u* this, char* qos, char* retain, char* topic, char* message) {
@@ -105,10 +106,10 @@ bool Ec200uPublishMessage(Ec200u* this, char* qos, char* retain, char* topic, ch
     buff = StringAppendInt(buff, strlen(message));
     AT_MODEM_BUILD_TAIL(buff);
 
-    bool isReadyPublish = ATmodemExcutiveCmd((ATmodem*)this, cmd, ">", EC200U_NORMAL_CMD_TIMEOUT_MS);
+    bool isReadyPublish = ATmodemExcutiveCmd((ATmodem*)this, cmd, ">", 10000, 3);
     if (!isReadyPublish)
         return false;
 
-    return ATmodemExcutiveCmd((ATmodem*)this, message, "+QMTPUBEX: 0,0,0", EC200U_NORMAL_CMD_TIMEOUT_MS);
+    return ATmodemExcutiveCmd((ATmodem*)this, message, "+QMTPUBEX: 0,0,0", 10000, 1);
 }
 

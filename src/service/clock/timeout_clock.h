@@ -14,7 +14,7 @@
 typedef struct Clock_t Clock;
 struct Clock_t {
     bool isActive;
-    bool isTimeout;
+    volatile bool isTimeout;
     uint32_t timeoutMs;
     uint32_t* timestampMs; // Notice: this pointer must be assigned to SystemTimestamp
 };

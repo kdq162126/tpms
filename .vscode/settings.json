@@ -23,7 +23,8 @@
         "uart_hw.h": "c",
         "board.h": "c",
         "app.h": "c",
-        "mqtt_client.h": "c"
+        "mqtt_client.h": "c",
+        "task.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
