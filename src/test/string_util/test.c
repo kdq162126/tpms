@@ -1,5 +1,6 @@
 #include "stdio.h"
 #include "string_util.c"
+#include "string.h"
 
 void testBuildCsv(void) {
     char cmd[100];
@@ -53,14 +54,28 @@ void CreateMockSensorMessage(char* buff) {
     buff--;
     *buff++ = ']';
     buff = JsonClose(buff);
+}
 
+void TestParseGpsResponse(char* fullMsg) {
+    // Remove head string
+    char* resp = fullMsg + strlen("+QGPSLOC: ");
 
+    // Remove tail string
+    *(resp + strlen(resp) - strlen("\r\n\nOK\r\n")) = '\0';
+
+    char* token = strtok(resp, ",");
+    token = strtok(NULL, ",");
+    printf("Lat: %s\n", token);
+
+    token = strtok(NULL, ",");
+    printf("Lon: %s\n", token);
 }
 
 void main() {
-    char cmd[200];
-    CreateMockSensorMessage(cmd);
-    printf("%s\n", cmd);
+    char buff[200] = { 0 };
+    char* msg = "+QGPSLOC: 061951.000,21.03007018340863,105.79585080048011,0.7,62.2,2,000.00,0.0,0.0,110513,09\r\n\nOK\r\n";
+    memcpy(buff, msg, strlen(msg));
+    TestParseGpsResponse(buff);
 }
 
 

@@ -24,7 +24,9 @@
         "board.h": "c",
         "app.h": "c",
         "mqtt_client.h": "c",
-        "task.h": "c"
+        "task.h": "c",
+        "task_init.h": "c",
+        "gps.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
