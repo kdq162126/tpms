@@ -113,3 +113,51 @@ bool Ec200uPublishMessage(Ec200u* this, char* qos, char* retain, char* topic, ch
     return ATmodemExcutiveCmd((ATmodem*)this, message, "+QMTPUBEX: 0,0,0\r\n", 10000, 1);
 }
 
+
+
+bool Ec200uTurnOnGPS(Ec200u* this) {
+    char cmd[EC200U_TX_BUFFER_CMD_LENGTH];
+    char* buff = cmd;
+
+    AT_MODEM_BUILD_HEAD(buff);
+    buff = StringAppendString(buff, EC200U_GPS_CMD_TURN_ON);
+    AT_MODEM_BUILD_HEAD(buff);
+
+    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "OK\r\n", EC200U_NORMAL_CMD_TIMEOUT_MS, 3);
+}
+
+bool Ec200uTurnOffGPS(Ec200u* this) {
+    char cmd[EC200U_TX_BUFFER_CMD_LENGTH];
+    char* buff = cmd;
+
+    AT_MODEM_BUILD_HEAD(buff);
+    buff = StringAppendString(buff, EC200U_GPS_CMD_TURN_OFF);
+    AT_MODEM_BUILD_HEAD(buff);
+
+    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "OK\r\n", EC200U_NORMAL_CMD_TIMEOUT_MS, 3);
+}
+
+char* Ec200uAcquirePositionInfo(Ec200u* this) {
+    char cmd[EC200U_TX_BUFFER_CMD_LENGTH];
+    char* buff = cmd;
+
+    AT_MODEM_BUILD_HEAD(buff);
+    buff = StringAppendString(buff, EC200U_GPS_CMD_GET_POSITION);
+    *buff++ = '=';
+    *buff++ = '2';
+    AT_MODEM_BUILD_HEAD(buff);
+
+    bool isSuccess = ATmodemExcutiveCmd((ATmodem*)this, cmd, "OK\r\n", EC200U_NORMAL_CMD_TIMEOUT_MS, 3);
+    if (isSuccess) {
+        // Remove head string
+        char* resp = this->base.receiveData + strlen("+QGPSLOC: ");
+        // Remove tail string
+        resp[strlen(resp) - strlen("\r\n\nOK\r\n")] = '\0';
+        return resp;
+    }
+
+    return NULL;
+}
+
+
+

@@ -126,4 +126,31 @@ static void MqttClientPublishMessageHandle(MqttClient* this) {
     MqttClientSetState(this, MQTT_CLIENT_ST_STREAM_DATA);
 }
 
+static void GpsActiveHandle(Gps* this) {
+    bool isSuccess = Ec200uTurnOnGPS(&pApp->lteModule);
+    if (isSuccess) {
+        GpsSetState(this, GPS_ST_ACTIVE);
+        return;
+    }
+
+    GpsSetState(this, GPS_ST_FAIL);
+}
+
+static void GpsDeactiveHandle(Gps* this) {
+    bool isSuccess = Ec200uTurnOffGPS(&pApp->lteModule);
+    if (isSuccess) {
+        GpsSetState(this, GPS_ST_INACTIVE);
+        return;
+    }
+
+    GpsSetState(this, GPS_ST_FAIL);
+}
+
+static void GpsUpdatePositionInfoHandle(Gps* this) {
+    char* resp = Ec200uAcquirePositionInfo(&pApp->lteModule);
+    if (resp != NULL) {
+        GpsParseResponse(this, resp);
+    }
+}
+
 
