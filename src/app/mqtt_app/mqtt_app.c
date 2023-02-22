@@ -20,6 +20,11 @@ static void MqttClientOpenNetworkHandle(MqttClient* this);
 static void MqttClientConnectServerHandle(MqttClient* this);
 static void MqttClientPublishMessageHandle(MqttClient* this);
 
+static void GpsActiveHandle(Gps* this);
+static void GpsDeactiveHandle(Gps* this);
+static void GpsUpdatePositionInfoHandle(Gps* this);
+
+
 void MqttAppInit() {
     ATmodemInit((ATmodem*)&pApp->lteModule, lteAtCmdSend, &pApp->timestamp);
     pUartHw->receive_handle = ec200uHwReceiveHandle;
@@ -28,6 +33,10 @@ void MqttAppInit() {
     pApp->mqtt.openNetwork = MqttClientOpenNetworkHandle;
     pApp->mqtt.connectServer = MqttClientConnectServerHandle;
     pApp->mqtt.publishMessage = MqttClientPublishMessageHandle;
+
+    pApp->gps.active = GpsActiveHandle;
+    pApp->gps.deactive = GpsDeactiveHandle;
+    pApp->gps.updatePositionInfo = GpsUpdatePositionInfoHandle;
 }
 
 static void ec200uHwReceiveHandle(UartHw* this) {
@@ -151,6 +160,8 @@ static void GpsUpdatePositionInfoHandle(Gps* this) {
     if (resp != NULL) {
         GpsParseResponse(this, resp);
     }
+
+    GpsSetState(this, GPS_ST_FAIL);
 }
 
 

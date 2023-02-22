@@ -8,6 +8,6 @@
 #ifndef APP_TASK_TASK_H_
 #define APP_TASK_TASK_H_
 
-void TaskInit();
+void TaskInit(void);
 
 #endif /* APP_TASK_TASK_H_ */

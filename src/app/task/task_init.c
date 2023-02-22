@@ -21,6 +21,7 @@ void TaskInit() {
 }
 
 static void SystemHandleTask(void* pv) {
+	(void)pv;
 
     while (1) {
         tpmsApp.timestamp++;
@@ -45,8 +46,10 @@ static void MqttHandleTask(void* pv) {
             break;
         case MQTT_CLIENT_ST_CONNECT_SERVER:
             MqttClientConnectServer(&tpmsApp.mqtt);
+            GpsSetState(&tpmsApp.gps, GPS_ST_INITALIZE);
             break;
         case MQTT_CLIENT_ST_STREAM_DATA:
+            GpsHandleStateMachine(&tpmsApp.gps);
             MqttClientPublishMessage(&tpmsApp.mqtt);
             vTaskDelay(5000);
             break;

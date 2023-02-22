@@ -10,6 +10,7 @@
 
 typedef enum GPS_STATE {
     GPS_ST_INACTIVE = 0,
+    GPS_ST_INITALIZE,
     GPS_ST_ACTIVE,
     GPS_ST_FAIL
 } GPS_STATE;
@@ -24,6 +25,7 @@ struct Gps_t {
     void (*updatePositionInfo)(Gps*);
 };
 
+void GpsHandleStateMachine(Gps* this);
 void GpsParseResponse(Gps* this, char* resp);
 
 static inline void GpsSetState(Gps* this, GPS_STATE state) {

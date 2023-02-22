@@ -8,7 +8,6 @@
 #include "at_modem.h"
 #include "string.h"
 
-static bool ATmodemCheckResponse(ATmodem* this, const char* resp);
 static void ATmodemClean(ATmodem* this);
 
 char rxBuffer[AT_MODEM_RX_BUFFER_LEN];
@@ -22,7 +21,7 @@ void ATmodemInit(ATmodem* this, void (*sendHandle)(const char*), uint32_t* times
 
 // Retry if command was excutived fail
 bool ATmodemExcutiveCmd(ATmodem* this, const char* cmd, const char* resp, uint32_t timeoutMs, uint8_t retryNum) {
-    this->expectMsg = resp;
+    this->expectMsg = (char*)resp;
 
     for (uint8_t retryCnt = 0; retryCnt < retryNum; retryCnt++) {
         ATmodemClean(this);
@@ -40,10 +39,6 @@ bool ATmodemExcutiveCmd(ATmodem* this, const char* cmd, const char* resp, uint32
     return false;
 }
 
-
-static bool ATmodemCheckResponse(ATmodem* this, const char* resp) {
-    return (strstr(this->receiveData, resp) != NULL);
-}
 
 static void ATmodemClean(ATmodem* this) {
     this->isResponse = false;
