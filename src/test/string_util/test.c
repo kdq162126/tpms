@@ -1,25 +1,26 @@
 #include "stdio.h"
 #include "string_util.c"
+#include "printf.h"
 
-void testBuildCsv(void) {
-    char cmd[100];
-    char* buff = cmd;
-    buff = StringAppendString(buff, "AT=0");
-    buff = StringAppendInt(buff, 10000);
-    buff = StringAppendString(buff, "hehe");
-    buff = StringAppendFloat(buff, 312.143123122);
-    printf("%s\n", cmd);
-}
+// void testBuildCsv(void) {
+//     char cmd[100];
+//     char* buff = cmd;
+//     buff = StringAppendString(buff, "AT=0");
+//     buff = StringAppendInt(buff, 10000);
+//     buff = StringAppendString(buff, "hehe");
+//     buff = StringAppendFloat(buff, 312.143123122);
+//     printf("%s\n", cmd);
+// }
 
-void testString(char* host, char* port) {
-    char cmd[100];
-    char* buff = cmd;
-    char* args[] = { host, port };
-    buff = StringJoin(buff, args, 2, ',');
-    char* arr2[] = { "A", "B", "C" };
-    buff = StringJoin(buff, arr2, 3, ',');
-    printf("%s\n", cmd);
-}
+// void testString(char* host, char* port) {
+//     char cmd[100];
+//     char* buff = cmd;
+//     char* args[] = { host, port };
+//     buff = StringJoin(buff, args, 2, ',');
+//     char* arr2[] = { "A", "B", "C" };
+//     buff = StringJoin(buff, arr2, 3, ',');
+//     printf("%s\n", cmd);
+// }
 
 void CreateMockSensorMessage(char* buff) {
     buff = JsonOpen(buff);
@@ -53,14 +54,19 @@ void CreateMockSensorMessage(char* buff) {
     buff--;
     *buff++ = ']';
     buff = JsonClose(buff);
-
-
 }
 
 void main() {
-    char cmd[200];
-    CreateMockSensorMessage(cmd);
-    printf("%s\n", cmd);
+    // char cmd[200];
+    // CreateMockSensorMessage(cmd);
+    // printf("%s\n", cmd);
+
+    float x = 123.4567;
+    char buf[10];
+
+    gcvt(x, 6, buf);
+
+    printf("buffer is: %s\n", buf);
 }
 
 

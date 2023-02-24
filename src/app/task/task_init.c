@@ -1,7 +1,5 @@
 #include "app.h"
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
+
 
 static void SystemHandleTask(void* pv);
 static void MqttHandleTask(void* pv);
@@ -13,7 +11,7 @@ void TaskInit() {
 
     if (xQueue != NULL)
     {
-        xTaskCreate(SystemHandleTask, "System", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 2U, NULL);
+        //        xTaskCreate(SystemHandleTask, "System", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 2U, NULL);
         xTaskCreate(MqttHandleTask, "MQTT", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 3U, NULL);
 
         vTaskStartScheduler();
@@ -34,6 +32,7 @@ static void MqttHandleTask(void* pv) {
 
     MqttAppInit();
     UartHwConfig(&ec200uHw);
+    vTaskDelay(1000);
 
     while (1) {
         switch (tpmsApp.mqtt.state) {

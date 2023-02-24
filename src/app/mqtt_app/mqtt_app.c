@@ -14,20 +14,33 @@ TpmsApp* pApp = &tpmsApp;
 
 static void ec200uHwReceiveHandle(UartHw* this);
 static void lteAtCmdSend(const char* msg);
+static void lteAtCmdDelay(const uint32_t timeMs);
 
 static void MqttClientInitHandle(MqttClient* this);
 static void MqttClientOpenNetworkHandle(MqttClient* this);
 static void MqttClientConnectServerHandle(MqttClient* this);
 static void MqttClientPublishMessageHandle(MqttClient* this);
 
+static char TopicSensor[32] = { 0 };
+static char TopicLocation[32] = { 0 };
+
 void MqttAppInit() {
-    ATmodemInit((ATmodem*)&pApp->lteModule, lteAtCmdSend, &pApp->timestamp);
+    ATmodemInit((ATmodem*)&pApp->lteModule, lteAtCmdSend, &pApp->timestamp, lteAtCmdDelay);
     pUartHw->receive_handle = ec200uHwReceiveHandle;
 
     pApp->mqtt.init = MqttClientInitHandle;
     pApp->mqtt.openNetwork = MqttClientOpenNetworkHandle;
     pApp->mqtt.connectServer = MqttClientConnectServerHandle;
     pApp->mqtt.publishMessage = MqttClientPublishMessageHandle;
+
+    // Init MQTT Topic
+    strcat(TopicSensor, MQTT_TOPIC_ROOT_PATH);
+    strcat(TopicSensor, DEVICE_ID);
+    strcat(TopicSensor, MQTT_TOPIC_SENSOR_ENDPOINT);
+
+    strcat(TopicLocation, MQTT_TOPIC_ROOT_PATH);
+    strcat(TopicLocation, DEVICE_ID);
+    strcat(TopicLocation, MQTT_TOPIC_LOCATION_ENDPOINT);
 }
 
 static void ec200uHwReceiveHandle(UartHw* this) {
@@ -39,6 +52,10 @@ static void ec200uHwReceiveHandle(UartHw* this) {
 
 static void lteAtCmdSend(const char* msg) {
     UartHwSendMsg(pUartHw, msg);
+}
+
+static void lteAtCmdDelay(const uint32_t timeMs) {
+    vTaskDelay(timeMs);
 }
 
 
@@ -108,16 +125,29 @@ void CreateMockSensorMessage(char* buff) {
     *buff++ = '\0';
 }
 
+void CreateMockLocationMessage(char* buff) {
+    buff = JsonOpen(buff);
+    buff = JsonFromString(buff, "deviceId", DEVICE_ID);
+    *buff++ = ',';
+    buff = JsonFromString(buff, "version", "123xxx");
+    *buff++ = ',';
+    buff = JsonFromFloat(buff, "lat", 21.06211607852294);
+    *buff++ = ',';
+    buff = JsonFromFloat(buff, "lon", 105.81515284301472);
+    buff = JsonClose(buff);
+    *buff++ = '\0';
+}
+
 static void MqttClientPublishMessageHandle(MqttClient* this) {
-    char topic[32] = { 0 };
-    strcat(topic, MQTT_TOPIC_ROOT_PATH);
-    strcat(topic, "TPMS_01");
-    strcat(topic, MQTT_TOPIC_SENSOR_ENDPOINT);
+    CreateMockSensorMessage(tpmsApp.lteModule.base.txDataBuff);
+    bool isSuccess = Ec200uPublishMessage(&pApp->lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicSensor, tpmsApp.lteModule.base.txDataBuff);
+    if (!isSuccess) {
+        MqttClientSetState(this, MQTT_CLIENT_ST_FAIL);
+        return;
+    }
 
-    char msg[200];
-    CreateMockSensorMessage(msg);
-
-    bool isSuccess = Ec200uPublishMessage(&pApp->lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, topic, msg);
+    CreateMockLocationMessage(tpmsApp.lteModule.base.txDataBuff);
+    isSuccess = Ec200uPublishMessage(&pApp->lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicLocation, tpmsApp.lteModule.base.txDataBuff);
     if (!isSuccess) {
         MqttClientSetState(this, MQTT_CLIENT_ST_FAIL);
         return;

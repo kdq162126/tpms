@@ -28,12 +28,15 @@ struct ATmodem_t {
     volatile bool isResponse;
     char* expectMsg;
     char* receiveData;
+    char txCmdBuff[100];
+    char txDataBuff[500];
     Clock clock;
     void (*sendCmd)(const char* cmd);
+    void (*delayMs)(const uint32_t);
 };
 
-void ATmodemInit(ATmodem* this, void (*sendHandle)(const char*), uint32_t* timestampSource);
-bool ATmodemExcutiveCmd(ATmodem* this, const char* cmd, const char* resp, uint32_t timeoutMs, uint8_t retryNum);
+void ATmodemInit(ATmodem* this, void (*sendHandle)(const char*), uint32_t* timestampSource, void (*delayMs)(const uint32_t));
+bool ATmodemExcutiveCmd(ATmodem* this, const char* cmd, char* resp, uint32_t timeoutMs, uint8_t retryNum);
 
 static inline void ATmodemDetectNewMessage(ATmodem* this, char* rxBuff) {
     memcpy(this->receiveData, rxBuff, strlen(rxBuff));
