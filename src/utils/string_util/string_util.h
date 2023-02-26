@@ -13,7 +13,7 @@
 char* StringAppendString(char* buff, char* value);
 char* StringAppendStringWithQuote(char* buff, char* value);
 char* StringAppendInt(char* buff, uint16_t value);
-char* StringAppendFloat(char* buff, float value);
+char* StringAppendFloat(char* buff, const float val, uint8_t afterPoint);
 char* JsonOpen(char* buff);
 char* JsonClose(char* buff);
 char* JsonFromInt(char* buff, char* key, uint16_t value);

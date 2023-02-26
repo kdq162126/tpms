@@ -8,6 +8,8 @@
 #include "string_util.h"
 #include "stdint.h"
 #include "stdlib.h"
+#include "math.h"
+#include "string.h"
 
 static const uint8_t digit_char[10] = { '0','1','2','3','4','5','6','7','8','9' };
 
@@ -58,12 +60,28 @@ char* StringAppendInt(char* buff, uint16_t value) {
     return buff;
 }
 
-char* StringAppendFloat(char* buff, float value) {
-    char numStr[16];
-    gcvt(value, 12, numStr);
-    buff = StringAppendString(buff, numStr);
-    return buff;
+char* StringAppendFloat(char* buff, const float val, uint8_t afterPoint) {
+    uint32_t iPart = (uint32_t)val;
+    buff = StringAppendInt(buff, iPart);
+    *buff++ = '.';
+
+    float   fPart = val - (float)iPart;
+    uint32_t fPartInt = (uint32_t)(fPart * pow(10, afterPoint + 1));
+    uint8_t index = (uint8_t)LongToString(fPartInt, buff) - 1;
+    if (index < afterPoint) {
+        memset(buff, '0', afterPoint - index);
+        buff += afterPoint - index;
+    }
+    buff = StringAppendInt(buff, fPartInt);
+    return (buff);
 }
+
+// char* StringAppendFloat(char* buff, float value) {
+//     char numStr[16];
+//     gcvt(value, 12, numStr);
+//     buff = StringAppendString(buff, numStr);
+//     return buff;
+// }
 
 char* JsonOpen(char* buff) {
     *buff++ = '{';
@@ -85,7 +103,7 @@ char* JsonFromInt(char* buff, char* key, uint16_t value) {
 char* JsonFromFloat(char* buff, char* key, float value) {
     buff = StringAppendStringWithQuote(buff, key);
     *buff++ = ':';
-    buff = StringAppendFloat(buff, value);
+    buff = StringAppendFloat(buff, value, 12);
     return buff;
 }
 

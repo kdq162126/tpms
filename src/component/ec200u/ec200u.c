@@ -1,4 +1,5 @@
 #include "ec200u.h"
+#include "stdlib.h"
 
 bool Ec200uCheckATCmd(Ec200u* this) {
     char* buff = this->base.txCmdBuff;
@@ -6,6 +7,18 @@ bool Ec200uCheckATCmd(Ec200u* this) {
     AT_MODEM_BUILD_TAIL(buff);
 
     return ATmodemExcutiveCmd((ATmodem*)this, this->base.txCmdBuff, "OK", EC200U_NORMAL_CMD_TIMEOUT_MS, 3);
+}
+
+bool Ec200uResetModule(Ec200u* this) {
+    char* buff = this->base.txCmdBuff;
+    AT_MODEM_BUILD_HEAD(buff);
+    buff = StringAppendString(buff, EC200U_CMD_SIM_FUNC);
+    *buff++ = '1';
+    *buff++ = ',';
+    *buff++ = '1';
+    AT_MODEM_BUILD_TAIL(buff);
+
+    return ATmodemExcutiveCmd((ATmodem*)this, this->base.txCmdBuff, "OK", 20000, 3);
 }
 
 bool Ec200uTurnOffEcho(Ec200u* this) {
@@ -23,10 +36,10 @@ bool Ec200uCheckSimReady(Ec200u* this) {
     buff = StringAppendString(buff, EC200U_CMD_CHECK_NETWORK_STT);
     AT_MODEM_BUILD_TAIL(buff);
 
-    return ATmodemExcutiveCmd((ATmodem*)this, this->base.txCmdBuff, "+CREG: 0,1", EC200U_NORMAL_CMD_TIMEOUT_MS, 10);
+    return ATmodemExcutiveCmd((ATmodem*)this, this->base.txCmdBuff, "+CREG: 0,1", 1000, 10);
 }
 
-bool Ec200uOpenNetwork(Ec200u* this, char* host, char* port) {
+int8_t Ec200uOpenNetwork(Ec200u* this, char* host, char* port) {
     char* buff = this->base.txCmdBuff;
 
     AT_MODEM_BUILD_HEAD(buff);
@@ -38,7 +51,14 @@ bool Ec200uOpenNetwork(Ec200u* this, char* host, char* port) {
     buff = StringAppendString(buff, port);
     AT_MODEM_BUILD_TAIL(buff);
 
-    return ATmodemExcutiveCmd((ATmodem*)this, this->base.txCmdBuff, "+QMTOPEN: 0,", 10000, 3);
+    char* expectResponse = "+QMTOPEN: 0,";
+    bool isSuccess = ATmodemExcutiveCmd((ATmodem*)this, this->base.txCmdBuff, expectResponse, 10000, 3);
+    if (!isSuccess) {
+        return (-1);
+    }
+
+    char networkStatus = *(strstr(this->base.receiveData, expectResponse) + strlen(expectResponse));
+    return atoi(&networkStatus);
 }
 
 bool Ec200uCloseNetwork(Ec200u* this) {
@@ -103,5 +123,27 @@ bool Ec200uPublishMessage(Ec200u* this, char* qos, char* retain, char* topic, ch
         return false;
 
     return ATmodemExcutiveCmd((ATmodem*)this, message, "+QMTPUBEX: 0,0,0", 10000, 1);
+}
+
+bool Ec200uActiveRF(Ec200u* this) {
+    char* buff = this->base.txCmdBuff;
+
+    AT_MODEM_BUILD_HEAD(buff);
+    buff = StringAppendString(buff, EC200U_CMD_SIM_FUNC);
+    *buff++ = '1';
+    AT_MODEM_BUILD_TAIL(buff);
+
+    return ATmodemExcutiveCmd((ATmodem*)this, this->base.txCmdBuff, "OK", 5000, 3);
+}
+
+bool Ec200uDeactiveRF(Ec200u* this) {
+    char* buff = this->base.txCmdBuff;
+
+    AT_MODEM_BUILD_HEAD(buff);
+    buff = StringAppendString(buff, EC200U_CMD_SIM_FUNC);
+    *buff++ = '0';
+    AT_MODEM_BUILD_TAIL(buff);
+
+    return ATmodemExcutiveCmd((ATmodem*)this, this->base.txCmdBuff, "OK", 5000, 3);
 }
 

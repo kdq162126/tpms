@@ -8,7 +8,6 @@
 #include "at_modem.h"
 #include "string.h"
 
-static bool ATmodemCheckResponse(ATmodem* this, const char* resp);
 static void ATmodemClean(ATmodem* this);
 
 char rxBuffer[AT_MODEM_RX_BUFFER_LEN];
@@ -30,11 +29,11 @@ bool ATmodemExcutiveCmd(ATmodem* this, const char* msg, char* resp, uint32_t tim
 
         this->sendCmd(msg);
         while (!(this->isResponse || ClockIsTimeout(&this->clock)));
+        this->delayMs(100);
 
         if (ClockIsTimeout(&this->clock))
             continue;
 
-        this->delayMs(1);
         ClockDisableTimeout(&this->clock);
         return true;
     }

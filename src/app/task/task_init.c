@@ -11,7 +11,7 @@ void TaskInit() {
 
     if (xQueue != NULL)
     {
-        //        xTaskCreate(SystemHandleTask, "System", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 2U, NULL);
+        xTaskCreate(SystemHandleTask, "System", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 2U, NULL);
         xTaskCreate(MqttHandleTask, "MQTT", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 3U, NULL);
 
         vTaskStartScheduler();
@@ -37,6 +37,7 @@ static void MqttHandleTask(void* pv) {
     while (1) {
         switch (tpmsApp.mqtt.state) {
         case MQTT_CLIENT_ST_INIT:
+
             MqttClientInit(&tpmsApp.mqtt);
             break;
         case MQTT_CLIENT_ST_OPEN_NETWORK:
@@ -50,6 +51,8 @@ static void MqttHandleTask(void* pv) {
             vTaskDelay(5000);
             break;
         case MQTT_CLIENT_ST_FAIL:
+            MqttClientFailHandle(&tpmsApp.mqtt);
+            // vTaskDelay(15000);
             break;
         }
 

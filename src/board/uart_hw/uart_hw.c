@@ -47,7 +47,6 @@ void flexio_uart_RX_Callback0(void* driverState, uart_event_t event, void* userD
     ec200uHw.rxIndex++;
     FLEXIO_UART_DRV_SetRxBuffer(&uartStateRX, (uint8_t*)&ec200uHw.rxBuff[ec200uHw.rxIndex], 1UL);
     ec200uHw.receive_handle(&ec200uHw);
-
 }
 
 void flexio_uart_TX_Callback0(void* driverState, uart_event_t event, void* userData) {
