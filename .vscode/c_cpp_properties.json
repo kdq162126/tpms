@@ -6,8 +6,8 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/src/component/at_modem",
                 "${workspaceFolder}/src/component/ec200u",
-                "${workspaceFolder}/src/service/timeout_clock",
-                "${workspaceFolder}/src/utils/string_util"
+                "${workspaceFolder}/src/utils/string_util",
+                "${workspaceFolder}/src/utils/printf"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang-10",
