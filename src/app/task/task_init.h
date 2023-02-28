@@ -8,6 +8,10 @@
 #ifndef APP_TASK_TASK_H_
 #define APP_TASK_TASK_H_
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+
 void TaskInit();
 
 #endif /* APP_TASK_TASK_H_ */

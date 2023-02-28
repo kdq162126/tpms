@@ -1,7 +1,5 @@
 #include "app.h"
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
+
 
 static void SystemHandleTask(void* pv);
 static void MqttHandleTask(void* pv);
@@ -34,10 +32,12 @@ static void MqttHandleTask(void* pv) {
 
     MqttAppInit();
     UartHwConfig(&ec200uHw);
+    vTaskDelay(1000);
 
     while (1) {
         switch (tpmsApp.mqtt.state) {
         case MQTT_CLIENT_ST_INIT:
+
             MqttClientInit(&tpmsApp.mqtt);
             break;
         case MQTT_CLIENT_ST_OPEN_NETWORK:
@@ -51,6 +51,8 @@ static void MqttHandleTask(void* pv) {
             vTaskDelay(5000);
             break;
         case MQTT_CLIENT_ST_FAIL:
+            MqttClientFailHandle(&tpmsApp.mqtt);
+            // vTaskDelay(15000);
             break;
         }
 

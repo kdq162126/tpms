@@ -10,7 +10,7 @@
 
 #define DEVICE_ID                       "TPMS001"
 
-#define MQTT_CONFIG_QOS					"2"
+#define MQTT_CONFIG_QOS					"0"
 #define MQTT_CONFIG_RETAIN				"0"
 
 #define MQTT_NETWORK_HOST				"mqtt.smiletech.vn"
