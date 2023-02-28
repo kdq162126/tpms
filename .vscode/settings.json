@@ -29,7 +29,8 @@
                 "segment_driver.h": "c",
                 "*.tcc": "c",
                 "stdlib.h": "c",
-                "printf.h": "c"
+                "printf.h": "c",
+                "i2c_hw.h": "c"
         },
         "C_Cpp.errorSquiggles": "disabled",
         "C_Cpp.dimInactiveRegions": false

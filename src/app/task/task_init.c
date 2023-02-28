@@ -4,7 +4,7 @@
 static void SystemHandleTask(void* pv);
 static void MqttHandleTask(void* pv);
 
-void TaskInit() {
+void TaskInit(void) {
     /* Create the queue. */
     QueueHandle_t xQueue = NULL;
     xQueue = xQueueCreate(1, sizeof(unsigned long));
@@ -19,6 +19,7 @@ void TaskInit() {
 }
 
 static void SystemHandleTask(void* pv) {
+	(void)pv;
 
     while (1) {
         tpmsApp.timestamp++;

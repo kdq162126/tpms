@@ -10,11 +10,11 @@
 #include "sdk_project_config.h"
 
 flexio_uart_state_t   uartStateTX, uartStateRX;
-flexio_device_state_t flexIODeviceState;
 UartHw ec200uHw;
 
 void UartHwConfig(UartHw* this) {
     /* Init the FLEXIO device */
+    flexio_device_state_t flexIODeviceState;
     FLEXIO_DRV_InitDevice(INST_FLEXIO_UART_CONFIG_1, &flexIODeviceState);
 
     FLEXIO_UART_DRV_Init(INST_FLEXIO_UART_CONFIG_1, &Flexio_uart_Config0_TX, &uartStateTX);
@@ -52,6 +52,7 @@ void flexio_uart_RX_Callback0(void* driverState, uart_event_t event, void* userD
 void flexio_uart_TX_Callback0(void* driverState, uart_event_t event, void* userData) {
     (void)userData;
     (void)driverState;
+    (void)event;
 }
 
 // void uartHwSendMsg(UartHw* this, const char* msg);

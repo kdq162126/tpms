@@ -14,11 +14,10 @@
 typedef struct Tire_t Tire;
 struct Tire_t {
     char Id[5];
-    char Name[5];
-    char position[5];
-    uint8_t pressure;
+    char pos[5];
+    uint8_t press;
     uint8_t temp;
-    uint8_t batPercent;
+    uint8_t bat;
 };
 
 void TireInit(Tire* this);

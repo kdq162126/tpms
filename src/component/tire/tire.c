@@ -14,17 +14,15 @@ void TireInit(Tire* this) {
 
 char* TirePackageJsonMessage(Tire* this, char* buff) {
     buff = JsonOpen(buff);
-    buff = JsonFromString(buff, "tireId", this->Id);
+    buff = JsonFromString(buff, "Id", this->Id);
     *buff++ = ',';
-    buff = JsonFromString(buff, "tireName", this->Name);
+    buff = JsonFromString(buff, "pos", this->pos);
     *buff++ = ',';
-    buff = JsonFromString(buff, "position", this->position);
+    buff = JsonFromInt(buff, "press", this->press);
     *buff++ = ',';
-    buff = JsonFromInt(buff, "pressure", this->pressure);
+    buff = JsonFromInt(buff, "bat", this->bat);
     *buff++ = ',';
-    buff = JsonFromInt(buff, "batteryLevel", this->batPercent);
-    *buff++ = ',';
-    buff = JsonFromInt(buff, "temperature", this->temp);
+    buff = JsonFromInt(buff, "temp", this->temp);
     buff = JsonClose(buff);
 
     return buff;
