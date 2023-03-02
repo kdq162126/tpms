@@ -30,7 +30,10 @@
                 "*.tcc": "c",
                 "stdlib.h": "c",
                 "printf.h": "c",
-                "i2c_hw.h": "c"
+                "i2c_hw.h": "c",
+                "2981.C": "cpp",
+                "random": "c",
+                "segment.h": "c"
         },
         "C_Cpp.errorSquiggles": "disabled",
         "C_Cpp.dimInactiveRegions": false
