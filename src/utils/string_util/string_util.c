@@ -53,7 +53,7 @@ char* StringAppendStringWithQuote(char* buff, char* value) {
     return buff;
 }
 
-char* StringAppendInt(char* buff, uint16_t value) {
+char* StringAppendInt(char* buff, uint32_t value) {
     char numStr[16] = { 0 };
     LongToString(value, numStr);
     buff = StringAppendString(buff, numStr);
@@ -93,17 +93,17 @@ char* JsonClose(char* buff) {
     return buff;
 }
 
-char* JsonFromInt(char* buff, char* key, uint16_t value) {
+char* JsonFromInt(char* buff, char* key, uint32_t value) {
     buff = StringAppendStringWithQuote(buff, key);
     *buff++ = ':';
     buff = StringAppendInt(buff, value);
     return buff;
 }
 
-char* JsonFromFloat(char* buff, char* key, float value) {
+char* JsonFromFloat(char* buff, char* key, float value, uint8_t afterPoint) {
     buff = StringAppendStringWithQuote(buff, key);
     *buff++ = ':';
-    buff = StringAppendFloat(buff, value, 12);
+    buff = StringAppendFloat(buff, value, afterPoint);
     return buff;
 }
 
@@ -114,7 +114,7 @@ char* JsonFromString(char* buff, char* key, char* value) {
     return buff;
 }
 
-char* JsonFromIntArray(char* buff, char* key, uint16_t value[], uint16_t len) {
+char* JsonFromIntArray(char* buff, char* key, uint32_t value[], uint16_t len) {
     buff = StringAppendStringWithQuote(buff, key);
     *buff++ = ':';
     *buff++ = '[';

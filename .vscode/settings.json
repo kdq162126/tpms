@@ -26,7 +26,8 @@
         "mqtt_client.h": "c",
         "task.h": "c",
         "stdlib.h": "c",
-        "printf.h": "c"
+        "printf.h": "c",
+        "2981.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "C_Cpp.dimInactiveRegions": false

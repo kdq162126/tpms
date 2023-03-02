@@ -1,6 +1,6 @@
 #include "stdio.h"
+#include "stdlib.h"
 #include "string_util.c"
-#include "printf.h"
 
 // void testBuildCsv(void) {
 //     char cmd[100];
@@ -22,38 +22,52 @@
 //     printf("%s\n", cmd);
 // }
 
-void CreateMockSensorMessage(char* buff) {
-    buff = JsonOpen(buff);
-    buff = JsonFromString(buff, "deviceId", "TPMS001");
-    *buff++ = ',';
-    buff = JsonFromString(buff, "version", "123xxx");
-    *buff++ = ',';
-    buff = StringAppendStringWithQuote(buff, "tires");
-    *buff++ = ':';
-    *buff++ = '[';
+// void CreateMockSensorMessage(char* buff) {
+//     buff = JsonOpen(buff);
+//     buff = JsonFromString(buff, "deviceId", "TPMS001");
+//     *buff++ = ',';
+//     buff = JsonFromString(buff, "version", "123xxx");
+//     *buff++ = ',';
+//     buff = StringAppendStringWithQuote(buff, "tires");
+//     *buff++ = ':';
+//     *buff++ = '[';
 
-    char* tireIds[] = { "111","222","333","444" };
-    char* tireNames[] = { "L11", "L12", "R11" ,"R12" };
-    char* positions[] = { "L11", "L12", "R11" ,"R12" };
-    for (uint8_t i = 0; i < 4; i++) {
-        buff = JsonOpen(buff);
-        buff = JsonFromString(buff, "tireId", tireIds[i]);
-        *buff++ = ',';
-        buff = JsonFromString(buff, "tireName", tireNames[i]);
-        *buff++ = ',';
-        buff = JsonFromString(buff, "position", positions[i]);
-        *buff++ = ',';
-        buff = JsonFromInt(buff, "pressure", (i + 1) * 10);
-        *buff++ = ',';
-        buff = JsonFromInt(buff, "batteryLevel", (i + 2) * 10);
-        *buff++ = ',';
-        buff = JsonFromInt(buff, "temperature", (i + 1) * 10);
-        buff = JsonClose(buff);
-        *buff++ = ',';
-    }
-    buff--;
-    *buff++ = ']';
+//     char* tireIds[] = { "111","222","333","444" };
+//     char* tireNames[] = { "L11", "L12", "R11" ,"R12" };
+//     char* positions[] = { "L11", "L12", "R11" ,"R12" };
+//     for (uint8_t i = 0; i < 4; i++) {
+//         buff = JsonOpen(buff);
+//         buff = JsonFromString(buff, "tireId", tireIds[i]);
+//         *buff++ = ',';
+//         buff = JsonFromString(buff, "tireName", tireNames[i]);
+//         *buff++ = ',';
+//         buff = JsonFromString(buff, "position", positions[i]);
+//         *buff++ = ',';
+//         buff = JsonFromInt(buff, "pressure", (i + 1) * 10);
+//         *buff++ = ',';
+//         buff = JsonFromInt(buff, "batteryLevel", (i + 2) * 10);
+//         *buff++ = ',';
+//         buff = JsonFromInt(buff, "temperature", (i + 1) * 10);
+//         buff = JsonClose(buff);
+//         *buff++ = ',';
+//     }
+//     buff--;
+//     *buff++ = ']';
+//     buff = JsonClose(buff);
+// }
+
+void CreateMockLocationMessage(char* buff, char* deviceId) {
+    buff = JsonOpen(buff);
+    buff = JsonFromString(buff, "id", deviceId);
+    *buff++ = ',';
+    // buff = JsonFromString(buff, "version", "123xxx");
+    // *buff++ = ',';
+    buff = JsonFromFloat(buff, "lat", 21.00 + (float)(rand() % 10000) / 1000000, 6);
+    *buff++ = ',';
+    float lon = 105.81 + (float)(rand() % 10000) / 1000000;
+    buff = JsonFromFloat(buff, "lon", lon, 6);
     buff = JsonClose(buff);
+    *buff++ = '\0';
 }
 
 void main() {
@@ -61,12 +75,19 @@ void main() {
     // CreateMockSensorMessage(cmd);
     // printf("%s\n", cmd);
 
-    float x = 123.4567;
-    char buf[10];
+    // float x = 123.4567;
+    // char buf[10];
 
-    gcvt(x, 6, buf);
+    // gcvt(x, 6, buf);
 
-    printf("buffer is: %s\n", buf);
+    // printf("buffer is: %s\n", buf);
+
+    srand(100);
+    char buff[200];
+
+    CreateMockLocationMessage(buff, "TPMS001");
+    printf("%s\n", buff);
+
 }
 
 
