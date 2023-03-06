@@ -26,12 +26,15 @@ typedef enum LCD_STATE {
     LCD_ST_ACTIVE
 } LCD_STATE;
 
-typedef struct HT16C23_t HT16C23;
-struct HT16C23_t {
+typedef struct LcdDriver_t LcdDriver;
+struct LcdDriver_t {
     LCD_STATE state;
-    Byte buff[LCD_BUFFER_LENGTH];
-    void (*write)(uint8_t* buff, uint8_t len);
+    Byte* dataBuff;
+    void (*write)(uint8_t* buff, uint32_t len);
 };
 
+void LcdDriverInit(LcdDriver* this, void(*writeHandle)(uint8_t* buff, uint32_t len));
+void LcdDriverConfigSettings(LcdDriver* this, uint8_t driveMode);
+void LcdDriverWriteRamPages(LcdDriver* this, uint32_t len);
 
 #endif /* COMPONENT_HT16C23_HT16C23_H_ */

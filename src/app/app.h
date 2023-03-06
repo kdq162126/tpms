@@ -11,7 +11,9 @@
 #include "board.h"
 #include "mqtt_client.h"
 #include "ec200u.h"
+#include "ht16c23.h"
 
+#include "display_app.h"
 #include "mqtt_app.h"
 #include "task_init.h"
 
@@ -20,6 +22,7 @@ struct TpmsApp_t {
     MqttClient mqtt;
     Ec200u lteModule;
     uint32_t timestamp;
+    LcdDriver lcdDriver;
 };
 
 extern TpmsApp tpmsApp;

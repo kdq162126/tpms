@@ -16,14 +16,14 @@ void I2cHwConfig(void) {
     flexio_device_state_t flexIODeviceState;
     FLEXIO_DRV_InitDevice(INST_FLEXIO_I2C_CONFIG_1, &flexIODeviceState);
 
-    FLEXIO_I2C_DRV_MasterSetSlaveAddr(&i2cMasterState, I2C_SLAVE_ADDRESS);
     FLEXIO_I2C_DRV_MasterInit(INST_FLEXIO_I2C_CONFIG_1, &Flexio_i2c_Config0, &i2cMasterState);
 }
 
-void I2cHwSend(uint8_t* buff, uint8_t size) {
+void I2cHwSend(uint8_t* buff, uint32_t size) {
     sendCompleted = false;
     FLEXIO_I2C_DRV_MasterSendData(&i2cMasterState, buff, size, true);
-    while (!sendCompleted);
+    while (FLEXIO_I2C_DRV_MasterGetStatus(&i2cMasterState, NULL) == STATUS_BUSY);
+    //    while (!sendCompleted);
 }
 
 

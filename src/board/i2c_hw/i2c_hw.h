@@ -13,6 +13,6 @@
 #define I2C_SLAVE_ADDRESS                   (0x7c)
 
 void I2cHwConfig(void);
-void I2cHwSend(uint8_t* buff, uint8_t size);
+void I2cHwSend(uint8_t* buff, uint32_t size);
 
 #endif /* BOARD_I2C_HW_I2C_HW_H_ */

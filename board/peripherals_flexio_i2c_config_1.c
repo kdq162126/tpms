@@ -43,8 +43,8 @@ instance:
       - 0:
         - name: 'Flexio_i2c_Config0'
         - readonly: 'true'
-        - slaveAddress: '124'
-        - driverType: 'FLEXIO_DRIVER_TYPE_INTERRUPTS'
+        - slaveAddress: '62'
+        - driverType: 'FLEXIO_DRIVER_TYPE_POLLING'
         - baudRate: '400000'
         - sdaPin: '6'
         - sclPin: '7'
@@ -63,8 +63,8 @@ instance:
 
 /* FlexioI2C configuration structure */
 const flexio_i2c_master_user_config_t Flexio_i2c_Config0 = {
-  .slaveAddress = 124U,
-  .driverType = FLEXIO_DRIVER_TYPE_INTERRUPTS,
+  .slaveAddress = 62U,
+  .driverType = FLEXIO_DRIVER_TYPE_POLLING,
   .baudRate = 400000UL,
   .sdaPin = 6U,
   .sclPin = 7U,

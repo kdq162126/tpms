@@ -33,7 +33,8 @@
                 "i2c_hw.h": "c",
                 "2981.C": "cpp",
                 "random": "c",
-                "segment.h": "c"
+                "segment.h": "c",
+                "ht16c23.h": "c"
         },
         "C_Cpp.errorSquiggles": "disabled",
         "C_Cpp.dimInactiveRegions": false

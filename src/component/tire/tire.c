@@ -14,7 +14,7 @@ void TireInit(Tire* this) {
 
 char* TirePackageJsonMessage(Tire* this, char* buff) {
     buff = JsonOpen(buff);
-    buff = JsonFromString(buff, "Id", this->Id);
+    buff = JsonFromString(buff, "id", this->Id);
     *buff++ = ',';
     buff = JsonFromString(buff, "pos", this->pos);
     *buff++ = ',';
