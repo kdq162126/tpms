@@ -10,13 +10,14 @@
 
 #include "stdint.h"
 #include "string_util.h"
+#include "segment.h"
 
 typedef struct Tire_t Tire;
 struct Tire_t {
     char Id[5];
     char pos[5];
-    uint8_t press;
-    uint8_t temp;
+    SegElement press;
+    SegElement temp;
     uint8_t bat;
 };
 

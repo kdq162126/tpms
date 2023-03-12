@@ -23,6 +23,7 @@ struct TpmsApp_t {
     Ec200u lteModule;
     uint32_t timestamp;
     LcdDriver lcdDriver;
+    Tire tires[4];
 };
 
 extern TpmsApp tpmsApp;
