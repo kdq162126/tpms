@@ -20,7 +20,9 @@ static void powerSource_writeSegmentHandle(SegElement* this, int32_t val);
 
 
 void DisplayAppInit(void) {
-    TpmsApp* pApp
+    TpmsApp* pApp;
+
+    pApp.
 
 }
 

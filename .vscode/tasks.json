@@ -16,6 +16,7 @@
                 "--include-directory=${workspaceFolder}/src/utils/string_util",
                 "--include-directory=${workspaceFolder}/src/utils/printf",
                 "--include-directory=${workspaceFolder}/src/service/segment",
+                "-lm"
             ],
             "options": {
                 "cwd": "${fileDirname}"

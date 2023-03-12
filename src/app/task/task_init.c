@@ -49,7 +49,7 @@ static void MqttHandleTask(void* pv) {
             break;
         case MQTT_CLIENT_ST_STREAM_DATA:
             MqttClientPublishMessage(&tpmsApp.mqtt);
-            vTaskDelay(5000);
+            vTaskDelay(10000);
             break;
         case MQTT_CLIENT_ST_FAIL:
             MqttClientFailHandle(&tpmsApp.mqtt);
