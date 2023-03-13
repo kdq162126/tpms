@@ -14,7 +14,7 @@
 
 typedef struct Tire_t Tire;
 struct Tire_t {
-    char Id[5];
+    char id[5];
     char pos[5];
     SegElement press;
     SegElement temp;

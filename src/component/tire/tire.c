@@ -9,26 +9,26 @@
 #include "string.h"
 
 void TireInit(Tire* this) {
-
+	(void)this;
 }
 
 char* TirePackageJsonMessage(Tire* this, char* buff) {
     buff = JsonOpen(buff);
-    buff = JsonFromString(buff, "id", this->Id);
+    buff = JsonFromString(buff, "id", this->id);
     *buff++ = ',';
     buff = JsonFromString(buff, "pos", this->pos);
     *buff++ = ',';
-    buff = JsonFromInt(buff, "press", this->press);
+    buff = JsonFromInt(buff, "press", this->press.value);
     *buff++ = ',';
     buff = JsonFromInt(buff, "bat", this->bat);
     *buff++ = ',';
-    buff = JsonFromInt(buff, "temp", this->temp);
+    buff = JsonFromInt(buff, "temp", this->temp.value);
     buff = JsonClose(buff);
 
     return buff;
 }
 
 void TireSetId(Tire* this, char* id) {
-    memset(this->Id, 0, 5);
-    memcpy(this->Id, id, strlen(id));
+    memset(this->id, 0, 5);
+    memcpy(this->id, id, strlen(id));
 }

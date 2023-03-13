@@ -22,7 +22,19 @@ static void powerSource_writeSegmentHandle(SegElement* this, int32_t val);
 void DisplayAppInit(void) {
     TpmsApp* pApp;
 
-    pApp.
+    pApp->lcdDriver.state = LCD_ST_SETUP;
+    LcdDriverInit(&pApp->lcdDriver, I2cHwSend);
+
+    pApp->tires[0].press.update = press0_writeSegmentHandle;
+    pApp->tires[1].press.update = press1_writeSegmentHandle;
+    pApp->tires[2].press.update = press2_writeSegmentHandle;
+    pApp->tires[3].press.update = press3_writeSegmentHandle;
+
+    pApp->tires[0].temp.update = temp0_writeSegmentHandle;
+    pApp->tires[1].temp.update = temp1_writeSegmentHandle;
+    pApp->tires[2].temp.update = temp2_writeSegmentHandle;
+    pApp->tires[3].temp.update = temp3_writeSegmentHandle;
+
 
 }
 
@@ -30,9 +42,8 @@ void DisplayTask(void* pv) {
     (void)pv;
 
     LcdDriver* this = &tpmsApp.lcdDriver;
+    DisplayAppInit();
 
-    this->state = LCD_ST_SETUP;
-    LcdDriverInit(this, I2cHwSend);
     I2cHwConfig();
     vTaskDelay(500);
 

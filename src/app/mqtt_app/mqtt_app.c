@@ -12,7 +12,6 @@
 
  // TODO: Assign source to these pointer here! 
 UartHw* pUartHw = &ec200uHw;
-TpmsApp* pApp = &tpmsApp;
 
 static void ec200uHwReceiveHandle(UartHw* this);
 static void lteAtCmdSend(const char* msg);
@@ -28,6 +27,8 @@ static char TopicSensor[32] = { 0 };
 static char TopicLocation[32] = { 0 };
 
 void MqttAppInit() {
+	TpmsApp* pApp = &tpmsApp;
+
     ATmodemInit((ATmodem*)&pApp->lteModule, lteAtCmdSend, &pApp->timestamp, lteAtCmdDelay);
     pApp->lteModule.base.receiveData = ec200uHw.rxBuff;
     pUartHw->receive_handle = ec200uHwReceiveHandle;
@@ -51,11 +52,43 @@ void MqttAppInit() {
     srand(100);
 }
 
+void MqttHandleTask(void* pv) {
+    (void)pv;
+
+    MqttAppInit();
+    UartHwConfig(&ec200uHw);
+    vTaskDelay(1000);
+
+    while (1) {
+        switch (tpmsApp.mqtt.state) {
+        case MQTT_CLIENT_ST_INIT:
+            MqttClientInit(&tpmsApp.mqtt);
+            break;
+        case MQTT_CLIENT_ST_OPEN_NETWORK:
+            MqttClientOpenNetwork(&tpmsApp.mqtt);
+            break;
+        case MQTT_CLIENT_ST_CONNECT_SERVER:
+            MqttClientConnectServer(&tpmsApp.mqtt);
+            break;
+        case MQTT_CLIENT_ST_STREAM_DATA:
+            MqttClientPublishMessage(&tpmsApp.mqtt);
+            vTaskDelay(10000);
+            break;
+        case MQTT_CLIENT_ST_FAIL:
+            MqttClientFailHandle(&tpmsApp.mqtt);
+            // vTaskDelay(15000);
+            break;
+        }
+
+        vTaskDelay(1);
+    }
+}
+
 static void ec200uHwReceiveHandle(UartHw* this) {
-    if (strstr(this->rxBuff, pApp->lteModule.base.expectMsg) == NULL)
+    if (strstr(this->rxBuff, tpmsApp.lteModule.base.expectMsg) == NULL)
         return;
 
-    pApp->lteModule.base.isResponse = true;
+    tpmsApp.lteModule.base.isResponse = true;
 }
 
 static void lteAtCmdSend(const char* msg) {
@@ -68,9 +101,9 @@ static void lteAtCmdDelay(const uint32_t timeMs) {
 
 
 static void MqttClientInitHandle(MqttClient* this) {
-    bool isSuccess = Ec200uCheckATCmd(&pApp->lteModule) &&
-        Ec200uTurnOffEcho(&pApp->lteModule) &&
-        Ec200uCheckSimReady(&pApp->lteModule);
+    bool isSuccess = Ec200uCheckATCmd(&tpmsApp.lteModule) &&
+        Ec200uTurnOffEcho(&tpmsApp.lteModule) &&
+        Ec200uCheckSimReady(&tpmsApp.lteModule);
     if (!isSuccess) {
         MqttClientSetState(this, MQTT_CLIENT_ST_FAIL);
         return;
@@ -80,7 +113,7 @@ static void MqttClientInitHandle(MqttClient* this) {
 }
 
 static void MqttClientOpenNetworkHandle(MqttClient* this) {
-    int8_t networkStt = Ec200uOpenNetwork(&pApp->lteModule, MQTT_NETWORK_HOST, MQTT_NETWORK_PORT);
+    int8_t networkStt = Ec200uOpenNetwork(&tpmsApp.lteModule, MQTT_NETWORK_HOST, MQTT_NETWORK_PORT);
     switch (networkStt) {
     case 0:
         MqttClientSetState(this, MQTT_CLIENT_ST_CONNECT_SERVER);
@@ -95,7 +128,7 @@ static void MqttClientOpenNetworkHandle(MqttClient* this) {
 }
 
 static void MqttClientConnectServerHandle(MqttClient* this) {
-    bool isSuccess = Ec200uConnectServer(&pApp->lteModule, DEVICE_ID, MQTT_CLIENT_USERNAME, MQTT_CLIENT_PASSWORD);
+    bool isSuccess = Ec200uConnectServer(&tpmsApp.lteModule, DEVICE_ID, MQTT_CLIENT_USERNAME, MQTT_CLIENT_PASSWORD);
     if (!isSuccess) {
         MqttClientSetState(this, MQTT_CLIENT_ST_FAIL);
         return;
@@ -168,7 +201,7 @@ char* TopicLocations[] = {
 static void MqttClientPublishMessageHandle(MqttClient* this) {
 	for (uint8_t i = 0; i < 2; i++) {
 	    CreateMockSensorMessage(tpmsApp.lteModule.base.txDataBuff, deviceIds[i]);
-	    bool isSuccess = Ec200uPublishMessage(&pApp->lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicSensors[i], tpmsApp.lteModule.base.txDataBuff);
+	    bool isSuccess = Ec200uPublishMessage(&tpmsApp.lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicSensors[i], tpmsApp.lteModule.base.txDataBuff);
 	    if (!isSuccess) {
 	        MqttClientSetState(this, MQTT_CLIENT_ST_FAIL);
 	        return;
@@ -177,7 +210,7 @@ static void MqttClientPublishMessageHandle(MqttClient* this) {
 	    tpmsApp.lteModule.base.delayMs(1000);
 
 	    CreateMockLocationMessage(tpmsApp.lteModule.base.txDataBuff, deviceIds[i]);
-	    isSuccess = Ec200uPublishMessage(&pApp->lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicLocations[i], tpmsApp.lteModule.base.txDataBuff);
+	    isSuccess = Ec200uPublishMessage(&tpmsApp.lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicLocations[i], tpmsApp.lteModule.base.txDataBuff);
 	    if (!isSuccess) {
 	        MqttClientSetState(this, MQTT_CLIENT_ST_FAIL);
 	        return;
@@ -190,7 +223,7 @@ static void MqttClientPublishMessageHandle(MqttClient* this) {
 }
 
 static void MqttClientFailHandleImpl(MqttClient* this) {
-    bool isSuccess = Ec200uDeactiveRF(&pApp->lteModule) && Ec200uActiveRF(&pApp->lteModule);
+    bool isSuccess = Ec200uDeactiveRF(&tpmsApp.lteModule) && Ec200uActiveRF(&tpmsApp.lteModule);
     if (!isSuccess) {
         UartHwConfig(&ec200uHw);
         vTaskDelay(1000);

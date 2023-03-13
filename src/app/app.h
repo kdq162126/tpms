@@ -12,6 +12,7 @@
 #include "mqtt_client.h"
 #include "ec200u.h"
 #include "ht16c23.h"
+#include "tire.h"
 
 #include "display_app.h"
 #include "mqtt_app.h"
