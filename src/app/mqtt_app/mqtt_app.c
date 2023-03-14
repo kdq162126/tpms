@@ -51,6 +51,39 @@ void MqttAppInit() {
     srand(100);
 }
 
+void MqttHandleTask(void* pv) {
+    (void)pv;
+
+    MqttAppInit();
+    UartHwConfig(&ec200uHw);
+    vTaskDelay(1000);
+
+    while (1) {
+        switch (tpmsApp.mqtt.state) {
+        case MQTT_CLIENT_ST_INIT:
+
+            MqttClientInit(&tpmsApp.mqtt);
+            break;
+        case MQTT_CLIENT_ST_OPEN_NETWORK:
+            MqttClientOpenNetwork(&tpmsApp.mqtt);
+            break;
+        case MQTT_CLIENT_ST_CONNECT_SERVER:
+            MqttClientConnectServer(&tpmsApp.mqtt);
+            break;
+        case MQTT_CLIENT_ST_STREAM_DATA:
+            MqttClientPublishMessage(&tpmsApp.mqtt);
+            vTaskDelay(10000);
+            break;
+        case MQTT_CLIENT_ST_FAIL:
+            MqttClientFailHandle(&tpmsApp.mqtt);
+            // vTaskDelay(15000);
+            break;
+        }
+
+        vTaskDelay(1);
+    }
+}
+
 static void ec200uHwReceiveHandle(UartHw* this) {
     if (strstr(this->rxBuff, pApp->lteModule.base.expectMsg) == NULL)
         return;
@@ -125,11 +158,11 @@ void CreateMockSensorMessage(char* buff, char* deviceId) {
         // *buff++ = ',';
         buff = JsonFromString(buff, "pos", positions[i]);
         *buff++ = ',';
-        buff = JsonFromInt(buff, "pres", rand()%20);
+        buff = JsonFromInt(buff, "pres", rand() % 20);
         *buff++ = ',';
-        buff = JsonFromInt(buff, "bat", rand()%100);
+        buff = JsonFromInt(buff, "bat", rand() % 100);
         *buff++ = ',';
-        buff = JsonFromInt(buff, "temp", rand()%50);
+        buff = JsonFromInt(buff, "temp", rand() % 50);
         buff = JsonClose(buff);
         *buff++ = ',';
     }
@@ -145,48 +178,48 @@ void CreateMockLocationMessage(char* buff, char* deviceId) {
     *buff++ = ',';
     // buff = JsonFromString(buff, "version", "123xxx");
     // *buff++ = ',';
-    buff = JsonFromFloat(buff, "lat", 21.00+(float)(rand() % 10000) / 1000000, 6);
+    buff = JsonFromFloat(buff, "lat", 21.00 + (float)(rand() % 10000) / 1000000, 6);
     *buff++ = ',';
     buff = JsonFromFloat(buff, "lon", 105.81 + (float)(rand() % 10000) / 1000000, 6);
     buff = JsonClose(buff);
     *buff++ = '\0';
 }
 
-char* deviceIds[] = {"TPMS001", "TPMS002"};
+char* deviceIds[] = { "TPMS001", "TPMS002" };
 char* TopicSensors[] = {
-		"/device/TPMS001/sensor",
-		"/device/TPMS002/sensor",
+        "/device/TPMS001/sensor",
+        "/device/TPMS002/sensor",
 };
 
 char* TopicLocations[] = {
-		"/device/TPMS001/location",
-		"/device/TPMS002/location",
+        "/device/TPMS001/location",
+        "/device/TPMS002/location",
 };
 
 
 
 static void MqttClientPublishMessageHandle(MqttClient* this) {
-	for (uint8_t i = 0; i < 2; i++) {
-	    CreateMockSensorMessage(tpmsApp.lteModule.base.txDataBuff, deviceIds[i]);
-	    bool isSuccess = Ec200uPublishMessage(&pApp->lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicSensors[i], tpmsApp.lteModule.base.txDataBuff);
-	    if (!isSuccess) {
-	        MqttClientSetState(this, MQTT_CLIENT_ST_FAIL);
-	        return;
-	    }
+    for (uint8_t i = 0; i < 2; i++) {
+        CreateMockSensorMessage(tpmsApp.lteModule.base.txDataBuff, deviceIds[i]);
+        bool isSuccess = Ec200uPublishMessage(&pApp->lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicSensors[i], tpmsApp.lteModule.base.txDataBuff);
+        if (!isSuccess) {
+            MqttClientSetState(this, MQTT_CLIENT_ST_FAIL);
+            return;
+        }
 
-	    tpmsApp.lteModule.base.delayMs(1000);
+        tpmsApp.lteModule.base.delayMs(1000);
 
-	    CreateMockLocationMessage(tpmsApp.lteModule.base.txDataBuff, deviceIds[i]);
-	    isSuccess = Ec200uPublishMessage(&pApp->lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicLocations[i], tpmsApp.lteModule.base.txDataBuff);
-	    if (!isSuccess) {
-	        MqttClientSetState(this, MQTT_CLIENT_ST_FAIL);
-	        return;
-	    }
+        CreateMockLocationMessage(tpmsApp.lteModule.base.txDataBuff, deviceIds[i]);
+        isSuccess = Ec200uPublishMessage(&pApp->lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicLocations[i], tpmsApp.lteModule.base.txDataBuff);
+        if (!isSuccess) {
+            MqttClientSetState(this, MQTT_CLIENT_ST_FAIL);
+            return;
+        }
 
-	    MqttClientSetState(this, MQTT_CLIENT_ST_STREAM_DATA);
+        MqttClientSetState(this, MQTT_CLIENT_ST_STREAM_DATA);
 
-	    tpmsApp.lteModule.base.delayMs(1000);
-	}
+        tpmsApp.lteModule.base.delayMs(1000);
+    }
 }
 
 static void MqttClientFailHandleImpl(MqttClient* this) {

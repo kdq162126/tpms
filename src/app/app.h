@@ -13,6 +13,7 @@
 #include "ec200u.h"
 
 #include "mqtt_app.h"
+#include "sensor_app.h"
 #include "task_init.h"
 
 typedef struct TpmsApp_t TpmsApp;

@@ -52,6 +52,7 @@ void flexio_uart_RX_Callback0(void* driverState, uart_event_t event, void* userD
 void flexio_uart_TX_Callback0(void* driverState, uart_event_t event, void* userData) {
     (void)userData;
     (void)driverState;
+    (void)event;
 }
 
 // void uartHwSendMsg(UartHw* this, const char* msg);

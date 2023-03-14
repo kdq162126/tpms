@@ -9,5 +9,6 @@
 #define APP_MQTT_APP_MQTT_APP_H_
 
 void MqttAppInit(void);
+void MqttHandleTask(void* pv);
 
 #endif /* APP_MQTT_APP_MQTT_APP_H_ */

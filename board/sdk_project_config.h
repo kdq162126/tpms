@@ -23,6 +23,9 @@
 #include "peripherals_lpuart_1.h"
 #include "peripherals_flexio_uart_config_1.h"
 #include "peripherals_freertos_1.h"
+#include "peripherals_lpspi_1.h"
+#include "peripherals_lpi2c_config_1.h"
+#include "peripherals_lpuart_2.h"
 
 
 #endif /* SDK_PROJECT_CONFIG_H_ */
