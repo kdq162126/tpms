@@ -66,7 +66,7 @@ lpuart_state_t lpuart1_State;
 
 const lpuart_user_config_t lpuart1_InitConfig0 = {
   .transferType = LPUART_USING_INTERRUPTS,
-  .baudRate = 9600UL,
+  .baudRate = 115200,
   .parityMode = LPUART_PARITY_DISABLED,
   .stopBitCount = LPUART_ONE_STOP_BIT,
   .bitCountPerChar = LPUART_8_BITS_PER_CHAR,
