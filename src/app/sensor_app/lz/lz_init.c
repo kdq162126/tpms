@@ -108,38 +108,38 @@ status_t LZ_SetupSPI(const lz_drv_config_t *drvConfig,
 
     AML_ASSERT(drvConfig != NULL);
 
-    if (spiSdkMasterConfig == NULL)
-    {   /* Needed when spiSdkMasterConfig argument is NULL. */
-        spi_sdk_master_config_t spiSdkConfig;
-        spi_aml_master_config_t spiAmlConfig;
-
-        if ((drvConfig->spiConfig.baudRate < 1000) ||
-                (drvConfig->spiConfig.baudRate > 2000000))
-        {
-            status = kStatus_LZ_InitFail;
-        }
-
-        if (kStatus_Success == status)
-        {
-            spiAmlConfig.baudRateHz = drvConfig->spiConfig.baudRate;
-            spiAmlConfig.bitCount = 8U;
-            /* The device is able to set different values even for CPOL and CPHA. */
-            spiAmlConfig.clkPhase = drvConfig->spiConfig.clkPhase;
-            spiAmlConfig.clkPolarity = drvConfig->spiConfig.clkPol;
-            spiAmlConfig.lsbFirst = false;
-            spiAmlConfig.pcsPolarity = spiPcsActiveLow;
-            spiAmlConfig.sourceClockHz = drvConfig->spiConfig.sourceClkHz;
-
-            SPI_AML_MasterFillSdkConfig(&spiAmlConfig, &spiSdkConfig);
-            SPI_AML_MasterInit(drvConfig->spiConfig.spiInstance, &spiSdkConfig,
-                    drvConfig->spiConfig.sourceClkHz);
-        }
-    }
-    else
-    {   /* Use provided spiSdkMasterConfig configuration. */
+//    if (spiSdkMasterConfig == NULL)
+//    {   /* Needed when spiSdkMasterConfig argument is NULL. */
+//        spi_sdk_master_config_t spiSdkConfig;
+//        spi_aml_master_config_t spiAmlConfig;
+//
+//        if ((drvConfig->spiConfig.baudRate < 1000) ||
+//                (drvConfig->spiConfig.baudRate > 2000000))
+//        {
+//            status = kStatus_LZ_InitFail;
+//        }
+//
+//        if (kStatus_Success == status)
+//        {
+//            spiAmlConfig.baudRateHz = drvConfig->spiConfig.baudRate;
+//            spiAmlConfig.bitCount = 8U;
+//            /* The device is able to set different values even for CPOL and CPHA. */
+//            spiAmlConfig.clkPhase = drvConfig->spiConfig.clkPhase;
+//            spiAmlConfig.clkPolarity = drvConfig->spiConfig.clkPol;
+//            spiAmlConfig.lsbFirst = false;
+//            spiAmlConfig.pcsPolarity = spiPcsActiveLow;
+//            spiAmlConfig.sourceClockHz = drvConfig->spiConfig.sourceClkHz;
+//
+//            SPI_AML_MasterFillSdkConfig(&spiAmlConfig, &spiSdkConfig);
+//            SPI_AML_MasterInit(drvConfig->spiConfig.spiInstance, &spiSdkConfig,
+//                    drvConfig->spiConfig.sourceClkHz);
+//        }
+//    }
+//    else
+//    {   /* Use provided spiSdkMasterConfig configuration. */
         SPI_AML_MasterInit(drvConfig->spiConfig.spiInstance, spiSdkMasterConfig,
                 drvConfig->spiConfig.sourceClkHz);
-    }
+//    }
 
     return status;
 }

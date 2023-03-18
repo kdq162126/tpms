@@ -108,8 +108,10 @@ uint32_t LPUART_GetInstance(void *lpuartBase)
 void LPUART_WriteBlocking(LPUART_Type *base, const uint8_t *buffer, size_t length)
 {
     /* We don't care about return value. */
-    LPUART_DRV_SendDataBlocking(LPUART_GetInstance(base), buffer, \
-            (uint32_t)length, XFER_TIMEOUT);
+//    LPUART_DRV_SendDataBlocking(LPUART_GetInstance(base), buffer, \
+//            (uint32_t)length, XFER_TIMEOUT);
+	LPUART_DRV_SendDataPolling(LPUART_GetInstance(base), buffer, \
+			            (uint32_t)length);
 }
 
 /*FUNCTION**********************************************************************

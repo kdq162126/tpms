@@ -308,7 +308,7 @@ void SPI_AML_SlaveFillSdkConfig(const spi_aml_slave_config_t *spiAmlSlaveConfig,
  *END**************************************************************************/
 void SPI_AML_MasterSelectDevice(aml_instance_t portInstance,
         uint8_t pinIndex,
-        spi_aml_pcs_polarity_t pcsPolarity)
+        volatile spi_aml_pcs_polarity_t pcsPolarity)
 {
 #if (SDK_VERSION == SDK_KSDK)
     AML_ASSERT(portInstance < FSL_FEATURE_SOC_PORT_COUNT);
@@ -321,9 +321,12 @@ void SPI_AML_MasterSelectDevice(aml_instance_t portInstance,
     if (pcsPolarity == spiPcsActiveLow)
     {
         GPIO_AML_ClearOutput(portInstance, pinIndex);
+        PINS_DRV_ClearPins(PTB, pinIndex);
+        return;
     }
     else
     {
+
         GPIO_AML_SetOutput(portInstance, pinIndex);
     }
 }
@@ -415,8 +418,11 @@ status_t SPI_AML_MasterTransfer(aml_instance_t instance,
     #elif (SDK_VERSION == SDK_S32)
     status_t error;
 
-    error = LPSPI_DRV_MasterTransferBlocking(instance, masterTransfer->txBuffer,
-            masterTransfer->rxBuffer, masterTransfer->dataSize, SPI_AML_TIMEOUT);
+//    error = LPSPI_DRV_MasterTransferBlocking(instance, masterTransfer->txBuffer,
+//            masterTransfer->rxBuffer, masterTransfer->dataSize, SPI_AML_TIMEOUT);
+    // FIXME
+    LPSPI_DRV_MasterTransfer(instance, masterTransfer->txBuffer,
+    		masterTransfer->rxBuffer, masterTransfer->dataSize);
 
     if (error == STATUS_SUCCESS)
     {

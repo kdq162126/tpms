@@ -43,9 +43,9 @@ instance:
       - 0:
         - name: 'lpspiCom1_MasterConfig0'
         - readOnly: 'true'
-        - bitsPerSec: '1000000'
+        - bitsPerSec: '500000'
         - whichPcs: 'LPSPI_PCS0'
-        - pcsPolarity: 'LPSPI_ACTIVE_HIGH'
+        - pcsPolarity: 'LPSPI_ACTIVE_LOW'
         - isPcsContinuous: 'false'
         - bitcount: '8'
         - lpspiSrcClk: '8000000'
@@ -80,9 +80,9 @@ lpspi_state_t lpspi_1State;
 /* LPSPI Master Configurations 0 */
 
 const lpspi_master_config_t lpspiCom1_MasterConfig0 = {
-  .bitsPerSec = 1000000UL,
+  .bitsPerSec = 200000UL,
   .whichPcs = LPSPI_PCS0,
-  .pcsPolarity = LPSPI_ACTIVE_HIGH,
+  .pcsPolarity = LPSPI_ACTIVE_LOW,
   .isPcsContinuous = false,
   .bitcount = 8U,
   .lpspiSrcClk = 8000000UL,

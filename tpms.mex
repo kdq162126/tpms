@@ -29,8 +29,8 @@
                <pin_label pin_num="82" pin_signal="PTA16" label="DQ2"/>
                <pin_label pin_num="54" pin_signal="PTB0" label="FLASH_CS"/>
                <pin_label pin_num="53" pin_signal="PTB1" label="FLASH_MOSI"/>
-               <pin_label pin_num="47" pin_signal="PTB3" label="FLASH_MISO"/>
-               <pin_label pin_num="48" pin_signal="PTB2" label="FLASH_CLK"/>
+               <pin_label pin_num="47" pin_signal="PTB3" label="LZ_MISO"/>
+               <pin_label pin_num="48" pin_signal="PTB2" label="LZ_CS"/>
                <pin_label pin_num="16" pin_signal="PTB6" label="XTAL"/>
                <pin_label pin_num="15" pin_signal="PTB7" label="EXTAL"/>
                <pin_label pin_num="98" pin_signal="PTA4" label="SWDIO"/>
@@ -69,12 +69,16 @@
                <pin_label pin_num="9" pin_signal="PTE4" label="LCD_SDA"/>
                <pin_label pin_num="8" pin_signal="PTE5" label="LCD_SCL"/>
                <pin_label pin_num="84" pin_signal="PTE6" label="LCD_GPIO26"/>
-               <pin_label pin_num="59" pin_signal="PTE7" label="LCD_GPIO27"/>
+               <pin_label pin_num="59" pin_signal="PTE7" label="RST_N"/>
                <pin_label pin_num="26" pin_signal="PTE8" label="LCD_GPIO28"/>
                <pin_label pin_num="23" pin_signal="PTE9" label="LCD_GPIO29"/>
                <pin_label pin_num="6" pin_signal="PTE10" label="LCD_GPIO30"/>
                <pin_label pin_num="5" pin_signal="PTE11" label="LCD_GPIO31"/>
                <pin_label pin_num="19" pin_signal="PTE12" label="LCD_GPIO32"/>
+               <pin_label pin_num="24" pin_signal="PTD14" label="INT_N"/>
+               <pin_label pin_num="88" pin_signal="PTA14" label="RDY_N"/>
+               <pin_label pin_num="28" pin_signal="PTB4" label="LZ_MOSI"/>
+               <pin_label pin_num="27" pin_signal="PTB5" label="LZ_CS"/>
             </pin_labels>
          </pins_profile>
          <functions_list>
@@ -96,16 +100,6 @@
                      </pin_features>
                   </pin>
                   <pin peripheral="PORTA" signal="port, 17" pin_num="62" pin_signal="PTA17">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="LPSPI0" signal="pcs, 0" pin_num="54" pin_signal="PTB0">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="LPSPI0" signal="sout" pin_num="53" pin_signal="PTB1">
                      <pin_features>
                         <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
@@ -132,6 +126,32 @@
                   <pin peripheral="FLEXIO" signal="fxio_d, 1" pin_num="91" pin_signal="PTA11"/>
                   <pin peripheral="FLEXIO" signal="fxio_d, 7" pin_num="8" pin_signal="PTE5"/>
                   <pin peripheral="FLEXIO" signal="fxio_d, 6" pin_num="9" pin_signal="PTE4"/>
+                  <pin peripheral="LPSPI0" signal="sout" pin_num="28" pin_signal="PTB4">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="LPSPI0" signal="pcs, 0" pin_num="27" pin_signal="PTB5">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="PORTD" signal="port, 14" pin_num="24" pin_signal="PTD14">
+                     <pin_features>
+                        <pin_feature name="direction" value="INPUT"/>
+                        <pin_feature name="IRQC" value="state_1010"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="PORTA" signal="port, 14" pin_num="88" pin_signal="PTA14">
+                     <pin_features>
+                        <pin_feature name="direction" value="INPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="PORTE" signal="port, 7" pin_num="59" pin_signal="PTE7">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
                </pins>
             </function>
          </functions_list>
@@ -605,9 +625,9 @@
                            <struct name="0">
                               <setting name="name" value="lpspiCom1_MasterConfig0"/>
                               <setting name="readOnly" value="true"/>
-                              <setting name="bitsPerSec" value="1000000"/>
+                              <setting name="bitsPerSec" value="500000"/>
                               <setting name="whichPcs" value="LPSPI_PCS0"/>
-                              <setting name="pcsPolarity" value="LPSPI_ACTIVE_HIGH"/>
+                              <setting name="pcsPolarity" value="LPSPI_ACTIVE_LOW"/>
                               <setting name="isPcsContinuous" value="false"/>
                               <setting name="bitcount" value="8"/>
                               <setting name="lpspiSrcClk" value="8000000"/>
