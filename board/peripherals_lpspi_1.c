@@ -80,14 +80,14 @@ lpspi_state_t lpspi_1State;
 /* LPSPI Master Configurations 0 */
 
 const lpspi_master_config_t lpspiCom1_MasterConfig0 = {
-  .bitsPerSec = 200000UL,
+  .bitsPerSec = 2000000UL,
   .whichPcs = LPSPI_PCS0,
   .pcsPolarity = LPSPI_ACTIVE_LOW,
   .isPcsContinuous = false,
   .bitcount = 8U,
   .lpspiSrcClk = 8000000UL,
   .clkPhase = LPSPI_CLOCK_PHASE_1ST_EDGE,
-  .clkPolarity = LPSPI_SCK_ACTIVE_HIGH,
+  .clkPolarity = LPSPI_SCK_ACTIVE_LOW,
   .lsbFirst = false,
   .transferType = LPSPI_USING_INTERRUPTS,
   .rxDMAChannel = 0U,

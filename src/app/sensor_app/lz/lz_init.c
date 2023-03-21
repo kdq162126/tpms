@@ -153,7 +153,7 @@ status_t LZ_SetupSPI(const lz_drv_config_t *drvConfig,
 status_t LZ_Init(const lz_drv_config_t *drvConfig)
 {
     status_t            status = kStatus_Success;
-    uint8_t             recvBuffer[LZ_EV_REBOOT_B];
+    static uint8_t             recvBuffer[LZ_EV_REBOOT_B];
     lz_fr_raw_t         recvFrame = {
             recvBuffer,
             0U

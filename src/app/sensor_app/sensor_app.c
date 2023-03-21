@@ -28,7 +28,7 @@ void HandleSensorAppTask(void* pv) {
 	/* GPIO install interrupts: install interrupts for the switches (buttons), and LZ INT signal */
 	GPIO_install_int();
 
-	LPSPI_DRV_MasterInit(INST_LPSPI_1, &lpspi_1State, &lpspiCom1_MasterConfig0);
+//	LPSPI_DRV_MasterInit(INST_LPSPI_1, &lpspi_1State, &lpspiCom1_MasterConfig0);
 
 	/* Init LPUART1 - must be done before Lizard and sensors init
 	 * Set SDK_DEBUGCONSOLE to 1U to enable debug prints, set it to 0 to disable */

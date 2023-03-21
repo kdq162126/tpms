@@ -327,6 +327,7 @@ status_t LZ_COM_ReadWriteFrame(const lz_drv_config_t* drvConfig, lz_wait_t wait,
         recvFrame->frameLen = 1U;
 
         status = SPI_AML_MasterTransfer(drvConfig->spiConfig.spiInstance, &amlSpiData);
+
     }
 
     if (kStatus_Success == status)
