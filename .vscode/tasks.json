@@ -13,7 +13,9 @@
                 "--include-directory=${workspaceFolder}/src/component/at_modem",
                 "--include-directory=${workspaceFolder}/src/component/ec200u",
                 "--include-directory=${workspaceFolder}/src/service/timeout_clock",
-                "--include-directory=${workspaceFolder}/src/utils/string_util"
+                "--include-directory=${workspaceFolder}/src/utils/string_util",
+                "--include-directory=${workspaceFolder}/src/utils/printf",
+                "-lm"
             ],
             "options": {
                 "cwd": "${fileDirname}"

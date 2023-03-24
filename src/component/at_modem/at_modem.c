@@ -12,23 +12,29 @@ static void ATmodemClean(ATmodem* this);
 
 char rxBuffer[AT_MODEM_RX_BUFFER_LEN];
 
-
-void ATmodemInit(ATmodem* this, void (*sendHandle)(const char*), uint32_t* timestampSource) {
+void ATmodemInit(ATmodem* this, void (*sendHandle)(const char*), uint32_t* timestampSource, void (*delayMs)(const uint32_t)) {
     this->receiveData = rxBuffer;
     this->sendCmd = sendHandle;
     this->clock.timestampMs = timestampSource;
+    this->delayMs = delayMs;
 }
 
 // Retry if command was excutived fail
+<<<<<<< HEAD
 bool ATmodemExcutiveCmd(ATmodem* this, const char* cmd, const char* resp, uint32_t timeoutMs, uint8_t retryNum) {
     this->expectMsg = (char*)resp;
+=======
+bool ATmodemExcutiveCmd(ATmodem* this, const char* msg, char* resp, uint32_t timeoutMs, uint8_t retryNum) {
+    this->expectMsg = resp;
+>>>>>>> development
 
     for (uint8_t retryCnt = 0; retryCnt < retryNum; retryCnt++) {
         ATmodemClean(this);
         ClockEnableTimeout(&this->clock, timeoutMs);
 
-        this->sendCmd(cmd);
+        this->sendCmd(msg);
         while (!(this->isResponse || ClockIsTimeout(&this->clock)));
+        this->delayMs(100);
 
         if (ClockIsTimeout(&this->clock))
             continue;
