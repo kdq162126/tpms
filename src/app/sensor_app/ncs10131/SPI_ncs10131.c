@@ -37,8 +37,8 @@
 */
 
 
-#include "Cpu.h"
-#include "aml/spi_aml/spi_aml.h"
+#include "sdk_project_config.h"
+#include "spi_aml/spi_aml.h"
 
 
 /*********************************************************
@@ -91,6 +91,7 @@ spi_aml_transfer_t amlSpi1Data = {
 void SPI_NCS10131_Init (void)
 {
 	SPI_AML_MasterInit(NCS10131_SPI_INSTANCE, &ncs10131_spi_cfg, ncs10131_spi_cfg.lpspiSrcClk);
+//	SPI_AML_MasterInit(NCS10131_SPI_INSTANCE, &lpspi_0_MasterConfig1, lpspi_0_MasterConfig1.lpspiSrcClk);
 	LPSPI1->TCR |= LPSPI_TCR_BYSW_MASK; // Enable Byte Swap to account for the endianness
 }
 

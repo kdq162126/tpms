@@ -127,12 +127,12 @@ void WAIT_AML_WaitMs(uint16_t delay)
  *END**************************************************************************/
 void WAIT_AML_WaitUs(uint16_t delay)
 {
-//    uint32_t cycles = (uint32_t) WAIT_AML_GET_CYCLES_FOR_US(delay, WAIT_AML_SYSTEM_CLOCK_FREQ);
-//
-//    /* Advance to next multiple of 4. Value 0x04U ensures that the number
-//     * is not zero. */
-//    cycles = (cycles & 0xFFFFFFFCU) | 0x04U;
-//    WAIT_AML_WAIT_FOR_MUL4_CYCLES(cycles);
+    uint32_t cycles = (uint32_t) WAIT_AML_GET_CYCLES_FOR_US(delay, WAIT_AML_SYSTEM_CLOCK_FREQ);
+
+    /* Advance to next multiple of 4. Value 0x04U ensures that the number
+     * is not zero. */
+    cycles = (cycles & 0xFFFFFFFCU) | 0x04U;
+    WAIT_AML_WAIT_FOR_MUL4_CYCLES(cycles);
 }
 
 /*******************************************************************************

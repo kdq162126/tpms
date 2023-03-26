@@ -39,13 +39,12 @@
 #ifndef NCS10131_SPI_NCS10131_H_
 #define NCS10131_SPI_NCS10131_H_
 
-#include "Cpu.h"
+#include "sdk_project_config.h"
 
 
 /*********************************************************
  * Public declarations
  *********************************************************/
-
 void SPI_NCS10131_Init (void);
 status_t SPI_NCS10131_tx_request_rx_response (uint32_t u32Cmd, uint32_t *pu32Response);
 status_t SPI_NCS10131_tx_request (uint32_t u32Cmd);

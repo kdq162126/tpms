@@ -43,9 +43,9 @@
  *        (classic or extended SPI setup).
  */
 
- /*******************************************************************************
-  * Includes
-  ******************************************************************************/
+/*******************************************************************************
+ * Includes
+ ******************************************************************************/
 
 #include "gpio_int.h"
 #include "lz_com_spi.h"
@@ -54,13 +54,11 @@
 #include "utils/nxp_console_adapter.h"
 #include "utils/nxp_console.h"
 #include "RF_parse.h"
-#include "sdk_project_config.h"
-#include "string.h"
-  /*******************************************************************************
-   * Defines
-   ******************************************************************************/
+/*******************************************************************************
+ * Defines
+ ******************************************************************************/
 
-   /*! Delay between consecutive transfers. */
+/*! Delay between consecutive transfers. */
 #define LZ_COM_INTER_TRANSFER_DELAY_US 5000U
 /*! Delay after CS pin is asserted low to make sure that the device is ready. */
 #define LZ_COM_RTS_DELAY_US            5000U
@@ -73,7 +71,7 @@
 /*! Timeout measurement is split into steps. This macro defines value of the
  *  step in us. */
 #define LZ_COM_TIMEOUT_STEP_US         20U
- /*! Active level of RDY_N pin. */
+/*! Active level of RDY_N pin. */
 #define LZ_COM_RDY_PIN_ACTIVE          0U
 /*! Active level of INT_N pin. */
 #define LZ_COM_INT_PIN_ACTIVE          0U
@@ -87,19 +85,19 @@ uint8_t uLzRebootDetected = 0;
  * Prototypes
  ******************************************************************************/
 
- /*!
-  * @brief This function requests bus to initiate new transfer.
-  *
-  * @param drvConfig Pointer to driver instance configuration.
-  */
-static void LZ_COM_RequestBus(const lz_drv_config_t* drvConfig);
+/*!
+ * @brief This function requests bus to initiate new transfer.
+ *
+ * @param drvConfig Pointer to driver instance configuration.
+ */
+static void LZ_COM_RequestBus(const lz_drv_config_t *drvConfig);
 
 /*!
  * @brief This function releases bus after the transfer is done.
  *
  * @param drvConfig Pointer to driver instance configuration.
  */
-static void LZ_COM_ReleaseBus(const lz_drv_config_t* drvConfig);
+static void LZ_COM_ReleaseBus(const lz_drv_config_t *drvConfig);
 
 /*!
  * @brief This function waits until the previous transfer is completed,
@@ -112,28 +110,26 @@ static void LZ_COM_ReleaseBus(const lz_drv_config_t* drvConfig);
  *
  * @return Status result of the function (kStatus_Success on success).
  */
-static status_t LZ_COM_RequestToSend(const lz_drv_config_t* drvConfig,
-    lz_wait_t wait);
+static status_t LZ_COM_RequestToSend(const lz_drv_config_t *drvConfig,
+        lz_wait_t wait);
 
 /*******************************************************************************
  * Code - internal functions
  ******************************************************************************/
 
- /*FUNCTION**********************************************************************
-  *
-  * Function Name : LZ_COM_RequestBus
-  * Description   : This function requests bus to initiate new transfer.
-  *
-  *END**************************************************************************/
-static void LZ_COM_RequestBus(const lz_drv_config_t* drvConfig)
+/*FUNCTION**********************************************************************
+ *
+ * Function Name : LZ_COM_RequestBus
+ * Description   : This function requests bus to initiate new transfer.
+ *
+ *END**************************************************************************/
+static void LZ_COM_RequestBus(const lz_drv_config_t *drvConfig)
 {
     AML_ASSERT(drvConfig != NULL);
 
     /* Set CS pin low. (request to send) */
-    // SPI_AML_MasterSelectDevice(drvConfig->gpioConfig.csPin.gpioInstance,
-    //     drvConfig->gpioConfig.csPin.gpioPinNumber, spiPcsActiveLow);
-
-    PINS_DRV_ClearPins(PTB, 1 << drvConfig->gpioConfig.csPin.gpioPinNumber);
+    SPI_AML_MasterSelectDevice(drvConfig->gpioConfig.csPin.gpioInstance,
+            drvConfig->gpioConfig.csPin.gpioPinNumber, spiPcsActiveLow);
 }
 
 /*FUNCTION**********************************************************************
@@ -142,15 +138,13 @@ static void LZ_COM_RequestBus(const lz_drv_config_t* drvConfig)
  * Description   : This function releases bus after the transfer is done.
  *
  *END**************************************************************************/
-static void LZ_COM_ReleaseBus(const lz_drv_config_t* drvConfig)
+static void LZ_COM_ReleaseBus(const lz_drv_config_t *drvConfig)
 {
     AML_ASSERT(drvConfig != NULL);
 
     /* Set CS pin high. */
-//    SPI_AML_MasterUnselectDevice(drvConfig->gpioConfig.csPin.gpioInstance,
-//        drvConfig->gpioConfig.csPin.gpioPinNumber, spiPcsActiveLow);
-
-    PINS_DRV_SetPins(PTB, 1 << drvConfig->gpioConfig.csPin.gpioPinNumber);
+    SPI_AML_MasterUnselectDevice(drvConfig->gpioConfig.csPin.gpioInstance,
+            drvConfig->gpioConfig.csPin.gpioPinNumber, spiPcsActiveLow);
 }
 
 /*FUNCTION**********************************************************************
@@ -161,8 +155,8 @@ static void LZ_COM_ReleaseBus(const lz_drv_config_t* drvConfig)
  *                 device signalizes CTS (clear to send).
  *
  *END**************************************************************************/
-static status_t LZ_COM_RequestToSend(const lz_drv_config_t* drvConfig,
-    lz_wait_t wait)
+static status_t LZ_COM_RequestToSend(const lz_drv_config_t *drvConfig,
+        lz_wait_t wait)
 {
     status_t status = kStatus_Success;
 
@@ -175,7 +169,7 @@ static status_t LZ_COM_RequestToSend(const lz_drv_config_t* drvConfig,
             /* Wait until RDY pin is high to be sure that the previous transmission is
              * complete and the device is ready to receive another data. */
             status = LZ_COM_WaitPinLevel(&(drvConfig->gpioConfig.rdyPin), true,
-                LZ_COM_RDY_CLR_TIMEOUT_US);
+                    LZ_COM_RDY_CLR_TIMEOUT_US);
         }
 
         if (status == kStatus_Success)
@@ -184,8 +178,8 @@ static status_t LZ_COM_RequestToSend(const lz_drv_config_t* drvConfig,
             {
                 /* Wait until INT pin is low to be sure that the device has prepared response data. */
                 status = LZ_COM_WaitPinLevel(&(drvConfig->gpioConfig.intPin), false,
-                    LZ_COM_INT_TIMEOUT_US);
-                u8LzIntSignal = 0;
+                        LZ_COM_INT_TIMEOUT_US);
+        		u8LzIntSignal = 0;
             }
         }
 
@@ -196,7 +190,7 @@ static status_t LZ_COM_RequestToSend(const lz_drv_config_t* drvConfig,
 
             /* Wait until RDY pin goes low. (clear to send) */
             status = LZ_COM_WaitPinLevel(&(drvConfig->gpioConfig.rdyPin), false,
-                LZ_COM_RDY_RTS_TIMEOUT_US);
+                    LZ_COM_RDY_RTS_TIMEOUT_US);
 
             if (status != kStatus_Success)
             {
@@ -222,14 +216,14 @@ static status_t LZ_COM_RequestToSend(const lz_drv_config_t* drvConfig,
  * Code - public functions
  ******************************************************************************/
 
- /*FUNCTION**********************************************************************
-  *
-  * Function Name : LZ_WaitPinLevel
-  * Description   : This function waits until a GPIO pin has desired value.
-  *
-  *END**************************************************************************/
-status_t LZ_COM_WaitPinLevel(const lz_gpio_sel_t* gpioPin, bool pinValExp,
-    uint32_t tmoutUs)
+/*FUNCTION**********************************************************************
+ *
+ * Function Name : LZ_WaitPinLevel
+ * Description   : This function waits until a GPIO pin has desired value.
+ *
+ *END**************************************************************************/
+status_t LZ_COM_WaitPinLevel(const lz_gpio_sel_t *gpioPin, bool pinValExp,
+        uint32_t tmoutUs)
 {
     volatile bool pinVal;           /* Value of a pin. */
     uint32_t      tmoutUsTemp = 0U;
@@ -238,15 +232,15 @@ status_t LZ_COM_WaitPinLevel(const lz_gpio_sel_t* gpioPin, bool pinValExp,
 
     do
     {
-        pinVal = (bool)GPIO_AML_ReadInput(gpioPin->gpioInstance, gpioPin->gpioPinNumber);
-        // pinVal = (bool)PINS_DRV_ReadPins(gpioPin->gpioInstance)
+        pinVal = (bool) GPIO_AML_ReadInput(gpioPin->gpioInstance, gpioPin->gpioPinNumber);
         tmoutUsTemp += LZ_COM_TIMEOUT_STEP_US;
 
         /* WaitUS function ensures the timeout value is not less than a desired
          * time (tmoutUs). */
-         //        WAIT_AML_WaitUs(LZ_COM_TIMEOUT_STEP_US);
+        WAIT_AML_WaitUs(LZ_COM_TIMEOUT_STEP_US);
         tmoutUsTemp += LZ_COM_TIMEOUT_STEP_US;
-    } while ((pinVal != pinValExp) && (tmoutUs > tmoutUsTemp));
+    }
+    while ((pinVal != pinValExp) && (tmoutUs > tmoutUsTemp));
 
     return (tmoutUs > tmoutUsTemp) ? kStatus_Success : kStatus_LZ_ComWaitTimeout;
 }
@@ -259,12 +253,12 @@ status_t LZ_COM_WaitPinLevel(const lz_gpio_sel_t* gpioPin, bool pinValExp,
  *                 is active.
  *
  *END**************************************************************************/
-bool LZ_COM_IsDeviceReady(const lz_drv_config_t* drvConfig)
+bool LZ_COM_IsDeviceReady(const lz_drv_config_t *drvConfig)
 {
     AML_ASSERT(drvConfig != NULL);
 
     return (GPIO_AML_ReadInput(drvConfig->gpioConfig.rdyPin.gpioInstance,
-        drvConfig->gpioConfig.rdyPin.gpioPinNumber) == LZ_COM_RDY_PIN_ACTIVE);
+            drvConfig->gpioConfig.rdyPin.gpioPinNumber) == LZ_COM_RDY_PIN_ACTIVE);
 }
 
 /*FUNCTION**********************************************************************
@@ -275,12 +269,12 @@ bool LZ_COM_IsDeviceReady(const lz_drv_config_t* drvConfig)
  *                 if the pin is active.
  *
  *END**************************************************************************/
-bool LZ_COM_HasDeviceDataPending(const lz_drv_config_t* drvConfig)
+bool LZ_COM_HasDeviceDataPending(const lz_drv_config_t *drvConfig)
 {
     AML_ASSERT(drvConfig != NULL);
 
     return (GPIO_AML_ReadInput(drvConfig->gpioConfig.intPin.gpioInstance,
-        drvConfig->gpioConfig.intPin.gpioPinNumber) == LZ_COM_INT_PIN_ACTIVE);
+            drvConfig->gpioConfig.intPin.gpioPinNumber) == LZ_COM_INT_PIN_ACTIVE);
 }
 
 /*FUNCTION**********************************************************************
@@ -290,8 +284,8 @@ bool LZ_COM_HasDeviceDataPending(const lz_drv_config_t* drvConfig)
  *                 or extended (6-wired) SPI setup.
  *
  *END**************************************************************************/
-status_t LZ_COM_ReadWriteFrame(const lz_drv_config_t* drvConfig, lz_wait_t wait,
-    const lz_fr_raw_t* sendFrame, lz_fr_raw_t* recvFrame, uint8_t recvBufferSize)
+status_t LZ_COM_ReadWriteFrame(const lz_drv_config_t *drvConfig, lz_wait_t wait,
+        const lz_fr_raw_t *sendFrame, lz_fr_raw_t *recvFrame, uint8_t recvBufferSize)
 {
     status_t           status = kStatus_Success;
     spi_aml_transfer_t amlSpiData = { /* SPI transfer structure. */
@@ -327,7 +321,6 @@ status_t LZ_COM_ReadWriteFrame(const lz_drv_config_t* drvConfig, lz_wait_t wait,
         recvFrame->frameLen = 1U;
 
         status = SPI_AML_MasterTransfer(drvConfig->spiConfig.spiInstance, &amlSpiData);
-
     }
 
     if (kStatus_Success == status)
@@ -342,7 +335,7 @@ status_t LZ_COM_ReadWriteFrame(const lz_drv_config_t* drvConfig, lz_wait_t wait,
         else if (0x00U == recvLen)
         {   /* There is no response. */
             amlSpiData.dataSize = sendFrame->frameLen > 0 ?
-                (sendFrame->frameLen - 1U) : 0U;
+                    (sendFrame->frameLen - 1U) : 0U;
         }
         else
         {   /* The length is specified. */
@@ -390,8 +383,8 @@ status_t LZ_COM_ReadWriteFrame(const lz_drv_config_t* drvConfig, lz_wait_t wait,
  *                 or extended (6-wired) setup.
  *
  *END**************************************************************************/
-status_t LZ_COM_ReadWriteFrameFixed(const lz_drv_config_t* drvConfig,
-    lz_wait_t wait, const lz_fr_raw_t* sendFrame, lz_fr_raw_t* recvFrame)
+status_t LZ_COM_ReadWriteFrameFixed(const lz_drv_config_t *drvConfig,
+        lz_wait_t wait, const lz_fr_raw_t *sendFrame, lz_fr_raw_t *recvFrame)
 {
     status_t           status = kStatus_Success;
     spi_aml_transfer_t amlSpiData = { /* SPI transfer structure. */
@@ -446,10 +439,10 @@ status_t LZ_COM_ReadWriteFrameFixed(const lz_drv_config_t* drvConfig,
  *                 dummy data (zeros).
  *
  *END**************************************************************************/
-status_t LZ_COM_ReadFrame(const lz_drv_config_t* drvConfig,
-    lz_wait_t wait, lz_fr_raw_t* recvFrame, uint8_t recvBufferSize)
+status_t LZ_COM_ReadFrame(const lz_drv_config_t *drvConfig,
+        lz_wait_t wait, lz_fr_raw_t *recvFrame, uint8_t recvBufferSize)
 {
-    status_t    status;
+	status_t    status;
     uint8_t     dummyBuffer[LZ_FR_MAX_SIZE_B];
     lz_fr_raw_t sendFrame = {
             dummyBuffer,
@@ -458,10 +451,10 @@ status_t LZ_COM_ReadFrame(const lz_drv_config_t* drvConfig,
 #if(PRINT_SPI_MESSAGES)
     uint8_t		counter;
     lz_resp_header_t    frHeader = {
-            lzRespTypeCmdReply,
-            lzCmdUnknown,
-            0U,
-            lzRespErrOk
+    		lzRespTypeCmdReply,
+			lzCmdUnknown,
+			0U,
+			lzRespErrOk
     };
     uint8_t payloadLen = 0U;
 #endif
@@ -473,33 +466,33 @@ status_t LZ_COM_ReadFrame(const lz_drv_config_t* drvConfig,
 
     /* The length byte is set to 0 so the device won't
        interpret received data as a command. */
-    (void)memset((void*)dummyBuffer, 0x00U, (size_t)LZ_FR_MAX_SIZE_B);
+    (void) memset((void *)dummyBuffer, 0x00U, (size_t)LZ_FR_MAX_SIZE_B);
 
     status = LZ_COM_ReadWriteFrame(drvConfig, wait, &sendFrame, recvFrame, recvBufferSize);
 
 #if(PRINT_SPI_MESSAGES)
-    if (status == kStatus_Success) {
-        PRINTF("\n\rRECEIVED : ");
-        for (counter = 0; counter < recvFrame->frameLen; counter++)
-            PRINTF("0x%X ", recvFrame->frame[counter]);
-        status = LZ_RCI_ProcessHeader(recvFrame, &frHeader, &payloadLen);
+    if(status == kStatus_Success){
+    	PRINTF("\n\rRECEIVED : ");
+    	for(counter = 0; counter < recvFrame->frameLen; counter++ )
+    		PRINTF("0x%X ",recvFrame->frame[counter]);
+    	status = LZ_RCI_ProcessHeader(recvFrame, &frHeader, &payloadLen);
 
-        /* Check if this is a frame containing RF data, and if so, parse it */
+    	/* Check if this is a frame containing RF data, and if so, parse it */
         if (lzCmdRbReadMsg == frHeader.cmd)
         {
-            RF_ParseTpmsData(recvFrame->frame);
+        	RF_ParseTpmsData(recvFrame->frame);
         }
         else if ((lzRespTypeEvent == frHeader.respType) && (lzEventReboot == frHeader.cmd))
         {
-            /* We need to detect reboot events to restart the reception */
-            uLzRebootDetected = 1;
+        	/* We need to detect reboot events to restart the reception */
+        	uLzRebootDetected = 1;
         }
 
-        PRINTF("\n\r");
+    	PRINTF("\n\r");
     }
     else
     {
-        PRINTF("\n Read frame failed!");
+    	PRINTF("\n Read frame failed!");
     }
 #endif
 
@@ -513,8 +506,8 @@ status_t LZ_COM_ReadFrame(const lz_drv_config_t* drvConfig,
  *                 received data.
  *
  *END**************************************************************************/
-status_t LZ_COM_WriteFrame(const lz_drv_config_t* drvConfig,
-    lz_wait_t wait, const lz_fr_raw_t* sendFrame)
+status_t LZ_COM_WriteFrame(const lz_drv_config_t *drvConfig,
+        lz_wait_t wait, const lz_fr_raw_t *sendFrame)
 {
     uint8_t     dummyBuffer[LZ_FR_MAX_SIZE_B];
     lz_fr_raw_t recvFrame = {
@@ -538,8 +531,8 @@ status_t LZ_COM_WriteFrame(const lz_drv_config_t* drvConfig,
  *                 to the frame.
  *
  *END**************************************************************************/
-status_t LZ_COM_ReadAfterWrite(const lz_drv_config_t* drvConfig, lz_wait_t wait,
-    const lz_fr_raw_t* sendFrame, lz_fr_raw_t* recvFrame, uint8_t recvBufferSize)
+status_t LZ_COM_ReadAfterWrite(const lz_drv_config_t *drvConfig, lz_wait_t wait,
+        const lz_fr_raw_t *sendFrame, lz_fr_raw_t *recvFrame, uint8_t recvBufferSize)
 {
     status_t  status = kStatus_Success;
     lz_wait_t waitWrite = lzWaitDis;    /* Wait option for writing only. */
@@ -568,7 +561,7 @@ status_t LZ_COM_ReadAfterWrite(const lz_drv_config_t* drvConfig, lz_wait_t wait,
      * Note: waiting for INT level is not useful when read data are discarded. */
     waitWrite = (lzWaitRDY_INT == wait) ? lzWaitRDY : wait;
     status = LZ_COM_ReadWriteFrame(drvConfig, waitWrite, sendFrame, recvFrame,
-        recvBufferSize);
+            recvBufferSize);
 
     if (kStatus_Success == status)
     {   /* Read a response. */
@@ -579,24 +572,24 @@ status_t LZ_COM_ReadAfterWrite(const lz_drv_config_t* drvConfig, lz_wait_t wait,
         *(sendFrame->frame + LZ_FR_LENGTH_OF) = 0x00U;
 
         status = LZ_COM_ReadWriteFrame(drvConfig, wait, sendFrame, recvFrame,
-            recvBufferSize);
+                recvBufferSize);
 
         /* Put the length value back to the send frame. */
         *(sendFrame->frame + LZ_FR_LENGTH_OF) = sendFrameLength;
     }
 
 #if(PRINT_SPI_MESSAGES)
-    PRINTF("\n\rSEND    : ");
-    for (counter = 0; counter < sendFrame->frameLen; counter++)
-        PRINTF("0x%X ", sendFrame->frame[counter]);
+	PRINTF("\n\rSEND    : ");
+	for(counter = 0; counter < sendFrame->frameLen; counter++ )
+		PRINTF("0x%X ",sendFrame->frame[counter]);
     status = LZ_RCI_ProcessHeader(sendFrame, &frHeader, &payloadLen);
 
-    PRINTF("\n\rRECEIVED : ");
-    for (counter = 0; counter < recvFrame->frameLen; counter++)
-        PRINTF("0x%X ", recvFrame->frame[counter]);
+	PRINTF("\n\rRECEIVED : ");
+	for(counter = 0; counter < recvFrame->frameLen; counter++ )
+		PRINTF("0x%X ",recvFrame->frame[counter]);
     status = LZ_RCI_ProcessHeader(recvFrame, &frHeader, &payloadLen);
 
-    PRINTF("\n\r");
+	PRINTF("\n\r");
 #endif
 
     return status;

@@ -47,8 +47,8 @@
  ******************************************************************************/
 
 #include "lz_rci.h"
-#include "utils/nxp_console_adapter.h"
-#include "utils/nxp_console.h"
+#include "nxp_console_adapter.h"
+#include "nxp_console.h"
 
 /*******************************************************************************
  * Defines

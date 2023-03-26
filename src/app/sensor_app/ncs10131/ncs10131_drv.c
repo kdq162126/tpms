@@ -36,13 +36,13 @@
       NXP Software/Source Code.
 */
 
-#include "Cpu.h"
-#include "ncs10131/ncs10131.h"
-#include "ncs10131/ncs10131_crc.h"
-#include "ncs10131/ncs10131_drv.h"
-#include "ncs10131/SPI_ncs10131.h"
-#include "aml/common_aml.h"
-#include "aml/wait_aml/wait_aml.h"
+#include "sdk_project_config.h"
+#include "ncs10131.h"
+#include "ncs10131_crc.h"
+#include "ncs10131_drv.h"
+#include "SPI_ncs10131.h"
+#include "common_aml.h"
+#include "wait_aml/wait_aml.h"
 
 
 #define NCS10131_SPI_ADDR		(0x00)

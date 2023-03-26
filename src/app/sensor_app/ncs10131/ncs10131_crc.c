@@ -36,8 +36,8 @@
       NXP Software/Source Code.
 */
 
-#include "Cpu.h"
-#include "ncs10131/ncs10131_crc.h"
+#include "sdk_project_config.h"
+#include "ncs10131_crc.h"
 
 
 

@@ -47,7 +47,6 @@
 * Includes
  ******************************************************************************/
 #include "spi_aml.h"
-#include "sdk_project_config.h"
 
 /*******************************************************************************
  * Global variables
@@ -88,8 +87,6 @@ void SPI_AML_MasterInit(aml_instance_t instance,
     #endif
     #elif (SDK_VERSION == SDK_S32)
     LPSPI_DRV_MasterInit(instance, &(g_lpspiState[instance]), spiSdkMasterConfig);
-	LPSPI_DRV_MasterInit(INST_LPSPI_1, &lpspi_1State, &lpspiCom1_MasterConfig0);
-
     AML_UNUSED(sourceClockHz);
     #endif
 }
@@ -311,7 +308,7 @@ void SPI_AML_SlaveFillSdkConfig(const spi_aml_slave_config_t *spiAmlSlaveConfig,
  *END**************************************************************************/
 void SPI_AML_MasterSelectDevice(aml_instance_t portInstance,
         uint8_t pinIndex,
-        volatile spi_aml_pcs_polarity_t pcsPolarity)
+        spi_aml_pcs_polarity_t pcsPolarity)
 {
 #if (SDK_VERSION == SDK_KSDK)
     AML_ASSERT(portInstance < FSL_FEATURE_SOC_PORT_COUNT);
@@ -324,12 +321,9 @@ void SPI_AML_MasterSelectDevice(aml_instance_t portInstance,
     if (pcsPolarity == spiPcsActiveLow)
     {
         GPIO_AML_ClearOutput(portInstance, pinIndex);
-        PINS_DRV_ClearPins(PTB, pinIndex);
-        return;
     }
     else
     {
-
         GPIO_AML_SetOutput(portInstance, pinIndex);
     }
 }
@@ -423,11 +417,10 @@ status_t SPI_AML_MasterTransfer(aml_instance_t instance,
 
 //    error = LPSPI_DRV_MasterTransferBlocking(instance, masterTransfer->txBuffer,
 //            masterTransfer->rxBuffer, masterTransfer->dataSize, SPI_AML_TIMEOUT);
-    // FIXME
-    error = LPSPI_DRV_MasterTransfer(instance, masterTransfer->txBuffer,
-    		masterTransfer->rxBuffer, masterTransfer->dataSize);
-    uint32_t bytesRemained = 0;
-    LPSPI_DRV_MasterGetTransferStatus(instance, bytesRemained);
+
+        error = LPSPI_DRV_MasterTransfer(instance, masterTransfer->txBuffer,
+                masterTransfer->rxBuffer, masterTransfer->dataSize);
+        while(LPSPI_DRV_MasterGetTransferStatus(instance, NULL) !=  STATUS_SUCCESS);
 
     if (error == STATUS_SUCCESS)
     {

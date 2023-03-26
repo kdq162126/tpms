@@ -37,7 +37,7 @@
 */
 
 #include <CDK.h>
-#include "Cpu.h"
+#include "sdk_project_config.h"
 #include "aml/gpio_aml.h"
 
 /**********************************************************************

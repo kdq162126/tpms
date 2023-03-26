@@ -37,7 +37,7 @@
 */
 
 #include "device_registers.h"
-#include "lf/FTM.h"
+#include "FTM.h"
 
 /* Note that pins are configured in PINS_DRV_Init().
  *

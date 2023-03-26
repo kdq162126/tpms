@@ -38,7 +38,7 @@
 
 #include <CDK.h>
 #include "gpio_int.h"
-#include "Cpu.h"
+#include "sdk_project_config.h"
 #include "lz/lz_init.h"
 #include "LED_RGB.h"
 #include "lz/lz_com_spi.h"

@@ -40,9 +40,9 @@
 #include "lf/LF.h"
 #include "callbacks.h"
 #include "lpuart_driver.h"
-#include "lpuart1.h"
 #include "utils/nxp_console.h"
 #include "handle_cmd.h"
+#include "sdk_project_config.h"
 
 /* Parsing bytes received */
 #define  CTRL_C    0x03
@@ -90,7 +90,7 @@ void UART_rxCallback(void *driverState, uart_event_t event, void *userData)
         	}
 
         	/* Update rx buffer */
-            LPUART_DRV_SetRxBuffer(INST_LPUART1, &gau8UartRxBuffer[u8UartBufferIndex], 1U);
+            LPUART_DRV_SetRxBuffer(INST_LPUART_1, &gau8UartRxBuffer[u8UartBufferIndex], 1U);
         }
         else /* Rx interrupts will be disabled in the ISR */
         {
@@ -106,7 +106,7 @@ void UART_rxCallback(void *driverState, uart_event_t event, void *userData)
  ************************************************************************************/
 void UART_EnableRxInterrupt (void)
 {
-    LPUART_DRV_ReceiveData(INST_LPUART1, gau8UartRxBuffer, 1U);
+    LPUART_DRV_ReceiveData(INST_LPUART_1, gau8UartRxBuffer, 1U);
 }
 
 /************************************************************************************

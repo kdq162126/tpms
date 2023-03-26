@@ -32,7 +32,7 @@ void HandleSensorAppTask(void* pv) {
 
 	/* Init LPUART1 - must be done before Lizard and sensors init
 	 * Set SDK_DEBUGCONSOLE to 1U to enable debug prints, set it to 0 to disable */
-	(void)DbgConsole_Init(BOARD_DEBUG_UART_BASEADDR, BOARD_DEBUG_UART_TYPE, &lpuart1_State, &lpuart1_InitConfig0);
+	(void)DbgConsole_Init(BOARD_DEBUG_UART_BASEADDR, BOARD_DEBUG_UART_TYPE, &lpUartState1, &lpuart_1_InitConfig0);
 
 	/* Lizard driver initialization */
 	RF_LZ_init();

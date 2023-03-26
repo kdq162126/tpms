@@ -39,7 +39,7 @@
 #ifndef GPIO_INT_H_
 #define GPIO_INT_H_
 
-#include "Cpu.h"
+#include "sdk_project_config.h"
 
 /**********************************************************************
  * Global variables

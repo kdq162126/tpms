@@ -52,7 +52,7 @@
 #include "common_aml.h"
 
 #if (SDK_VERSION == SDK_S32)
-#include "Cpu.h"
+#include "sdk_project_config.h"
 #include "pin_mux.h"
 #elif (SDK_VERSION == SDK_KSDK)
 #include "fsl_common.h"

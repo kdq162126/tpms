@@ -36,10 +36,10 @@
       NXP Software/Source Code.
 */
 
-#include "Cpu.h"
-#include "ncs10131/ncs10131_drv.h"
-#include "utils/nxp_console_adapter.h"
-#include "utils/nxp_console.h"
+#include "sdk_project_config.h"
+#include "ncs10131_drv.h"
+#include "nxp_console_adapter.h"
+#include "nxp_console.h"
 
 
 /* Temperature */

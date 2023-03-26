@@ -37,9 +37,9 @@
 */
 
 #include "device_registers.h"
-#include "lf/FTM.h"
+#include "FTM.h"
 #include "interrupt_manager.h"
-#include "lf/LF.h"
+#include "LF.h"
 
 
 void NVIC_init_IRQs (void);

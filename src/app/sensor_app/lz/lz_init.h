@@ -45,36 +45,35 @@
 #ifndef SOURCE_LZ_INIT_H_
 #define SOURCE_LZ_INIT_H_
 
- /*******************************************************************************
-  * Includes
-  ******************************************************************************/
+/*******************************************************************************
+ * Includes
+ ******************************************************************************/
 
 #include "lz_com_spi.h"
 #include "lz_rci_map.h"
 #include "lz_rci.h"
 #include "lz_types.h"
-#include "sdk_project_config.h"
 
-  /*******************************************************************************
-   * API
-   ******************************************************************************/
+/*******************************************************************************
+ * API
+ ******************************************************************************/
 
-   /*!
-    * @addtogroup lz_init_h_functions_group
-    * Module global functions.
-    */
-    /*! @{ */
-    /*!
-     * @brief Configuration of GPIOs used for the Lizard driver.
-     *
-     * Note that this function should not be used in SDK S32 when using
-     * pin_mux component.
-     *
-     * @param drvConfig Pointer to driver instance configuration.
-     *
-     * @return Status result of the function (kStatus_Success on success).
-     */
-status_t LZ_SetupGPIOs(const lz_drv_config_t* drvConfig);
+/*!
+ * @addtogroup lz_init_h_functions_group
+ * Module global functions.
+ */
+/*! @{ */
+/*!
+ * @brief Configuration of GPIOs used for the Lizard driver.
+ *
+ * Note that this function should not be used in SDK S32 when using
+ * pin_mux component.
+ *
+ * @param drvConfig Pointer to driver instance configuration.
+ *
+ * @return Status result of the function (kStatus_Success on success).
+ */
+status_t LZ_SetupGPIOs(const lz_drv_config_t *drvConfig);
 
 /*!
  * @brief Configures SPI module used by the Lizard driver.
@@ -90,8 +89,8 @@ status_t LZ_SetupGPIOs(const lz_drv_config_t* drvConfig);
  *
  * @return Status result of the function (kStatus_Success on success).
  */
-status_t LZ_SetupSPI(const lz_drv_config_t* drvConfig,
-   const spi_sdk_master_config_t* spiSdkMasterConfig);
+status_t LZ_SetupSPI(const lz_drv_config_t *drvConfig,
+        const spi_sdk_master_config_t *spiSdkMasterConfig);
 
 /*!
  * @brief Initializes the Lizard driver (invokes the boot routine).
@@ -103,7 +102,7 @@ status_t LZ_SetupSPI(const lz_drv_config_t* drvConfig,
  *
  * @return Status result of the function (kStatus_Success on success).
  */
-status_t LZ_Init(const lz_drv_config_t* drvConfig);
+status_t LZ_Init(const lz_drv_config_t *drvConfig);
 
 /*! @} */
 
