@@ -55,6 +55,11 @@
 			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/flexio/doxygen/flexio_driver.dox</locationURI>
 		</link>
 		<link>
+			<name>doc/SDK/platform/drivers/src/flexio/doxygen/flexio_i2c_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/flexio/doxygen/flexio_i2c_driver.dox</locationURI>
+		</link>
+		<link>
 			<name>doc/SDK/platform/drivers/src/flexio/doxygen/flexio_uart_driver.dox</name>
 			<type>1</type>
 			<locationURI>s32sdk_s32k1xx_rtm_402/platform/drivers/src/flexio/doxygen/flexio_uart_driver.dox</locationURI>

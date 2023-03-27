@@ -408,16 +408,6 @@
                   <data type="Version">1.0.0</data>
                </feature>
             </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.driver.lpi2c" description="LPI2C Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
-               <feature name="enabled" evaluation="equal">
-                  <data type="Boolean">true</data>
-               </feature>
-            </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.driver.lpi2c" description="Unsupported version of the LPI2C Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
-               <feature name="version" evaluation="equivalent">
-                  <data type="Version">1.0.0</data>
-               </feature>
-            </dependency>
          </dependencies>
          <generated_project_files>
             <file path="board/FreeRTOSConfig.h" update_enabled="true"/>
@@ -427,14 +417,10 @@
             <file path="board/peripherals_flexio_uart_config_1.h" update_enabled="true"/>
             <file path="board/peripherals_freertos_1.c" update_enabled="true"/>
             <file path="board/peripherals_freertos_1.h" update_enabled="true"/>
-            <file path="board/peripherals_lpi2c_config_1.c" update_enabled="true"/>
-            <file path="board/peripherals_lpi2c_config_1.h" update_enabled="true"/>
             <file path="board/peripherals_lpspi_1.c" update_enabled="true"/>
             <file path="board/peripherals_lpspi_1.h" update_enabled="true"/>
             <file path="board/peripherals_lpuart_1.c" update_enabled="true"/>
             <file path="board/peripherals_lpuart_1.h" update_enabled="true"/>
-            <file path="board/peripherals_lpuart_2.c" update_enabled="true"/>
-            <file path="board/peripherals_lpuart_2.h" update_enabled="true"/>
             <file path="board/peripherals_osif_1.c" update_enabled="true"/>
             <file path="board/peripherals_osif_1.h" update_enabled="true"/>
             <file path="board/sdk_project_config.h" update_enabled="true"/>
@@ -662,43 +648,6 @@
                            </struct>
                         </array>
                         <array name="lpspiSlaveConfig"/>
-                     </config_set>
-                  </instance>
-                  <instance name="lpi2c_config_1" uuid="c9764c4e-d82b-4a86-a41b-368fa9ad1240" type="lpi2c_config" type_id="lpi2c" mode="general" peripheral="LPI2C0" enabled="true" comment="" custom_name_enabled="false" editing_lock="false">
-                     <config_set name="lpi2c">
-                        <array name="masterConfigurationLPI2C">
-                           <struct name="0">
-                              <setting name="name" value="lpi2c0_MasterConfig0"/>
-                              <setting name="readonly" value="false"/>
-                              <setting name="lpi2c_master_cfg_slaveAddress" value="0x32"/>
-                              <setting name="lpi2c_master_cfg_is10bitAddr" value="false"/>
-                              <setting name="lpi2c_master_cfg_operatingMode" value="LPI2C_STANDARD_MODE"/>
-                              <setting name="lpi2c_master_cfg_baudRate" value="100000"/>
-                              <setting name="lpi2c_master_cfg_transferType" value="LPI2C_USING_INTERRUPTS"/>
-                              <setting name="lpi2c_master_cfg_dmaChannel" value="0"/>
-                              <setting name="lpi2c_master_cfg_masterCallback" value="NULL"/>
-                              <setting name="lpi2c_master_cfg_callbackParam" value="NULL"/>
-                           </struct>
-                        </array>
-                        <array name="slaveConfigurationLPI2C"/>
-                     </config_set>
-                  </instance>
-                  <instance name="lpuart_2" uuid="e1f9d97d-b8f6-4dad-82eb-672d7c5552a9" type="lpuart_config" type_id="lpuart" mode="general" peripheral="LPUART_0" enabled="true" comment="" custom_name_enabled="false" editing_lock="false">
-                     <config_set name="lpuart_driver">
-                        <setting name="lpuart_state_name" value="lpuart1_State"/>
-                        <array name="lpuart_configuration">
-                           <struct name="0">
-                              <setting name="name" value="lpuart1_InitConfig0"/>
-                              <setting name="readonly" value="true"/>
-                              <setting name="transferType" value="LPUART_USING_INTERRUPTS"/>
-                              <setting name="baudRate" value="9600"/>
-                              <setting name="parityMode" value="LPUART_PARITY_DISABLED"/>
-                              <setting name="stopBitCount" value="LPUART_ONE_STOP_BIT"/>
-                              <setting name="bitCountPerChar" value="LPUART_8_BITS_PER_CHAR"/>
-                              <setting name="rxDMAChannel" value="0"/>
-                              <setting name="txDMAChannel" value="0"/>
-                           </struct>
-                        </array>
                      </config_set>
                   </instance>
                </instances>

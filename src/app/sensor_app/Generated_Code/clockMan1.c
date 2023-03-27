@@ -54,7 +54,7 @@
  * Configuration structure for peripheral clock configuration 0
  * ************************************************************************* */
 /*! @brief peripheral clock configuration 0 */
-peripheral_clock_config_t peripheralClockConfig0[NUM_OF_PERIPHERAL_CLOCKS_0] = {
+peripheral_clock_config_t peripheralClockConfig0[_NUM_OF_PERIPHERAL_CLOCKS_0] = {
     {
         .clockName        = LPSPI0_CLK,
         .clkGate          = true,
@@ -242,7 +242,7 @@ clock_manager_user_config_t clockMan1_InitConfig0 = {
     .pccConfig =
     {
         .peripheralClocks = peripheralClockConfig0,                  /*!< Peripheral clock control configurations  */
-        .count = NUM_OF_PERIPHERAL_CLOCKS_0,                         /*!< Number of the peripheral clock control configurations  */
+        .count = _NUM_OF_PERIPHERAL_CLOCKS_0,                         /*!< Number of the peripheral clock control configurations  */
     },
     .simConfig =
     {
@@ -303,7 +303,7 @@ clock_manager_user_config_t clockMan1_InitConfig0 = {
 };
 
 /*! @brief Array of pointers to User configuration structures */
-clock_manager_user_config_t const * g_clockManConfigsArr[] = {
+clock_manager_user_config_t const * _g_clockManConfigsArr[] = {
     &clockMan1_InitConfig0
 };
 /*! @brief Array of pointers to User defined Callbacks configuration structures */

@@ -25,6 +25,13 @@ uint32_t x = 0;
 void HandleSensorAppTask(void* pv) {
 	(void)pv;
 
+	// FIXME: using example clock config
+	CLOCK_SYS_Init(_g_clockManConfigsArr, CLOCK_MANAGER_CONFIG_CNT,
+                 g_clockManCallbacksArr, CLOCK_MANAGER_CALLBACK_CNT);
+    CLOCK_SYS_UpdateConfiguration(0U, CLOCK_MANAGER_POLICY_AGREEMENT);
+
+//        PINS_DRV_Init(NUM_OF_CONFIGURED_PINS, g_pin_mux_InitConfigArr);
+    PINS_DRV_Init(NUM_OF_CONFIGURED_PINS0, g_pin_mux_InitConfigArr0);
 	/* GPIO install interrupts: install interrupts for the switches (buttons), and LZ INT signal */
 	GPIO_install_int();
 

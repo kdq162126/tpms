@@ -96,13 +96,13 @@ extern edma_state_t dmaController1_State;
 extern edma_chn_state_t dmaController1Chn0_State;
 
 /*! @brief Array of channel state structures */
-extern edma_chn_state_t * const edmaChnStateArray[EDMA_CONFIGURED_CHANNELS_COUNT];
+extern edma_chn_state_t * const _edmaChnStateArray[EDMA_CONFIGURED_CHANNELS_COUNT];
 
 /*! @brief eDma channel configuration 0 */
 extern edma_channel_config_t dmaController1Chn0_Config;
     
 /*! @brief Array of channel configuration structures */
-extern const edma_channel_config_t * const edmaChnConfigArray[EDMA_CONFIGURED_CHANNELS_COUNT];
+extern const edma_channel_config_t * const _edmaChnConfigArray[EDMA_CONFIGURED_CHANNELS_COUNT];
 
 /*! @brief Configuration declaration */
 extern const edma_user_config_t dmaController1_InitConfig0;

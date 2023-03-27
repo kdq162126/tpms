@@ -52,7 +52,7 @@ edma_state_t dmaController1_State;
 
 edma_chn_state_t dmaController1Chn0_State;
 
-edma_chn_state_t * const edmaChnStateArray[] = {
+edma_chn_state_t * const _edmaChnStateArray[] = {
     &dmaController1Chn0_State
 };
 
@@ -64,7 +64,7 @@ edma_channel_config_t dmaController1Chn0_Config = {
     .callbackParam = NULL,
     .enableTrigger = false
 };
-const edma_channel_config_t * const edmaChnConfigArray[] = {
+const edma_channel_config_t * const _edmaChnConfigArray[] = {
     &dmaController1Chn0_Config
 };
 

@@ -87,13 +87,13 @@ extern clock_manager_user_config_t clockMan1_InitConfig0;
 #define CLOCK_MANAGER_CONFIG_CNT 1U
 
 /*! @brief Array of pointers to User configuration structures */
-extern clock_manager_user_config_t const *g_clockManConfigsArr[];
+extern clock_manager_user_config_t const *_g_clockManConfigsArr[];
 
 /*! @brief User peripheral configuration structure 0 */
 extern peripheral_clock_config_t peripheralClockConfig0[];
 
 /*! @brief Count of peripheral clock user configurations */
-#define NUM_OF_PERIPHERAL_CLOCKS_0 12U
+#define _NUM_OF_PERIPHERAL_CLOCKS_0 12U
 
 
 /*! @brief Count of user Callbacks */
