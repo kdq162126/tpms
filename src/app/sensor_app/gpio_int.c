@@ -98,6 +98,8 @@ void GPIO_install_int (void)
     /* Enable S32 Button interrupt handler */
     INT_SYS_EnableIRQ(SW_S32_PORT_IRQN);
 
+    INT_SYS_SetPriority(SW_LZ_PORT_IRQN, 1);
+
     /* Init variables notifying the application that a button was pressed or INT signal occurred */
     u8Sw1_LZ_pressed = 0;
     u8Sw2_LZ_pressed = 0;

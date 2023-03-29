@@ -62,13 +62,13 @@
 
 uint8_t             sendBuffer[MAX_BUFFER_LENGTH];
 lz_fr_raw_t         sendFrame = {
-		sendBuffer,
-		0U
+        sendBuffer,
+        0U
 };
 uint8_t             recvBuffer[MAX_BUFFER_LENGTH];
 lz_fr_raw_t         recvFrame = {
-		recvBuffer,
-		0U
+        recvBuffer,
+        0U
 };
 
 lz_drv_config_t lzDrvConfig;
@@ -77,19 +77,19 @@ bool init_ok;
 uint8_t u8RxType = RX_TYPE_CONTINOUS; // for development purposes only
 
 /* Local functions */
-status_t RF_LZ_Read_Status(const lz_drv_config_t *drvConfig, lz_wait_t wait,
-        lz_fr_raw_t *sendFrame, lz_fr_raw_t *recvFrame, uint8_t recvBufferSize);
-static status_t RF_LZ_Start_Continuous_Reception (const lz_drv_config_t *drvConfig, lz_wait_t wait,
-        lz_fr_raw_t *sendFrame, lz_fr_raw_t *recvFrame, uint8_t recvBufferSize);
-static status_t RF_LZ_Start_Polling (const lz_drv_config_t *drvConfig, lz_wait_t wait,
-        lz_fr_raw_t *sendFrame, lz_fr_raw_t *recvFrame, uint8_t recvBufferSize);
+status_t RF_LZ_Read_Status(const lz_drv_config_t* drvConfig, lz_wait_t wait,
+    lz_fr_raw_t* sendFrame, lz_fr_raw_t* recvFrame, uint8_t recvBufferSize);
+static status_t RF_LZ_Start_Continuous_Reception(const lz_drv_config_t* drvConfig, lz_wait_t wait,
+    lz_fr_raw_t* sendFrame, lz_fr_raw_t* recvFrame, uint8_t recvBufferSize);
+static status_t RF_LZ_Start_Polling(const lz_drv_config_t* drvConfig, lz_wait_t wait,
+    lz_fr_raw_t* sendFrame, lz_fr_raw_t* recvFrame, uint8_t recvBufferSize);
 /* /!\ Below functions are for debug and development purposes only */
-static void RF_LZ_Check_Rx_Type (const lz_drv_config_t *drvConfig);
-static status_t RF_LZ_Check_Trim (const lz_drv_config_t *drvConfig);
-static status_t Read_1Bytes_DD_GET( const lz_drv_config_t *drvConfig, uint16_t u16Address, uint8_t *pu8Data, uint8_t u8PrintInfo );
-static status_t Read_2Bytes_DD_GET( const lz_drv_config_t *drvConfig, uint16_t u16Address, uint16_t *pu16Data, uint8_t u8PrintInfo );
-static status_t Write_1Bytes_DD_SET( const lz_drv_config_t *drvConfig, uint16_t u16Address, uint8_t u8Data, uint8_t u8PrintInfo );
-static status_t Write_2Bytes_DD_SET( const lz_drv_config_t *drvConfig, uint16_t u16Address, uint16_t u16Data, uint8_t u8PrintInfo );
+static void RF_LZ_Check_Rx_Type(const lz_drv_config_t* drvConfig);
+static status_t RF_LZ_Check_Trim(const lz_drv_config_t* drvConfig);
+static status_t Read_1Bytes_DD_GET(const lz_drv_config_t* drvConfig, uint16_t u16Address, uint8_t* pu8Data, uint8_t u8PrintInfo);
+static status_t Read_2Bytes_DD_GET(const lz_drv_config_t* drvConfig, uint16_t u16Address, uint16_t* pu16Data, uint8_t u8PrintInfo);
+static status_t Write_1Bytes_DD_SET(const lz_drv_config_t* drvConfig, uint16_t u16Address, uint8_t u8Data, uint8_t u8PrintInfo);
+static status_t Write_2Bytes_DD_SET(const lz_drv_config_t* drvConfig, uint16_t u16Address, uint16_t u16Data, uint8_t u8PrintInfo);
 
 
 /************************************************************************************
@@ -97,7 +97,7 @@ static status_t Write_2Bytes_DD_SET( const lz_drv_config_t *drvConfig, uint16_t 
  * Input: void
  * Output void
  ************************************************************************************/
-void RF_LZ_init (void)
+void RF_LZ_init(void)
 {
 
     /* Lizard driver initialization. */
@@ -115,7 +115,7 @@ void RF_LZ_init (void)
     lzDrvConfig.gpioConfig.rstPin.gpioInstance = LZ_RST_INST;
     lzDrvConfig.gpioConfig.rstPin.gpioPinNumber = LZ_RST_PIN;
 
-    if(LZ_SetupGPIOs(&lzDrvConfig) == kStatus_Success)
+    if (LZ_SetupGPIOs(&lzDrvConfig) == kStatus_Success)
     {
         /* The rest of SPI configuration depends on the MCU selection
         *  and must be set by the user. */
@@ -125,24 +125,24 @@ void RF_LZ_init (void)
         lzDrvConfig.spiConfig.clkPhase = spiClockPhaseFirstEdge;  /* CPHA = 0. */
         // FIXME
         lzDrvConfig.spiConfig.sourceClkHz = lpspiCom1_MasterConfig0.lpspiSrcClk;
-//        lzDrvConfig.spiConfig.sourceClkHz = lpspiCom1_MasterConfig0.lpspiSrcClk;
+        //        lzDrvConfig.spiConfig.sourceClkHz = lpspiCom1_MasterConfig0.lpspiSrcClk;
 
         lzDrvConfig.spiConfig.baudRate = 2000000U;  /* 2 MHz. */
 
-        if(LZ_SetupSPI(&lzDrvConfig, NULL) == kStatus_Success)
+        if (LZ_SetupSPI(&lzDrvConfig, NULL) == kStatus_Success)
         {
             /* Lizard driver initialization. */
-        	PRINTF("---------------------------------------------------------\n\r");
-        	PRINTF("SW version 1.0.0.3.9.20.18!\n\r");
-        	PRINTF("SPI init OK! Application started!\n\r");
-        	PRINTF("---------------------------------------------------------\n\r");
-        	LED_RGB_Off();
-        	status = LZ_Init(&lzDrvConfig);
+            PRINTF("---------------------------------------------------------\n\r");
+            PRINTF("SW version 1.0.0.3.9.20.18!\n\r");
+            PRINTF("SPI init OK! Application started!\n\r");
+            PRINTF("---------------------------------------------------------\n\r");
+            LED_RGB_Off();
+            status = LZ_Init(&lzDrvConfig);
         }
         else
         {
-    		PRINTF("\n\r SPI driver failed after reset \n\r ");
-    		LED_RGB_Red_On();
+            PRINTF("\n\r SPI driver failed after reset \n\r ");
+            LED_RGB_Red_On();
         }
     }
     /* End of Lizard driver initialization. */
@@ -154,60 +154,60 @@ void RF_LZ_init (void)
  * Output: void
  * Note: select the frequency (315MHz/434MHz) in CDK_tpms.h
  ************************************************************************************/
-void RF_LZ_config (void)
+void RF_LZ_config(void)
 {
-	init_ok = false; // assume false and update later
+    init_ok = false; // assume false and update later
 
-	/* First, check the trim settings of the device to make sure that Auto-Flush is enabled
-	 * and the appropriate fallback timeout duration is configured.
-	 *  /!\ IMPORTANT: trim configuration must be performed only once in the device lifetime. It
-	 * is recommended it to perform it at production, and not in the application project.
-	 * Here it is read and written for development and debug purposes only.
-	 */
-	if(status == kStatus_Success){
-		PRINTF("\n\r-------------------\n\r");
-		PRINTF("| CHECKING DEVICE TRIM |\n\r");
-		PRINTF("-----------------------\n\n\r");
-		PRINTF("\n\r");
-		status = RF_LZ_Check_Trim (&lzDrvConfig);
-		PRINTF("CHECKING DEVICE TRIM status %d\n\r",status);
-	}
+    /* First, check the trim settings of the device to make sure that Auto-Flush is enabled
+     * and the appropriate fallback timeout duration is configured.
+     *  /!\ IMPORTANT: trim configuration must be performed only once in the device lifetime. It
+     * is recommended it to perform it at production, and not in the application project.
+     * Here it is read and written for development and debug purposes only.
+     */
+    if (status == kStatus_Success) {
+        PRINTF("\n\r-------------------\n\r");
+        PRINTF("| CHECKING DEVICE TRIM |\n\r");
+        PRINTF("-----------------------\n\n\r");
+        PRINTF("\n\r");
+        status = RF_LZ_Check_Trim(&lzDrvConfig);
+        PRINTF("CHECKING DEVICE TRIM status %d\n\r", status);
+    }
 
-	/* Now configure the RF settings */
-	PRINTF("\n\r-------------------\n\r");
-	PRINTF("| SENDING CDK MESSAGES |\n\r");
-	PRINTF("-----------------------\n\n\r");
-	PRINTF("\n\r");
-	if(status == kStatus_Success){
-		init_ok = true;
-		uLzRebootDetected = 0;
-		status = CDK_RCI_LOG_Execute (&lzDrvConfig, lzWaitRDY_INT, &sendFrame, &recvFrame, MAX_BUFFER_LENGTH);	// Send all SPI commands from the CDK RCI log
-		PRINTF("-------------------------------\n\r");
-		PRINTF("|        LZ ROUTINE RUNNING    |\n\r");
-		PRINTF("-------------------------------\n\n\r");
+    /* Now configure the RF settings */
+    PRINTF("\n\r-------------------\n\r");
+    PRINTF("| SENDING CDK MESSAGES |\n\r");
+    PRINTF("-----------------------\n\n\r");
+    PRINTF("\n\r");
+    if (status == kStatus_Success) {
+        init_ok = true;
+        uLzRebootDetected = 0;
+        status = CDK_RCI_LOG_Execute(&lzDrvConfig, lzWaitRDY_INT, &sendFrame, &recvFrame, MAX_BUFFER_LENGTH);	// Send all SPI commands from the CDK RCI log
+        PRINTF("-------------------------------\n\r");
+        PRINTF("|        LZ ROUTINE RUNNING    |\n\r");
+        PRINTF("-------------------------------\n\n\r");
 
-		if(status == kStatus_Success){
-			LED_RGB_Blue_On();
-		}
-		else
-		{
-			PRINTF("\n\rAtleast one error in response of CDK messages!!! Please check response bytes  \n\r ");
-			LED_RGB_Yellow_On();
-		}
+        if (status == kStatus_Success) {
+            LED_RGB_Blue_On();
+        }
+        else
+        {
+            PRINTF("\n\rAtleast one error in response of CDK messages!!! Please check response bytes  \n\r ");
+            LED_RGB_Yellow_On();
+        }
 
-		/* In this demo, depending on the content of CDK.c file, Continuous Reception or Polling is configured.
-		 * After a reboot event, the S32K must restart the reception, either Continuous Reception or Polling,
-		 * depending on what was configured in the config above. In order to know which one was configured,
-		 * we read the NCK2910 status here and store the information in the variable u8RxType.
-		 * /!\ This is done for development purposes only. In a final application, the program knows whether
-		 * Continuous Reception or Polling is configured, so there is no need to read the status here. */
-		RF_LZ_Check_Rx_Type(&lzDrvConfig);
-	}
-	else
-	{
-		PRINTF("\n\r Reboot event failed after reset, or error while reading/writing the trim \n\r ");
-		LED_RGB_Red_On();
-	}
+        /* In this demo, depending on the content of CDK.c file, Continuous Reception or Polling is configured.
+         * After a reboot event, the S32K must restart the reception, either Continuous Reception or Polling,
+         * depending on what was configured in the config above. In order to know which one was configured,
+         * we read the NCK2910 status here and store the information in the variable u8RxType.
+         * /!\ This is done for development purposes only. In a final application, the program knows whether
+         * Continuous Reception or Polling is configured, so there is no need to read the status here. */
+        RF_LZ_Check_Rx_Type(&lzDrvConfig);
+    }
+    else
+    {
+        PRINTF("\n\r Reboot event failed after reset, or error while reading/writing the trim \n\r ");
+        LED_RGB_Red_On();
+    }
 }
 
 /************************************************************************************
@@ -216,82 +216,85 @@ void RF_LZ_config (void)
  * Input: void
  * Output: void
  ************************************************************************************/
-void RF_LZ_check_for_message_received (void)
+void RF_LZ_check_for_message_received(void)
 {
-	uint32_t press = 0;
-	float presure = 0;
-	uint8_t temp = 0;
-	float vol = 0.0;
+    uint32_t press = 0;
+    float presure = 0;
+    uint8_t temp = 0;
+    float vol = 0.0;
     if (init_ok == true)
     {
-    	/* An interrupt flag is configured to be set if there is an interrupt on INT PIN
-    	Due to CDK_RCI_LOG_Execute, it will be set many times and will be cleared after reading SPI response,
-    	after all the CDK exported messages are sent.
-    	Now if it sets again, then its due to radio message or event on lizard that needs to be read */
-    	if (u8LzIntSignal)
-    	{
-    		if(LZ_COM_ReadFrame(&lzDrvConfig, lzWaitRDY_INT, &recvFrame, MAX_BUFFER_LENGTH)==kStatus_Success)
-    		{
-    			LED_RGB_Green_On();
-    			int i = 0;
-    			PRINTF("Ma ID Lop: 0x");
-    			for(i = 10; i < 14; i++ )
-    				PRINTF("%02X", recvBuffer[i]);
-    			PRINTF("          \n\r");
-    			///*
-    			press = recvBuffer[16]*256 + recvBuffer[17];
-    			presure = 0.824*(float)press + 88.353;
-    			PRINTF("\n\rAp Suat Lop: %.2fKpa         \n\r", presure);
-    			vol = (float)(recvBuffer[22])/100 + 1.22;
-    			PRINTF("\n\rDIen ap Pin: %.2fV       \n\r", vol);
-    			temp = recvBuffer[23] - 55;
-    			PRINTF("\n\rNhiet Do Lop: %dC       \n\r", temp);
-    			//PRINTF("\n\r-----------------%d     \n\r", i);
-    			//PRINTF("Float: %2.2f\n", 3.245);
-    			//*/
+        /* An interrupt flag is configured to be set if there is an interrupt on INT PIN
+        Due to CDK_RCI_LOG_Execute, it will be set many times and will be cleared after reading SPI response,
+        after all the CDK exported messages are sent.
+        Now if it sets again, then its due to radio message or event on lizard that needs to be read */
+        if (u8LzIntSignal)
+        {
+            if (LZ_COM_ReadFrame(&lzDrvConfig, lzWaitRDY_INT, &recvFrame, MAX_BUFFER_LENGTH) == kStatus_Success)
+            {
+                LED_RGB_Green_On();
+                uint8_t sensorDataHeader[3] = { 0x1f, 0x0f, 0x80 };
+                if (memcmp(recvBuffer, sensorDataHeader, 3) == 0) {
+                    int i = 0;
+                    PRINTF("Ma ID Lop: 0x");
+                    for (i = 10; i < 14; i++)
+                        PRINTF("%02X", recvBuffer[i]);
+                    PRINTF("          \n\r");
+                    ///*
+                    press = recvBuffer[16] * 256 + recvBuffer[17];
+                    presure = 0.824 * (float)press + 88.353;
+                    PRINTF("\n\rAp Suat Lop: %.2fKpa         \n\r", presure);
+                    vol = (float)(recvBuffer[22]) / 100 + 1.22;
+                    PRINTF("\n\rDIen ap Pin: %.2fV       \n\r", vol);
+                    temp = recvBuffer[23] - 55;
+                    PRINTF("\n\rNhiet Do Lop: %dC       \n\r", temp);
+                    //PRINTF("\n\r-----------------%d     \n\r", i);
+                    //PRINTF("Float: %2.2f\n", 3.245);
+                    //*/
+                }
 
-    			/* If a reboot event was detected, we need to restart the reception */
-    			if (1 == uLzRebootDetected)
-    			{
-    				//PRINTF("\n\r 1 == uLzRebootDetected \n\r ");
-    				/* Depending on the configuration, restart Continuous Reception or Polling */
-    				if (RX_TYPE_POLLING == u8RxType)
-    				{
-        				if (kStatus_Success == RF_LZ_Start_Polling(&lzDrvConfig, lzWaitRDY_INT, &sendFrame, &recvFrame, MAX_BUFFER_LENGTH))
-        				{
-        					PRINTF("\n\r Reboot detected, Polling successfully restarted \n\r ");
-        				}
-        				else
-        				{
-        					PRINTF("\n\r Reboot detected but Polling could not be restarted \n\r ");
-        				}
-    				}
-    				else /* Continuous Reception */
-    				{
-    					PRINTF("\n\r else condition\n\r ");
-        				if (kStatus_Success == RF_LZ_Start_Continuous_Reception(&lzDrvConfig, lzWaitRDY_INT, &sendFrame, &recvFrame, MAX_BUFFER_LENGTH))
-        				{
-        					PRINTF("\n\r Reboot detected, Continuous Reception successfully restarted \n\r ");
-        				}
-        				else
-        				{
-        					PRINTF("\n\r Reboot detected but Continuous Reception could not be restarted \n\r ");
-        				}
-    				}
+                /* If a reboot event was detected, we need to restart the reception */
+                if (1 == uLzRebootDetected)
+                {
+                    //PRINTF("\n\r 1 == uLzRebootDetected \n\r ");
+                    /* Depending on the configuration, restart Continuous Reception or Polling */
+                    if (RX_TYPE_POLLING == u8RxType)
+                    {
+                        if (kStatus_Success == RF_LZ_Start_Polling(&lzDrvConfig, lzWaitRDY_INT, &sendFrame, &recvFrame, MAX_BUFFER_LENGTH))
+                        {
+                            PRINTF("\n\r Reboot detected, Polling successfully restarted \n\r ");
+                        }
+                        else
+                        {
+                            PRINTF("\n\r Reboot detected but Polling could not be restarted \n\r ");
+                        }
+                    }
+                    else /* Continuous Reception */
+                    {
+                        PRINTF("\n\r else condition\n\r ");
+                        if (kStatus_Success == RF_LZ_Start_Continuous_Reception(&lzDrvConfig, lzWaitRDY_INT, &sendFrame, &recvFrame, MAX_BUFFER_LENGTH))
+                        {
+                            PRINTF("\n\r Reboot detected, Continuous Reception successfully restarted \n\r ");
+                        }
+                        else
+                        {
+                            PRINTF("\n\r Reboot detected but Continuous Reception could not be restarted \n\r ");
+                        }
+                    }
 
-    				uLzRebootDetected = 0;
-    			}
-    			else{
-    				//PRINTF("\n\r 0 == uLzRebootDetected \n\r ");
-    			}
-    		}
-    		else
-    		{
-    			LED_RGB_Red_On();
-    			//PRINTF("\n\r xxxxxxxxxxxxxxxxxxxxxxxxxxxxx \n\r ");
-    		}
-    		LED_RGB_Off();
-    	}
+                    uLzRebootDetected = 0;
+                }
+                else {
+                    //PRINTF("\n\r 0 == uLzRebootDetected \n\r ");
+                }
+            }
+            else
+            {
+                LED_RGB_Red_On();
+                //PRINTF("\n\r xxxxxxxxxxxxxxxxxxxxxxxxxxxxx \n\r ");
+            }
+            LED_RGB_Off();
+        }
 
     } // end init ok
 }
@@ -301,19 +304,19 @@ void RF_LZ_check_for_message_received (void)
  * Input: parameters for the SPI transfer
  * Output: the status of the command execution
  ************************************************************************************/
-status_t RF_LZ_Read_Status (const lz_drv_config_t *drvConfig, lz_wait_t wait,
-        lz_fr_raw_t *sendFrame, lz_fr_raw_t *recvFrame, uint8_t recvBufferSize){
+status_t RF_LZ_Read_Status(const lz_drv_config_t* drvConfig, lz_wait_t wait,
+    lz_fr_raw_t* sendFrame, lz_fr_raw_t* recvFrame, uint8_t recvBufferSize) {
 
-	status_t Status = kStatus_Success;
-	status_t retStatus = kStatus_Success;
+    status_t Status = kStatus_Success;
+    status_t retStatus = kStatus_Success;
 
-	uint8_t COMMAND003_OS_STATUS[] = {0x03,0x06,0x00,0xc3};
-	sendFrame->frameLen = sizeof(COMMAND003_OS_STATUS);
-	sendFrame->frame = COMMAND003_OS_STATUS;
-	Status = LZ_COM_ReadAfterWrite(drvConfig, lzWaitRDY_INT, sendFrame, recvFrame, recvBufferSize);
-	if(Status!=kStatus_Success) {PRINTF("Error in COMMAND3"); retStatus = kStatus_Fail;}
+    uint8_t COMMAND003_OS_STATUS[] = { 0x03,0x06,0x00,0xc3 };
+    sendFrame->frameLen = sizeof(COMMAND003_OS_STATUS);
+    sendFrame->frame = COMMAND003_OS_STATUS;
+    Status = LZ_COM_ReadAfterWrite(drvConfig, lzWaitRDY_INT, sendFrame, recvFrame, recvBufferSize);
+    if (Status != kStatus_Success) { PRINTF("Error in COMMAND3"); retStatus = kStatus_Fail; }
 
-	return retStatus;
+    return retStatus;
 }
 
 /************************************************************************************
@@ -322,19 +325,19 @@ status_t RF_LZ_Read_Status (const lz_drv_config_t *drvConfig, lz_wait_t wait,
  * Input: parameters for the SPI transfer
  * Output: the status of the command execution
  ************************************************************************************/
-static status_t RF_LZ_Start_Continuous_Reception (const lz_drv_config_t *drvConfig, lz_wait_t wait,
-        lz_fr_raw_t *sendFrame, lz_fr_raw_t *recvFrame, uint8_t recvBufferSize){
+static status_t RF_LZ_Start_Continuous_Reception(const lz_drv_config_t* drvConfig, lz_wait_t wait,
+    lz_fr_raw_t* sendFrame, lz_fr_raw_t* recvFrame, uint8_t recvBufferSize) {
 
-	status_t Status = kStatus_Success;
-	status_t retStatus = kStatus_Success;
+    status_t Status = kStatus_Success;
+    status_t retStatus = kStatus_Success;
 
-	uint8_t COMMAND014_OS_SET_MODE[] = {0x05,0x06,0x01,0x03,0x00,0xcd};
-	sendFrame->frameLen = sizeof(COMMAND014_OS_SET_MODE);
-	sendFrame->frame = COMMAND014_OS_SET_MODE;
-	Status = LZ_COM_ReadAfterWrite(drvConfig, lzWaitRDY_INT, sendFrame, recvFrame, recvBufferSize);
-	if(Status!=kStatus_Success) {PRINTF("Error in COMMAND14"); retStatus = kStatus_Fail;}
+    uint8_t COMMAND014_OS_SET_MODE[] = { 0x05,0x06,0x01,0x03,0x00,0xcd };
+    sendFrame->frameLen = sizeof(COMMAND014_OS_SET_MODE);
+    sendFrame->frame = COMMAND014_OS_SET_MODE;
+    Status = LZ_COM_ReadAfterWrite(drvConfig, lzWaitRDY_INT, sendFrame, recvFrame, recvBufferSize);
+    if (Status != kStatus_Success) { PRINTF("Error in COMMAND14"); retStatus = kStatus_Fail; }
 
-	return retStatus;
+    return retStatus;
 }
 
 /************************************************************************************
@@ -342,19 +345,19 @@ static status_t RF_LZ_Start_Continuous_Reception (const lz_drv_config_t *drvConf
  * Input: parameters for the SPI transfer
  * Output: the status of the command execution
  ************************************************************************************/
-static status_t RF_LZ_Start_Polling (const lz_drv_config_t *drvConfig, lz_wait_t wait,
-        lz_fr_raw_t *sendFrame, lz_fr_raw_t *recvFrame, uint8_t recvBufferSize){
+static status_t RF_LZ_Start_Polling(const lz_drv_config_t* drvConfig, lz_wait_t wait,
+    lz_fr_raw_t* sendFrame, lz_fr_raw_t* recvFrame, uint8_t recvBufferSize) {
 
-	status_t Status = kStatus_Success;
-	status_t retStatus = kStatus_Success;
+    status_t Status = kStatus_Success;
+    status_t retStatus = kStatus_Success;
 
-	uint8_t COMMAND014_OS_SET_MODE[] = {0x05,0x06,0x01,0x04,0x00,0xa6};
-	sendFrame->frameLen = sizeof(COMMAND014_OS_SET_MODE);
-	sendFrame->frame = COMMAND014_OS_SET_MODE;
-	Status = LZ_COM_ReadAfterWrite(drvConfig, lzWaitRDY_INT, sendFrame, recvFrame, recvBufferSize);
-	if(Status!=kStatus_Success) {PRINTF("Error in COMMAND14"); retStatus = kStatus_Fail;}
+    uint8_t COMMAND014_OS_SET_MODE[] = { 0x05,0x06,0x01,0x04,0x00,0xa6 };
+    sendFrame->frameLen = sizeof(COMMAND014_OS_SET_MODE);
+    sendFrame->frame = COMMAND014_OS_SET_MODE;
+    Status = LZ_COM_ReadAfterWrite(drvConfig, lzWaitRDY_INT, sendFrame, recvFrame, recvBufferSize);
+    if (Status != kStatus_Success) { PRINTF("Error in COMMAND14"); retStatus = kStatus_Fail; }
 
-	return retStatus;
+    return retStatus;
 }
 
 /* /!\  /!\  /!\  /!\  /!\  /!\  /!\  /!\  /!\  /!\  /!\  /!\  /!\  /!\  /!\  /!\  /!\  */
@@ -366,20 +369,20 @@ static status_t RF_LZ_Start_Polling (const lz_drv_config_t *drvConfig, lz_wait_t
  * Input: pointer to Lizard driver configuration
  * Output: void
  ************************************************************************************/
-static void RF_LZ_Check_Rx_Type (const lz_drv_config_t *drvConfig)
+static void RF_LZ_Check_Rx_Type(const lz_drv_config_t* drvConfig)
 {
-	/* Assume it is Continuous Reception and update later if necessary */
-	u8RxType = RX_TYPE_CONTINOUS;
+    /* Assume it is Continuous Reception and update later if necessary */
+    u8RxType = RX_TYPE_CONTINOUS;
 
-	/* Read Status */
-	if (kStatus_Success == RF_LZ_Read_Status(&lzDrvConfig, lzWaitRDY_INT, &sendFrame, &recvFrame, MAX_BUFFER_LENGTH))
-	{
-		/* Check if the received message is a success message, and if polling is configured */
-		if ((0x00 == recvFrame.frame[5]) && (RX_TYPE_POLLING == recvFrame.frame[6]))
-		{
-			u8RxType = RX_TYPE_POLLING;
-		}
-	}
+    /* Read Status */
+    if (kStatus_Success == RF_LZ_Read_Status(&lzDrvConfig, lzWaitRDY_INT, &sendFrame, &recvFrame, MAX_BUFFER_LENGTH))
+    {
+        /* Check if the received message is a success message, and if polling is configured */
+        if ((0x00 == recvFrame.frame[5]) && (RX_TYPE_POLLING == recvFrame.frame[6]))
+        {
+            u8RxType = RX_TYPE_POLLING;
+        }
+    }
 }
 
 /************************************************************************************
@@ -388,42 +391,42 @@ static void RF_LZ_Check_Rx_Type (const lz_drv_config_t *drvConfig)
  * Input: pointer to Lizard driver configuration
  * Output: the status of the command execution
  ************************************************************************************/
-static status_t RF_LZ_Check_Trim (const lz_drv_config_t *drvConfig)
+static status_t RF_LZ_Check_Trim(const lz_drv_config_t* drvConfig)
 {
-	status_t Status = kStatus_Success;
-	status_t retStatus = kStatus_Success;
-	uint8_t u8TrimMiscCfg;
-	uint16_t u16TrimFallbackTout;
+    status_t Status = kStatus_Success;
+    status_t retStatus = kStatus_Success;
+    uint8_t u8TrimMiscCfg;
+    uint16_t u16TrimFallbackTout;
 
-	/* The trim settings are stored in EROM memory, which has a limited number of write
-	 * cycles. So, write the trim only if necessary i.e. only if it is not already configured.
-	 * So, first read the trim value, and then perform the write if the actual trim is different
-	 * from the desired trim */
+    /* The trim settings are stored in EROM memory, which has a limited number of write
+     * cycles. So, write the trim only if necessary i.e. only if it is not already configured.
+     * So, first read the trim value, and then perform the write if the actual trim is different
+     * from the desired trim */
 
-	/* Read auto-flush setting */
-	Status = Read_1Bytes_DD_GET(drvConfig, TRIM_MISC_CFG_ADDR, &u8TrimMiscCfg, 0);
+     /* Read auto-flush setting */
+    Status = Read_1Bytes_DD_GET(drvConfig, TRIM_MISC_CFG_ADDR, &u8TrimMiscCfg, 0);
 
-	/* Check value configured and perform write if necessary */
-	if (kStatus_Success != Status){
-		retStatus = Status;
-	}
-	else if (TRIM_AUTO_FLUSH_MASK != (u8TrimMiscCfg & TRIM_AUTO_FLUSH_MASK)){
-		u8TrimMiscCfg |= TRIM_AUTO_FLUSH_MASK; // Enable auto-flush
-		retStatus = Write_1Bytes_DD_SET(drvConfig, TRIM_MISC_CFG_ADDR, u8TrimMiscCfg, 0);
-	}
+    /* Check value configured and perform write if necessary */
+    if (kStatus_Success != Status) {
+        retStatus = Status;
+    }
+    else if (TRIM_AUTO_FLUSH_MASK != (u8TrimMiscCfg & TRIM_AUTO_FLUSH_MASK)) {
+        u8TrimMiscCfg |= TRIM_AUTO_FLUSH_MASK; // Enable auto-flush
+        retStatus = Write_1Bytes_DD_SET(drvConfig, TRIM_MISC_CFG_ADDR, u8TrimMiscCfg, 0);
+    }
 
-	/* Read fallback timeout setting */
-	Status = Read_2Bytes_DD_GET(drvConfig, TRIM_FALLBACK_TOUT_ADDR, &u16TrimFallbackTout, 0);
+    /* Read fallback timeout setting */
+    Status = Read_2Bytes_DD_GET(drvConfig, TRIM_FALLBACK_TOUT_ADDR, &u16TrimFallbackTout, 0);
 
-	/* Check value configured and perform write if necessary */
-	if (kStatus_Success != Status){
-		retStatus = Status;
-	}
-	else if ((uint16_t)(TRIM_FALLBACK_TOUT_VALUE) != u16TrimFallbackTout){
-		retStatus |= Write_2Bytes_DD_SET(drvConfig, TRIM_FALLBACK_TOUT_ADDR, TRIM_FALLBACK_TOUT_VALUE, 0);
-	}
+    /* Check value configured and perform write if necessary */
+    if (kStatus_Success != Status) {
+        retStatus = Status;
+    }
+    else if ((uint16_t)(TRIM_FALLBACK_TOUT_VALUE) != u16TrimFallbackTout) {
+        retStatus |= Write_2Bytes_DD_SET(drvConfig, TRIM_FALLBACK_TOUT_ADDR, TRIM_FALLBACK_TOUT_VALUE, 0);
+    }
 
-	return retStatus;
+    return retStatus;
 }
 
 /************************************************************************************
@@ -435,13 +438,13 @@ static status_t RF_LZ_Check_Trim (const lz_drv_config_t *drvConfig)
  * u8PrintInfo: 1 to print transfer info, 0 otherwise
  * Output: the status of the command execution
  ************************************************************************************/
-static status_t Read_1Bytes_DD_GET( const lz_drv_config_t *drvConfig, uint16_t u16Address, uint8_t *pu8Data, uint8_t u8PrintInfo )
+static status_t Read_1Bytes_DD_GET(const lz_drv_config_t* drvConfig, uint16_t u16Address, uint8_t* pu8Data, uint8_t u8PrintInfo)
 {
     status_t    status;
     uint8_t     SendBuffer[20];
 
     /* clear buffer */
-    (void) memset((void *)SendBuffer, 0x00U, (size_t)20);
+    (void)memset((void*)SendBuffer, 0x00U, (size_t)20);
 
     lz_fr_raw_t SendFrame = {
             SendBuffer,
@@ -451,7 +454,7 @@ static status_t Read_1Bytes_DD_GET( const lz_drv_config_t *drvConfig, uint16_t u
     uint8_t     ReceiveBuffer[20];
 
     /* clear buffer */
-    (void) memset((void *)ReceiveBuffer, 0x00U, (size_t)20);
+    (void)memset((void*)ReceiveBuffer, 0x00U, (size_t)20);
 
     lz_fr_raw_t ReceiveFrame = {
             ReceiveBuffer,
@@ -459,36 +462,36 @@ static status_t Read_1Bytes_DD_GET( const lz_drv_config_t *drvConfig, uint16_t u
     };
 
     /* Read 1 Bytes, Address 0x0000 */
-    uint8_t payload[]      = { 0x01, 0x00, 0x00 };
-    uint8_t payloadLen     = sizeof( payload );
+    uint8_t payload[] = { 0x01, 0x00, 0x00 };
+    uint8_t payloadLen = sizeof(payload);
 
     payload[1] = (uint8_t)(u16Address & 0x00FF);
     payload[2] = (uint8_t)(u16Address >> 8);
 
-    LZ_RCI_CreateFrame( lzCmdDdGet, payload, payloadLen, &SendFrame );
+    LZ_RCI_CreateFrame(lzCmdDdGet, payload, payloadLen, &SendFrame);
 
-    if( u8PrintInfo )
+    if (u8PrintInfo)
     {
         uint8_t counter;
-        PRINTF("\n\rLen  : %d\n\r", SendFrame.frameLen );
+        PRINTF("\n\rLen  : %d\n\r", SendFrame.frameLen);
         PRINTF("MOSI : ");
-        for( counter = 0; counter < SendFrame.frameLen; counter++ ){
-            PRINTF("0x%02X ",SendFrame.frame[counter]);
+        for (counter = 0; counter < SendFrame.frameLen; counter++) {
+            PRINTF("0x%02X ", SendFrame.frame[counter]);
         }
         PRINTF("\n\r");
     }
 
-    status = LZ_COM_ReadAfterWrite( drvConfig, lzWaitRDY_INT, &SendFrame, &ReceiveFrame, 255 );
+    status = LZ_COM_ReadAfterWrite(drvConfig, lzWaitRDY_INT, &SendFrame, &ReceiveFrame, 255);
 
-    if( status == kStatus_Success )
+    if (status == kStatus_Success)
     {
         uint8_t counter;
-        if( u8PrintInfo )
+        if (u8PrintInfo)
         {
-            PRINTF("Len  : %d\n\r", ReceiveFrame.frameLen );
+            PRINTF("Len  : %d\n\r", ReceiveFrame.frameLen);
             PRINTF("MISO : ");
-            for(counter = 0; counter < ReceiveFrame.frameLen; counter++ ){
-                PRINTF("0x%02X ",ReceiveFrame.frame[counter]);
+            for (counter = 0; counter < ReceiveFrame.frameLen; counter++) {
+                PRINTF("0x%02X ", ReceiveFrame.frame[counter]);
             }
             PRINTF("\n\r");
         }
@@ -500,7 +503,7 @@ static status_t Read_1Bytes_DD_GET( const lz_drv_config_t *drvConfig, uint16_t u
 
     *pu8Data = ReceiveFrame.frame[6];
 
-   return status;
+    return status;
 }
 
 /************************************************************************************
@@ -512,13 +515,13 @@ static status_t Read_1Bytes_DD_GET( const lz_drv_config_t *drvConfig, uint16_t u
  * u8PrintInfo: 1 to print transfer info, 0 otherwise
  * Output: the status of the command execution
  ************************************************************************************/
-static status_t Read_2Bytes_DD_GET( const lz_drv_config_t *drvConfig, uint16_t u16Address, uint16_t *pu16Data, uint8_t u8PrintInfo )
+static status_t Read_2Bytes_DD_GET(const lz_drv_config_t* drvConfig, uint16_t u16Address, uint16_t* pu16Data, uint8_t u8PrintInfo)
 {
     status_t    status;
     uint8_t     SendBuffer[20];
 
     /* clear buffer */
-    (void) memset((void *)SendBuffer, 0x00U, (size_t)20);
+    (void)memset((void*)SendBuffer, 0x00U, (size_t)20);
 
     lz_fr_raw_t SendFrame = {
             SendBuffer,
@@ -528,7 +531,7 @@ static status_t Read_2Bytes_DD_GET( const lz_drv_config_t *drvConfig, uint16_t u
     uint8_t     ReceiveBuffer[20];
 
     /* clear buffer */
-    (void) memset((void *)ReceiveBuffer, 0x00U, (size_t)20);
+    (void)memset((void*)ReceiveBuffer, 0x00U, (size_t)20);
 
     lz_fr_raw_t ReceiveFrame = {
             ReceiveBuffer,
@@ -536,36 +539,36 @@ static status_t Read_2Bytes_DD_GET( const lz_drv_config_t *drvConfig, uint16_t u
     };
 
     /* Read 2 Bytes, Address 0x0000 */
-    uint8_t payload[]      = { 0x02, 0x00, 0x00 };
-    uint8_t payloadLen     = sizeof( payload );
+    uint8_t payload[] = { 0x02, 0x00, 0x00 };
+    uint8_t payloadLen = sizeof(payload);
 
     payload[1] = (uint8_t)(u16Address & 0x00FF);
     payload[2] = (uint8_t)(u16Address >> 8);
 
-    LZ_RCI_CreateFrame( lzCmdDdGet, payload, payloadLen, &SendFrame );
+    LZ_RCI_CreateFrame(lzCmdDdGet, payload, payloadLen, &SendFrame);
 
-    if( u8PrintInfo )
+    if (u8PrintInfo)
     {
         uint8_t counter;
-        PRINTF("\n\rLen  : %d\n\r", SendFrame.frameLen );
+        PRINTF("\n\rLen  : %d\n\r", SendFrame.frameLen);
         PRINTF("MOSI : ");
-        for( counter = 0; counter < SendFrame.frameLen; counter++ ){
-            PRINTF("0x%02X ",SendFrame.frame[counter]);
+        for (counter = 0; counter < SendFrame.frameLen; counter++) {
+            PRINTF("0x%02X ", SendFrame.frame[counter]);
         }
         PRINTF("\n\r");
     }
 
-    status = LZ_COM_ReadAfterWrite( drvConfig, lzWaitRDY_INT, &SendFrame, &ReceiveFrame, 255 );
+    status = LZ_COM_ReadAfterWrite(drvConfig, lzWaitRDY_INT, &SendFrame, &ReceiveFrame, 255);
 
-    if( status == kStatus_Success )
+    if (status == kStatus_Success)
     {
         uint8_t counter;
-        if( u8PrintInfo )
+        if (u8PrintInfo)
         {
-            PRINTF("Len  : %d\n\r", ReceiveFrame.frameLen );
+            PRINTF("Len  : %d\n\r", ReceiveFrame.frameLen);
             PRINTF("MISO : ");
-            for(counter = 0; counter < ReceiveFrame.frameLen; counter++ ){
-                PRINTF("0x%02X ",ReceiveFrame.frame[counter]);
+            for (counter = 0; counter < ReceiveFrame.frameLen; counter++) {
+                PRINTF("0x%02X ", ReceiveFrame.frame[counter]);
             }
             PRINTF("\n\r");
         }
@@ -579,7 +582,7 @@ static status_t Read_2Bytes_DD_GET( const lz_drv_config_t *drvConfig, uint16_t u
     pu16Data++;
     *pu16Data = ReceiveFrame.frame[7];
 
-   return status;
+    return status;
 }
 
 /************************************************************************************
@@ -591,13 +594,13 @@ static status_t Read_2Bytes_DD_GET( const lz_drv_config_t *drvConfig, uint16_t u
  * u8PrintInfo: 1 to print transfer info, 0 otherwise
  * Output: the status of the command execution
  ************************************************************************************/
-static status_t Write_1Bytes_DD_SET( const lz_drv_config_t *drvConfig, uint16_t u16Address, uint8_t u8Data, uint8_t u8PrintInfo )
+static status_t Write_1Bytes_DD_SET(const lz_drv_config_t* drvConfig, uint16_t u16Address, uint8_t u8Data, uint8_t u8PrintInfo)
 {
     status_t    status;
     uint8_t     SendBuffer[20];
 
     /* clear buffer */
-    (void) memset((void *)SendBuffer, 0x00U, (size_t)20);
+    (void)memset((void*)SendBuffer, 0x00U, (size_t)20);
 
     lz_fr_raw_t SendFrame = {
             SendBuffer,
@@ -607,7 +610,7 @@ static status_t Write_1Bytes_DD_SET( const lz_drv_config_t *drvConfig, uint16_t 
     uint8_t     ReceiveBuffer[20];
 
     /* clear buffer */
-    (void) memset((void *)ReceiveBuffer, 0x00U, (size_t)20);
+    (void)memset((void*)ReceiveBuffer, 0x00U, (size_t)20);
 
     lz_fr_raw_t ReceiveFrame = {
             ReceiveBuffer,
@@ -615,37 +618,37 @@ static status_t Write_1Bytes_DD_SET( const lz_drv_config_t *drvConfig, uint16_t 
     };
 
     /* Write 1 Bytes, Address 0x0000, Data 0x00 */
-    uint8_t payload[]      = { 0x01, 0x00, 0x00, 0x00 };
-    uint8_t payloadLen     = sizeof( payload );
+    uint8_t payload[] = { 0x01, 0x00, 0x00, 0x00 };
+    uint8_t payloadLen = sizeof(payload);
 
     payload[1] = (uint8_t)(u16Address & 0x00FF);
     payload[2] = (uint8_t)(u16Address >> 8);
     payload[3] = (uint8_t)(u8Data);
 
-    LZ_RCI_CreateFrame( lzCmdDdSet, payload, payloadLen, &SendFrame );
+    LZ_RCI_CreateFrame(lzCmdDdSet, payload, payloadLen, &SendFrame);
 
-    if( u8PrintInfo )
+    if (u8PrintInfo)
     {
         uint8_t counter;
-        PRINTF("\n\rLen  : %d\n\r", SendFrame.frameLen );
+        PRINTF("\n\rLen  : %d\n\r", SendFrame.frameLen);
         PRINTF("MOSI : ");
-        for( counter = 0; counter < SendFrame.frameLen; counter++ ){
-            PRINTF("0x%02X ",SendFrame.frame[counter]);
+        for (counter = 0; counter < SendFrame.frameLen; counter++) {
+            PRINTF("0x%02X ", SendFrame.frame[counter]);
         }
         PRINTF("\n\r");
     }
 
-    status = LZ_COM_ReadAfterWrite( drvConfig, lzWaitRDY_INT, &SendFrame, &ReceiveFrame, 255 );
+    status = LZ_COM_ReadAfterWrite(drvConfig, lzWaitRDY_INT, &SendFrame, &ReceiveFrame, 255);
 
-    if( status == kStatus_Success )
+    if (status == kStatus_Success)
     {
         uint8_t counter;
-        if( u8PrintInfo )
+        if (u8PrintInfo)
         {
-            PRINTF("Len  : %d\n\r", ReceiveFrame.frameLen );
+            PRINTF("Len  : %d\n\r", ReceiveFrame.frameLen);
             PRINTF("MISO : ");
-            for(counter = 0; counter < ReceiveFrame.frameLen; counter++ ){
-                PRINTF("0x%02X ",ReceiveFrame.frame[counter]);
+            for (counter = 0; counter < ReceiveFrame.frameLen; counter++) {
+                PRINTF("0x%02X ", ReceiveFrame.frame[counter]);
             }
             PRINTF("\n\r");
         }
@@ -655,7 +658,7 @@ static status_t Write_1Bytes_DD_SET( const lz_drv_config_t *drvConfig, uint16_t 
         PRINTF("\n Read frame failed!");
     }
 
-   return status;
+    return status;
 }
 
 /************************************************************************************
@@ -667,13 +670,13 @@ static status_t Write_1Bytes_DD_SET( const lz_drv_config_t *drvConfig, uint16_t 
  * u8PrintInfo: 1 to print transfer info, 0 otherwise
  * Output: the status of the command execution
  ************************************************************************************/
-static status_t Write_2Bytes_DD_SET( const lz_drv_config_t *drvConfig, uint16_t u16Address, uint16_t u16Data, uint8_t u8PrintInfo )
+static status_t Write_2Bytes_DD_SET(const lz_drv_config_t* drvConfig, uint16_t u16Address, uint16_t u16Data, uint8_t u8PrintInfo)
 {
     status_t    status;
     uint8_t     SendBuffer[20];
 
     /* clear buffer */
-    (void) memset((void *)SendBuffer, 0x00U, (size_t)20);
+    (void)memset((void*)SendBuffer, 0x00U, (size_t)20);
 
     lz_fr_raw_t SendFrame = {
             SendBuffer,
@@ -683,7 +686,7 @@ static status_t Write_2Bytes_DD_SET( const lz_drv_config_t *drvConfig, uint16_t 
     uint8_t     ReceiveBuffer[20];
 
     /* clear buffer */
-    (void) memset((void *)ReceiveBuffer, 0x00U, (size_t)20);
+    (void)memset((void*)ReceiveBuffer, 0x00U, (size_t)20);
 
     lz_fr_raw_t ReceiveFrame = {
             ReceiveBuffer,
@@ -691,38 +694,38 @@ static status_t Write_2Bytes_DD_SET( const lz_drv_config_t *drvConfig, uint16_t 
     };
 
     /* Write 2 Bytes, Address 0x0000, Data 0x0000 */
-    uint8_t payload[]      = { 0x02, 0x00, 0x00, 0x00, 0x00 };
-    uint8_t payloadLen     = sizeof( payload );
+    uint8_t payload[] = { 0x02, 0x00, 0x00, 0x00, 0x00 };
+    uint8_t payloadLen = sizeof(payload);
 
     payload[1] = (uint8_t)(u16Address & 0x00FF);
     payload[2] = (uint8_t)(u16Address >> 8);
     payload[3] = (uint8_t)(u16Data & 0x00FF);
     payload[4] = (uint8_t)(u16Data >> 8);
 
-    LZ_RCI_CreateFrame( lzCmdDdSet, payload, payloadLen, &SendFrame );
+    LZ_RCI_CreateFrame(lzCmdDdSet, payload, payloadLen, &SendFrame);
 
-    if( u8PrintInfo )
+    if (u8PrintInfo)
     {
         uint8_t counter;
-        PRINTF("\n\rLen  : %d\n\r", SendFrame.frameLen );
+        PRINTF("\n\rLen  : %d\n\r", SendFrame.frameLen);
         PRINTF("MOSI : ");
-        for( counter = 0; counter < SendFrame.frameLen; counter++ ){
-            PRINTF("0x%02X ",SendFrame.frame[counter]);
+        for (counter = 0; counter < SendFrame.frameLen; counter++) {
+            PRINTF("0x%02X ", SendFrame.frame[counter]);
         }
         PRINTF("\n\r");
     }
 
-    status = LZ_COM_ReadAfterWrite( drvConfig, lzWaitRDY_INT, &SendFrame, &ReceiveFrame, 255 );
+    status = LZ_COM_ReadAfterWrite(drvConfig, lzWaitRDY_INT, &SendFrame, &ReceiveFrame, 255);
 
-    if( status == kStatus_Success )
+    if (status == kStatus_Success)
     {
         uint8_t counter;
-        if( u8PrintInfo )
+        if (u8PrintInfo)
         {
-            PRINTF("Len  : %d\n\r", ReceiveFrame.frameLen );
+            PRINTF("Len  : %d\n\r", ReceiveFrame.frameLen);
             PRINTF("MISO : ");
-            for(counter = 0; counter < ReceiveFrame.frameLen; counter++ ){
-                PRINTF("0x%02X ",ReceiveFrame.frame[counter]);
+            for (counter = 0; counter < ReceiveFrame.frameLen; counter++) {
+                PRINTF("0x%02X ", ReceiveFrame.frame[counter]);
             }
             PRINTF("\n\r");
         }
@@ -732,6 +735,6 @@ static status_t Write_2Bytes_DD_SET( const lz_drv_config_t *drvConfig, uint16_t 
         PRINTF("\n Read frame failed!");
     }
 
-   return status;
+    return status;
 }
 

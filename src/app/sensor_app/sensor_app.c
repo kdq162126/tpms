@@ -88,7 +88,7 @@ void HandleSensorAppTask(void* pv) {
 		/* Check if we have received an RF frame and display it */
 		RF_LZ_check_for_message_received();
 		PRINTF("\n\r-----------------%d     \n\r", x);
-		OSIF_TimeDelay(1000);
+		OSIF_TimeDelay(500);
 		/* Check if we have received a command via UART and execute it */
 		if (1 == gu8CmdComplete)
 		{
