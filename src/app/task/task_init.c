@@ -13,6 +13,7 @@ void TaskInit(void) {
         xTaskCreate(SystemHandleTask, "System", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 4U, NULL);
         xTaskCreate(MqttHandleTask, "MQTT", 256, NULL, configMAX_PRIORITIES - 5U, NULL);
         xTaskCreate(HandleSensorAppTask, "Sensor", 512, NULL, configMAX_PRIORITIES - 5U, NULL);
+        xTaskCreate(DisplayTask, "Display", 256, NULL, configMAX_PRIORITIES - 5U, NULL);
 
         vTaskStartScheduler();
     }

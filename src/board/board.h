@@ -10,6 +10,7 @@
 
 #include "core_hw.h"
 #include "uart_hw.h"
+#include "i2c_hw.h"
 
 #define LTE_UART_INTERRUPT_PRIORITY             (2)
 
