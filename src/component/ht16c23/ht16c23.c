@@ -14,9 +14,8 @@ static Byte _txBuffer[72] = {
     {.val = 0x00},
 };
 
-void LcdDriverInit(LcdDriver* this, void(*writeHandle)(uint8_t* buff, uint32_t len)) {
+void LcdDriverInit(LcdDriver* this) {
     this->dataBuff = &_txBuffer[2];
-    this->write = writeHandle;
 }
 
 void LcdDriverConfigSettings(LcdDriver* this, uint8_t driverMode) {

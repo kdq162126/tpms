@@ -12,7 +12,7 @@ void TaskInit(void) {
     {
         xTaskCreate(SystemHandleTask, "System", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 2U, NULL);
         // xTaskCreate(MqttHandleTask, "MQTT", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 3U, NULL);
-        xTaskCreate(DisplayTask, "Display", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 3U, NULL);
+        xTaskCreate(DisplayTask, "Display", 1024, NULL, configMAX_PRIORITIES - 3U, NULL);
 
         vTaskStartScheduler();
     }

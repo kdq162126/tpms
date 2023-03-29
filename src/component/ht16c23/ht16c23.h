@@ -10,7 +10,7 @@
 
 #include "segment.h"
 
-#define LCD_BUFFER_LENGTH                       40
+#define LCD_BUFFER_LENGTH                       26
 
 #define HT16C23_DISPLAY_DATA_CMD                (0x80)
 #define HT16C23_DRIVE_MODE_CMD                  (0x82)
@@ -33,7 +33,7 @@ struct LcdDriver_t {
     void (*write)(uint8_t* buff, uint32_t len);
 };
 
-void LcdDriverInit(LcdDriver* this, void(*writeHandle)(uint8_t* buff, uint32_t len));
+void LcdDriverInit(LcdDriver* this);
 void LcdDriverConfigSettings(LcdDriver* this, uint8_t driveMode);
 void LcdDriverWriteRamPages(LcdDriver* this, uint32_t len);
 
