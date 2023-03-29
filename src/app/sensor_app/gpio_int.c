@@ -55,9 +55,9 @@
  **********************************************************************/
 
 
-/**********************************************************************
- * Local macros
- **********************************************************************/
+ /**********************************************************************
+  * Local macros
+  **********************************************************************/
 #define SW_INT_LZ_INSTANCE	instanceD
 #define SW_S32_INSTANCE		instanceC
 #define SW_LZ_PORT_IRQN		PORTD_IRQn
@@ -68,9 +68,9 @@
 #define SW3_S32_PIN_NB		(uint8_t)(13)
 #define LZ_INT_PIN_NB		(uint8_t)(14)
 
-/**********************************************************************
- * Global variables
- **********************************************************************/
+  /**********************************************************************
+   * Global variables
+   **********************************************************************/
 uint8_t u8Sw1_LZ_pressed;
 uint8_t u8Sw2_LZ_pressed;
 uint8_t u8Sw2_S32_pressed;
@@ -80,80 +80,80 @@ uint8_t u8LzIntSignal;
 /**********************************************************************
  * Local declarations
  **********************************************************************/
-void vPort_D_ISRHandler (void);
-void vPort_C_ISRHandler (void);
+void vPort_D_ISRHandler(void);
+void vPort_C_ISRHandler(void);
 
 
-void GPIO_install_int (void)
+void GPIO_install_int(void)
 {
-	/* Install interrupts for GPIOs */
+   /* Install interrupts for GPIOs */
 
-	/* Install LZ Button & INT interrupt handler */
-    INT_SYS_InstallHandler(SW_LZ_PORT_IRQN, vPort_D_ISRHandler, (isr_t *)NULL);
-    /* Enable LZ Button interrupt handler */
-    INT_SYS_EnableIRQ(SW_LZ_PORT_IRQN);
+   /* Install LZ Button & INT interrupt handler */
+   INT_SYS_InstallHandler(SW_LZ_PORT_IRQN, vPort_D_ISRHandler, (isr_t*)NULL);
+   /* Enable LZ Button interrupt handler */
+   INT_SYS_EnableIRQ(SW_LZ_PORT_IRQN);
 
-	/* Install S32 Button interrupt handler */
-    INT_SYS_InstallHandler(SW_S32_PORT_IRQN, vPort_C_ISRHandler, (isr_t *)NULL);
-    /* Enable S32 Button interrupt handler */
-    INT_SYS_EnableIRQ(SW_S32_PORT_IRQN);
+   /* Install S32 Button interrupt handler */
+   INT_SYS_InstallHandler(SW_S32_PORT_IRQN, vPort_C_ISRHandler, (isr_t*)NULL);
+   /* Enable S32 Button interrupt handler */
+   INT_SYS_EnableIRQ(SW_S32_PORT_IRQN);
 
-    INT_SYS_SetPriority(SW_LZ_PORT_IRQN, 1);
+   INT_SYS_SetPriority(SW_LZ_PORT_IRQN, 2);
 
-    /* Init variables notifying the application that a button was pressed or INT signal occurred */
-    u8Sw1_LZ_pressed = 0;
-    u8Sw2_LZ_pressed = 0;
-    u8Sw2_S32_pressed = 0;
-    u8Sw3_S32_pressed = 0;
-    u8LzIntSignal = 0;
+   /* Init variables notifying the application that a button was pressed or INT signal occurred */
+   u8Sw1_LZ_pressed = 0;
+   u8Sw2_LZ_pressed = 0;
+   u8Sw2_S32_pressed = 0;
+   u8Sw3_S32_pressed = 0;
+   u8LzIntSignal = 0;
 }
 
-void vPort_D_ISRHandler (void)
+void vPort_D_ISRHandler(void)
 {
-	uint32_t u32Flags;
+   uint32_t u32Flags;
 
-	u32Flags = GPIO_AML_GetInterruptFlags(SW_INT_LZ_INSTANCE);
+   u32Flags = GPIO_AML_GetInterruptFlags(SW_INT_LZ_INSTANCE);
 
-	/* Check if interrupt comes from SW1 */
-	if (u32Flags & (1 << SW1_LZ_PIN_NB))
-	{
-		u8Sw1_LZ_pressed = 1;
-		GPIO_AML_ClearInterruptFlags(SW_INT_LZ_INSTANCE, SW1_LZ_PIN_NB);
-	}
+   /* Check if interrupt comes from SW1 */
+   if (u32Flags & (1 << SW1_LZ_PIN_NB))
+   {
+      u8Sw1_LZ_pressed = 1;
+      GPIO_AML_ClearInterruptFlags(SW_INT_LZ_INSTANCE, SW1_LZ_PIN_NB);
+   }
 
-	/* Check if interrupt comes from SW2 */
-	if (u32Flags & (1 << SW2_LZ_PIN_NB))
-	{
-		u8Sw2_LZ_pressed = 1;
-		GPIO_AML_ClearInterruptFlags(SW_INT_LZ_INSTANCE, SW2_LZ_PIN_NB);
-	}
+   /* Check if interrupt comes from SW2 */
+   if (u32Flags & (1 << SW2_LZ_PIN_NB))
+   {
+      u8Sw2_LZ_pressed = 1;
+      GPIO_AML_ClearInterruptFlags(SW_INT_LZ_INSTANCE, SW2_LZ_PIN_NB);
+   }
 
-	/* Check if interrupt comes from LZ INT pin */
-	if (u32Flags & (1 << LZ_INT_PIN_NB))
-	{
-		u8LzIntSignal = 1;
-		GPIO_AML_ClearInterruptFlags(SW_INT_LZ_INSTANCE, LZ_INT_PIN_NB);
-	}
+   /* Check if interrupt comes from LZ INT pin */
+   if (u32Flags & (1 << LZ_INT_PIN_NB))
+   {
+      u8LzIntSignal = 1;
+      GPIO_AML_ClearInterruptFlags(SW_INT_LZ_INSTANCE, LZ_INT_PIN_NB);
+   }
 }
 
-void vPort_C_ISRHandler (void)
+void vPort_C_ISRHandler(void)
 {
-	uint32_t u32Flags;
+   uint32_t u32Flags;
 
-	u32Flags = GPIO_AML_GetInterruptFlags(SW_S32_INSTANCE);
+   u32Flags = GPIO_AML_GetInterruptFlags(SW_S32_INSTANCE);
 
-	/* Check if interrupt comes from SW1 */
-	if (u32Flags & (1 << SW2_S32_PIN_NB))
-	{
-		u8Sw2_S32_pressed = 1;
-		GPIO_AML_ClearInterruptFlags(SW_S32_INSTANCE, SW2_S32_PIN_NB);
-	}
+   /* Check if interrupt comes from SW1 */
+   if (u32Flags & (1 << SW2_S32_PIN_NB))
+   {
+      u8Sw2_S32_pressed = 1;
+      GPIO_AML_ClearInterruptFlags(SW_S32_INSTANCE, SW2_S32_PIN_NB);
+   }
 
-	/* Check if interrupt comes from SW2 */
-	if (u32Flags & (1 << SW3_S32_PIN_NB))
-	{
-		u8Sw3_S32_pressed = 1;
-		GPIO_AML_ClearInterruptFlags(SW_S32_INSTANCE, SW3_S32_PIN_NB);
-	}
+   /* Check if interrupt comes from SW2 */
+   if (u32Flags & (1 << SW3_S32_PIN_NB))
+   {
+      u8Sw3_S32_pressed = 1;
+      GPIO_AML_ClearInterruptFlags(SW_S32_INSTANCE, SW3_S32_PIN_NB);
+   }
 }
 

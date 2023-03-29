@@ -137,3 +137,8 @@ char* StringJoin(char* buff, char** arr, uint8_t arrLen, char sep) {
     return buff;
 }
 
+void btox(char* xp, const char* bb, int n)
+{
+    const char xx[] = "0123456789ABCDEF";
+    while (--n >= 0) xp[n] = xx[(bb[n >> 1] >> ((1 - (n & 1)) << 2)) & 0xF];
+}

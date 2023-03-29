@@ -6,20 +6,20 @@ static void SystemHandleTask(void* pv);
 void TaskInit(void) {
     /* Create the queue. */
     QueueHandle_t xQueue = NULL;
-    xQueue = xQueueCreate(1, sizeof(unsigned long));
+    xQueue = xQueueCreate(5, sizeof(unsigned long));
 
     if (xQueue != NULL)
     {
-//        xTaskCreate(SystemHandleTask, "System", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 2U, NULL);
-//        xTaskCreate(MqttHandleTask, "MQTT", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 3U, NULL);
-        xTaskCreate(HandleSensorAppTask, "Sensor", 1024, NULL, configMAX_PRIORITIES - 4U, NULL);
+    	xTaskCreate(SystemHandleTask, "System", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 4U, NULL);
+    	xTaskCreate(MqttHandleTask, "MQTT", 256, NULL, configMAX_PRIORITIES - 5U, NULL);
+    	xTaskCreate(HandleSensorAppTask, "Sensor", 512, NULL, configMAX_PRIORITIES - 5U, NULL);
 
         vTaskStartScheduler();
     }
 }
 
 static void SystemHandleTask(void* pv) {
-	(void)pv;
+    (void)pv;
 
     while (1) {
         tpmsApp.timestamp++;

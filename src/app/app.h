@@ -15,11 +15,15 @@
 #include "mqtt_app.h"
 #include "sensor_app.h"
 #include "task_init.h"
+#include "tire.h"
+
+#define TIRE_NUMBER                         4
 
 typedef struct TpmsApp_t TpmsApp;
 struct TpmsApp_t {
     MqttClient mqtt;
     Ec200u lteModule;
+    Tire tires[TIRE_NUMBER];
     uint32_t timestamp;
 };
 

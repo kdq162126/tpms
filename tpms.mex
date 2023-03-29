@@ -561,8 +561,8 @@
                            <setting name="configUSE_STATS_FORMATTING_FUNCTIONS" value="true"/>
                         </struct>
                         <struct name="co_routines_tab">
-                           <setting name="configUSE_CO_ROUTINES" value="false"/>
-                           <setting name="configMAX_CO_ROUTINE_PRIORITIES" value="2"/>
+                           <setting name="configUSE_CO_ROUTINES" value="true"/>
+                           <setting name="configMAX_CO_ROUTINE_PRIORITIES" value="3"/>
                         </struct>
                         <struct name="sandm_tab">
                            <setting name="configUSE_MUTEXES" value="true"/>
@@ -582,8 +582,8 @@
                            <setting name="configPOST_SLEEP_PROCESSING" value=""/>
                         </struct>
                         <struct name="queue_tab">
-                           <setting name="configQUEUE_REGISTRY_SIZE" value="2"/>
-                           <setting name="configUSE_QUEUE_SETS" value="false"/>
+                           <setting name="configQUEUE_REGISTRY_SIZE" value="5"/>
+                           <setting name="configUSE_QUEUE_SETS" value="true"/>
                         </struct>
                         <struct name="api_tab">
                            <setting name="INCLUDE_vTaskPrioritySet" value="true"/>

@@ -91,8 +91,8 @@ PRIORITY THAN THIS! (higher priorities are lower numeric values. */
 #define configUSE_STATS_FORMATTING_FUNCTIONS        1
 
 /* Co-routine related definitions. */
-#define configUSE_CO_ROUTINES                       0
-#define configMAX_CO_ROUTINE_PRIORITIES             2
+#define configUSE_CO_ROUTINES                       1
+#define configMAX_CO_ROUTINE_PRIORITIES             3
 
 /* SEMAPHORES and MUTEXS */
 #define configUSE_MUTEXES                           1
@@ -109,8 +109,8 @@ PRIORITY THAN THIS! (higher priorities are lower numeric values. */
 #define configUSE_TICKLESS_IDLE                     0
 
 /* QUEUE */
-#define configQUEUE_REGISTRY_SIZE                   2
-#define configUSE_QUEUE_SETS                        0
+#define configQUEUE_REGISTRY_SIZE                   5
+#define configUSE_QUEUE_SETS                        1
 
 /* Optional functions - most linkers will remove unused functions anyway. */
 #define INCLUDE_vTaskPrioritySet                    1

@@ -45,7 +45,7 @@
 #include "utils/nxp_console_adapter.h"
 #include "utils/nxp_console.h"
 #include "RF.h"
-
+#include "app.h"
 
 #define MAX_BUFFER_LENGTH            57U
 
@@ -232,9 +232,27 @@ void RF_LZ_check_for_message_received(void)
         {
             if (LZ_COM_ReadFrame(&lzDrvConfig, lzWaitRDY_INT, &recvFrame, MAX_BUFFER_LENGTH) == kStatus_Success)
             {
-                LED_RGB_Green_On();
                 uint8_t sensorDataHeader[3] = { 0x1f, 0x0f, 0x80 };
                 if (memcmp(recvBuffer, sensorDataHeader, 3) == 0) {
+                    uint8_t id[10];
+                    memset(id, 0, 10);
+                    btox((char*)id, (char*)&recvBuffer[10], 10);
+
+                    Tire* p_tire;
+                    for (uint8_t i = 0; i < TIRE_NUMBER; i++) {
+                        p_tire = &tpmsApp.tires[i];
+                        if (memcmp(p_tire->id, id, 10) != 0) {   // Check if ID already exist
+                            if (tpmsApp.tires[i].state == TIRE_ST_ACTIVE) continue;
+                        }
+
+                        memcpy(p_tire->id, id, 10);
+                        p_tire->press = TireGetPressure(recvBuffer[16] * 256 + recvBuffer[17]);
+                        p_tire->bat = recvBuffer[22] + 122;
+                        p_tire->temp = recvBuffer[23] - 55;
+                        p_tire->state = TIRE_ST_ACTIVE;
+                        break;
+                    }
+
                     int i = 0;
                     PRINTF("Ma ID Lop: 0x");
                     for (i = 10; i < 14; i++)

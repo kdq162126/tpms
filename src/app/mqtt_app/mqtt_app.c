@@ -72,7 +72,7 @@ void MqttHandleTask(void* pv) {
             break;
         case MQTT_CLIENT_ST_STREAM_DATA:
             MqttClientPublishMessage(&tpmsApp.mqtt);
-            vTaskDelay(10000);
+            vTaskDelay(5000);
             break;
         case MQTT_CLIENT_ST_FAIL:
             MqttClientFailHandle(&tpmsApp.mqtt);
@@ -140,7 +140,7 @@ static void MqttClientConnectServerHandle(MqttClient* this) {
 // TEST
 void CreateMockSensorMessage(char* buff, char* deviceId) {
     buff = JsonOpen(buff);
-    buff = JsonFromString(buff, "Id", deviceId);
+    buff = JsonFromString(buff, "id", deviceId);
     *buff++ = ',';
     // buff = JsonFromString(buff, "version", "123xxx");
     // *buff++ = ',';
@@ -148,24 +148,32 @@ void CreateMockSensorMessage(char* buff, char* deviceId) {
     *buff++ = ':';
     *buff++ = '[';
 
-    char* tireIds[] = { "91HAG1","81O012","HMLK87","HNC01L" };
-    char* positions[] = { "L11", "L12", "R11" ,"R12" };
-    for (uint8_t i = 0; i < 4; i++) {
-        buff = JsonOpen(buff);
-        buff = JsonFromString(buff, "id", tireIds[i]);
-        *buff++ = ',';
-        // buff = JsonFromString(buff, "tireName", tireNames[i]);
-        // *buff++ = ',';
-        buff = JsonFromString(buff, "pos", positions[i]);
-        *buff++ = ',';
-        buff = JsonFromInt(buff, "pres", rand() % 20);
-        *buff++ = ',';
-        buff = JsonFromInt(buff, "bat", rand() % 100);
-        *buff++ = ',';
-        buff = JsonFromInt(buff, "temp", rand() % 50);
-        buff = JsonClose(buff);
+    //    char* tireIds[] = { "91HAG1","81O012","HMLK87","HNC01L" };
+    //    char* positions[] = { "L11", "L12", "R11" ,"R12" };
+    //    for (uint8_t i = 0; i < 4; i++) {
+    //        buff = JsonOpen(buff);
+    //        buff = JsonFromString(buff, "id", tireIds[i]);
+    //        *buff++ = ',';
+    //        // buff = JsonFromString(buff, "tireName", tireNames[i]);
+    //        // *buff++ = ',';
+    //        buff = JsonFromString(buff, "pos", positions[i]);
+    //        *buff++ = ',';
+    //        buff = JsonFromInt(buff, "pres", rand() % 20);
+    //        *buff++ = ',';
+    //        buff = JsonFromInt(buff, "bat", rand() % 100);
+    //        *buff++ = ',';
+    //        buff = JsonFromInt(buff, "temp", rand() % 50);
+    //        buff = JsonClose(buff);
+    //        *buff++ = ',';
+    //    }
+
+    for (uint8_t i = 0; i < TIRE_NUMBER;i++) {
+        if (tpmsApp.tires[i].state != TIRE_ST_ACTIVE) continue;
+
+        buff = TirePackageJsonMessage(&tpmsApp.tires[i], buff);
         *buff++ = ',';
     }
+
     buff--;
     *buff++ = ']';
     buff = JsonClose(buff);
