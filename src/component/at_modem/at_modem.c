@@ -20,14 +20,14 @@ void ATmodemInit(ATmodem* this, void (*sendHandle)(const char*), uint32_t* times
 }
 
 // Retry if command was excutived fail
-bool ATmodemExcutiveCmd(ATmodem* this, const char* cmd, const char* resp, uint32_t timeoutMs, uint8_t retryNum) {
-    this->expectMsg = (char*)resp;
+bool ATmodemExcutiveCmd(ATmodem* this, const char* cmd, char* resp, uint32_t timeoutMs, uint8_t retryNum) {
+    this->expectMsg = resp;
 
     for (uint8_t retryCnt = 0; retryCnt < retryNum; retryCnt++) {
         ATmodemClean(this);
         ClockEnableTimeout(&this->clock, timeoutMs);
 
-        this->sendCmd(msg);
+        this->sendCmd(cmd);
         while (!(this->isResponse || ClockIsTimeout(&this->clock)));
         this->delayMs(100);
 
