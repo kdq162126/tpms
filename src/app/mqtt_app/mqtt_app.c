@@ -27,6 +27,11 @@ static void MqttClientFailHandleImpl(MqttClient* this);
 static char TopicSensor[32] = { 0 };
 static char TopicLocation[32] = { 0 };
 
+static void GpsActiveHandle(Gps* this);
+static void GpsDeactiveHandle(Gps* this);
+static void GpsUpdatePositionInfoHandle(Gps* this);
+
+
 void MqttAppInit() {
     ATmodemInit((ATmodem*)&pApp->lteModule, lteAtCmdSend, &pApp->timestamp, lteAtCmdDelay);
     pApp->lteModule.base.receiveData = ec200uHw.rxBuff;
@@ -37,6 +42,11 @@ void MqttAppInit() {
     pApp->mqtt.connectServer = MqttClientConnectServerHandle;
     pApp->mqtt.publishMessage = MqttClientPublishMessageHandle;
     pApp->mqtt.failHandle = MqttClientFailHandleImpl;
+
+    pApp->gps.active = GpsActiveHandle;
+    pApp->gps.deactive = GpsDeactiveHandle;
+    pApp->gps.updatePositionInfo = GpsUpdatePositionInfoHandle;
+
 
     // Init MQTT Topic
     strcat(TopicSensor, MQTT_TOPIC_ROOT_PATH);
@@ -239,6 +249,35 @@ static void MqttClientFailHandleImpl(MqttClient* this) {
     }
 
     MqttClientSetState(this, MQTT_CLIENT_ST_INIT);
+}
+
+static void GpsActiveHandle(Gps* this) {
+    bool isSuccess = Ec200uTurnOnGPS(&pApp->lteModule);
+    if (isSuccess) {
+        GpsSetState(this, GPS_ST_ACTIVE);
+        return;
+    }
+
+    GpsSetState(this, GPS_ST_FAIL);
+}
+
+static void GpsDeactiveHandle(Gps* this) {
+    bool isSuccess = Ec200uTurnOffGPS(&pApp->lteModule);
+    if (isSuccess) {
+        GpsSetState(this, GPS_ST_INACTIVE);
+        return;
+    }
+
+    GpsSetState(this, GPS_ST_FAIL);
+}
+
+static void GpsUpdatePositionInfoHandle(Gps* this) {
+    char* resp = Ec200uAcquirePositionInfo(&pApp->lteModule);
+    if (resp != NULL) {
+        GpsParseResponse(this, resp);
+    }
+
+    GpsSetState(this, GPS_ST_FAIL);
 }
 
 

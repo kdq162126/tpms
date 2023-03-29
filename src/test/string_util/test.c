@@ -1,6 +1,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "string_util.c"
+#include "string.h"
 
 // void testBuildCsv(void) {
 //     char cmd[100];

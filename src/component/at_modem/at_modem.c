@@ -20,8 +20,8 @@ void ATmodemInit(ATmodem* this, void (*sendHandle)(const char*), uint32_t* times
 }
 
 // Retry if command was excutived fail
-bool ATmodemExcutiveCmd(ATmodem* this, const char* msg, char* resp, uint32_t timeoutMs, uint8_t retryNum) {
-    this->expectMsg = resp;
+bool ATmodemExcutiveCmd(ATmodem* this, const char* cmd, const char* resp, uint32_t timeoutMs, uint8_t retryNum) {
+    this->expectMsg = (char*)resp;
 
     for (uint8_t retryCnt = 0; retryCnt < retryNum; retryCnt++) {
         ATmodemClean(this);
