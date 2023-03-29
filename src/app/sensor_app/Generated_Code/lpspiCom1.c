@@ -51,7 +51,7 @@ lpspi_state_t lpspiCom1State;
 
 
 
-const lpspi_master_config_t lpspiCom1_MasterConfig0 = {
+const lpspi_master_config_t _lpspiCom1_MasterConfig0 = {
   .bitsPerSec = 500000U,
   .whichPcs = LPSPI_PCS0,
   .pcsPolarity = LPSPI_ACTIVE_HIGH,

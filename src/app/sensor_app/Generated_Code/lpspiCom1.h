@@ -79,7 +79,7 @@ extern lpspi_state_t lpspiCom1State;
 
 /*! @brief Define external callbacks for master devices */
 /*! @brief Master configuration declaration */
-extern const lpspi_master_config_t lpspiCom1_MasterConfig0;
+extern const lpspi_master_config_t _lpspiCom1_MasterConfig0;
 
 
 #endif

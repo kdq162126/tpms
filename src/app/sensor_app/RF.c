@@ -124,8 +124,8 @@ void RF_LZ_init (void)
         lzDrvConfig.spiConfig.clkPol = spiClockPolarityActiveLow; /* CPOL = 1. */
         lzDrvConfig.spiConfig.clkPhase = spiClockPhaseFirstEdge;  /* CPHA = 0. */
         // FIXME
-//        lzDrvConfig.spiConfig.sourceClkHz = lpspiCom1_MasterConfig0.lpspiSrcClk;
         lzDrvConfig.spiConfig.sourceClkHz = lpspiCom1_MasterConfig0.lpspiSrcClk;
+//        lzDrvConfig.spiConfig.sourceClkHz = lpspiCom1_MasterConfig0.lpspiSrcClk;
 
         lzDrvConfig.spiConfig.baudRate = 2000000U;  /* 2 MHz. */
 

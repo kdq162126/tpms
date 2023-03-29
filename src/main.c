@@ -1,7 +1,7 @@
 #include "app.h"
 
 int main(void) {
-//    BoardConfig();
+    BoardConfig();
     TaskInit();
 
     while (1);

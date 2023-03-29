@@ -81,26 +81,26 @@
  */
 
 /*! @brief User configuration structure 0 */
-extern clock_manager_user_config_t clockMan1_InitConfig0;
+extern clock_manager_user_config_t _clockMan1_InitConfig0;
 
 /*! @brief Count of user configuration structures */
-#define CLOCK_MANAGER_CONFIG_CNT 1U
+#define _CLOCK_MANAGER_CONFIG_CNT 1U
 
 /*! @brief Array of pointers to User configuration structures */
 extern clock_manager_user_config_t const *_g_clockManConfigsArr[];
 
 /*! @brief User peripheral configuration structure 0 */
-extern peripheral_clock_config_t peripheralClockConfig0[];
+extern peripheral_clock_config_t _peripheralClockConfig0[];
 
 /*! @brief Count of peripheral clock user configurations */
 #define _NUM_OF_PERIPHERAL_CLOCKS_0 12U
 
 
 /*! @brief Count of user Callbacks */
-#define CLOCK_MANAGER_CALLBACK_CNT 0U
+#define _CLOCK_MANAGER_CALLBACK_CNT 0U
 
 /*! @brief Array of User callbacks */
-extern clock_manager_callback_user_config_t *g_clockManCallbacksArr[];
+extern clock_manager_callback_user_config_t *_g_clockManCallbacksArr[];
 #endif
 /* ifndef clockMan1_H */
 /*!
