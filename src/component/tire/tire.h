@@ -10,6 +10,7 @@
 
 #include "stdint.h"
 #include "string_util.h"
+#include "segment.h"
 
 typedef enum TIRE_STATE {
     TIRE_ST_INACTIVE = 0,
@@ -21,9 +22,9 @@ typedef struct Tire_t Tire;
 struct Tire_t {
     TIRE_STATE state;
     char id[10];
-    char pos[5];
-    uint32_t press;
-    uint32_t temp;
+    char pos[3];
+    SegElement press;
+    SegElement temp;
     uint32_t bat;
 };
 

@@ -239,16 +239,18 @@ void RF_LZ_check_for_message_received(void)
                     btox((char*)id, (char*)&recvBuffer[10], 10);
 
                     Tire* p_tire;
-                    for (uint8_t i = 0; i < TIRE_NUMBER; i++) {
+                    for (uint8_t i = 1; i < TIRE_NUMBER; i++) {
                         p_tire = &tpmsApp.tires[i];
                         if (memcmp(p_tire->id, id, 10) != 0) {   // Check if ID already exist
                             if (tpmsApp.tires[i].state == TIRE_ST_ACTIVE) continue;
                         }
 
                         memcpy(p_tire->id, id, 10);
-                        p_tire->press = TireGetPressure(recvBuffer[16] * 256 + recvBuffer[17]);
+                        p_tire->press.value = TireGetPressure(recvBuffer[16] * 256 + recvBuffer[17]);
+                        SegmentWrite(&p_tire->press, p_tire->press.value/100);
                         p_tire->bat = recvBuffer[22] + 122;
-                        p_tire->temp = recvBuffer[23] - 55;
+                        p_tire->temp.value = recvBuffer[23] - 55;
+                        SegmentWrite(&p_tire->temp, p_tire->temp.value);
                         p_tire->state = TIRE_ST_ACTIVE;
                         break;
                     }

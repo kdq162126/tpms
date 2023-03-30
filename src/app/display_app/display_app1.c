@@ -29,15 +29,15 @@ void DisplayAppInit(TpmsApp* pApp) {
     LcdDriverInit(&pApp->lcdDriver);
     pApp->lcdDriver.write = I2cHwSend;
 
-    pApp->tires[0].press.update = press0_writeSegmentHandle;
-    pApp->tires[1].press.update = press1_writeSegmentHandle;
-    pApp->tires[2].press.update = press2_writeSegmentHandle;
-    pApp->tires[3].press.update = press3_writeSegmentHandle;
+    pApp->tires[0].press.write = press0_writeSegmentHandle;
+    pApp->tires[1].press.write = press1_writeSegmentHandle;
+    pApp->tires[2].press.write = press2_writeSegmentHandle;
+    pApp->tires[3].press.write = press3_writeSegmentHandle;
 
-    pApp->tires[0].temp.update = temp0_writeSegmentHandle;
-    pApp->tires[1].temp.update = temp1_writeSegmentHandle;
-    pApp->tires[2].temp.update = temp2_writeSegmentHandle;
-    pApp->tires[3].temp.update = temp3_writeSegmentHandle;
+    pApp->tires[0].temp.write = temp0_writeSegmentHandle;
+    pApp->tires[1].temp.write = temp1_writeSegmentHandle;
+    pApp->tires[2].temp.write = temp2_writeSegmentHandle;
+    pApp->tires[3].temp.write = temp3_writeSegmentHandle;
 
 
 }
@@ -62,28 +62,42 @@ void DisplayTask(void* pv) {
             memset(this->dataBuff, 0, LCD_BUFFER_LENGTH);
             LcdStartupHandle();
             LcdDriverWriteRamPages(this, LCD_BUFFER_LENGTH);
+
             tpmsApp.lcdDriver.state = LCD_ST_ACTIVE;
             break;
         case LCD_ST_IDLE:
             break;
         case LCD_ST_ACTIVE:
+            // powerSource_writeSegmentHandle(NULL, 119);
+            tpmsApp.tires[0].press.value = 2000;
+            tpmsApp.tires[3].press.value = 2100;
+            tpmsApp.tires[0].temp.value = 23;
+            tpmsApp.tires[3].temp.value = 22;
+            press0_writeSegmentHandle(&tpmsApp.tires[0].press, tpmsApp.tires[0].press.value / 100);
+            press3_writeSegmentHandle(&tpmsApp.tires[3].press, tpmsApp.tires[3].press.value / 100);
+            temp0_writeSegmentHandle(&tpmsApp.tires[0].temp, tpmsApp.tires[0].temp.value);
+            temp3_writeSegmentHandle(&tpmsApp.tires[3].temp, tpmsApp.tires[3].temp.value);
+
             // TODO: change buffer len
-            for (uint8_t i = 0; i < 255; i++) {
-                press0_writeSegmentHandle(&tpmsApp.tires[0].press, i);
-                press1_writeSegmentHandle(&tpmsApp.tires[1].press, i);
-                press2_writeSegmentHandle(&tpmsApp.tires[2].press, i);
-                press3_writeSegmentHandle(&tpmsApp.tires[3].press, i);
+//            for (uint8_t i = 0; i < 255; i++) {
+//                press0_writeSegmentHandle(&tpmsApp.tires[0].press, i);
+//                press1_writeSegmentHandle(&tpmsApp.tires[1].press, i);
+//                press2_writeSegmentHandle(&tpmsApp.tires[2].press, i);
+//                press3_writeSegmentHandle(&tpmsApp.tires[3].press, i);
+//
+//                temp0_writeSegmentHandle(&tpmsApp.tires[0].temp, i);
+//                temp1_writeSegmentHandle(&tpmsApp.tires[1].temp, i);
+//                temp2_writeSegmentHandle(&tpmsApp.tires[2].temp, i);
+//                temp3_writeSegmentHandle(&tpmsApp.tires[3].temp, i);
+//
+//                powerSource_writeSegmentHandle(NULL, i);
+//
+//                LcdDriverWriteRamPages(this, LCD_BUFFER_LENGTH);
+//                vTaskDelay(100);
+//            }
 
-                temp0_writeSegmentHandle(&tpmsApp.tires[0].temp, i);
-                temp1_writeSegmentHandle(&tpmsApp.tires[1].temp, i);
-                temp2_writeSegmentHandle(&tpmsApp.tires[2].temp, i);
-                temp3_writeSegmentHandle(&tpmsApp.tires[3].temp, i);
-
-                powerSource_writeSegmentHandle(NULL, i);
-
-                LcdDriverWriteRamPages(this, LCD_BUFFER_LENGTH);
-                vTaskDelay(100);
-            }
+            LcdDriverWriteRamPages(this, LCD_BUFFER_LENGTH);
+            vTaskDelay(100);
 
             break;
         }
@@ -95,28 +109,28 @@ static void LcdStartupHandle(void) {
     Byte* bytes = tpmsApp.lcdDriver.dataBuff;
 
     bytes[4].bits.b0 = 1;       // Celcius 1st icon
-    bytes[4].bits.b1 = 0;       // Fahrenheit 1st icon
-    bytes[4].bits.b2 = 0;       // Fahrenheit 2st icon
+    // bytes[4].bits.b1 = 1;       // Fahrenheit 1st icon
+    // bytes[4].bits.b2 = 1;       // Fahrenheit 2st icon
     bytes[4].bits.b3 = 1;       // Celcius 2nd icon
 
-    bytes[4].bits.b4 = 1;
-    bytes[4].bits.b5 = 1;
-    bytes[4].bits.b6 = 1;
-    bytes[4].bits.b7 = 1;
+    // bytes[4].bits.b4 = 1;
+    // bytes[4].bits.b5 = 1;
+    // bytes[4].bits.b6 = 1;
+    // bytes[4].bits.b7 = 1;
 
     bytes[12].bits.b0 = 1;      // Car Frame
     bytes[12].bits.b1 = 1;      // Car Power Frame
     bytes[12].bits.b3 = 1;      // Backup tire
 
-    bytes[23].bits.b0 = 0;      // BAR 1st icon
-    bytes[23].bits.b1 = 1;      // PSI 1st icon
-    bytes[23].bits.b2 = 1;      // PSI 2nd icon
-    bytes[23].bits.b3 = 0;      // BAR 2nd icon
+    bytes[23].bits.b0 = 1;      // BAR 1st icon
+    // bytes[23].bits.b1 = 1;      // PSI 1st icon
+    // bytes[23].bits.b2 = 1;      // PSI 2nd icon
+    bytes[23].bits.b3 = 1;      // BAR 2nd icon
 
-    bytes[23].bits.b4 = 1;
-    bytes[23].bits.b5 = 1;
-    bytes[23].bits.b6 = 1;
-    bytes[23].bits.b7 = 1;
+    // bytes[23].bits.b4 = 1;
+    // bytes[23].bits.b5 = 1;
+    // bytes[23].bits.b6 = 1;
+    // bytes[23].bits.b7 = 1;
 }
 
 static void press0_writeSegmentHandle(SegElement* this, int32_t val) {
@@ -249,8 +263,8 @@ static void temp0_writeSegmentHandle(SegElement* this, int32_t val) {
 
 
     // TODO: Handle negative and 3 digits number
-    bytes[1].bits.b0 = 1; // Negative
-    bytes[3].bits.b0 = 1; // Hundred digit
+    // bytes[1].bits.b0 = 1; // Negative
+    // bytes[3].bits.b0 = 1; // Hundred digit
 
     SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
     for (uint8_t i = 0; i < digitNum; i++) {
@@ -275,8 +289,8 @@ static void temp1_writeSegmentHandle(SegElement* this, int32_t val) {
 
 
     // TODO: Handle negative and 3 digits number
-    bytes[20].bits.b4 = 1; // Negative
-    bytes[22].bits.b4 = 1; // Hundred digit
+    // bytes[20].bits.b4 = 1; // Negative
+    // bytes[22].bits.b4 = 1; // Hundred digit
 
     SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
     for (uint8_t i = 0; i < digitNum; i++) {
@@ -301,8 +315,8 @@ static void temp2_writeSegmentHandle(SegElement* this, int32_t val) {
 
 
     // TODO: Handle negative and 3 digits number
-    bytes[6].bits.b0 = 1; // Negative
-    bytes[8].bits.b0 = 1; // Hundred digit
+    // bytes[6].bits.b0 = 1; // Negative
+    // bytes[8].bits.b0 = 1; // Hundred digit
 
     SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
     for (uint8_t i = 0; i < digitNum; i++) {
@@ -327,8 +341,8 @@ static void temp3_writeSegmentHandle(SegElement* this, int32_t val) {
 
 
     // TODO: Handle negative and 3 digits number
-    bytes[16].bits.b0 = 1; // Negative
-    bytes[18].bits.b0 = 1; // Hundred digit
+    // bytes[16].bits.b0 = 1; // Negative
+    // bytes[18].bits.b0 = 1; // Hundred digit
 
     SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
     for (uint8_t i = 0; i < digitNum; i++) {
@@ -351,10 +365,13 @@ static void powerSource_writeSegmentHandle(SegElement* this, int32_t val) {
     const uint8_t minDigitShow = 2;
     Digit digits[digitNum];
 
-
-    // TODO: Handle negative and 3 digits number
     bytes[12].bits.b2 = 1; // Floating point
-    bytes[10].bits.b3 = 1; // Hundred digit
+    if (val >= 100) {
+        bytes[10].bits.b3 = 1;
+    }
+    else {
+        bytes[10].bits.b3 = 0;
+    }
 
     SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
     for (uint8_t i = 0; i < digitNum + 1; i++) {

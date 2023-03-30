@@ -31,7 +31,6 @@ struct TpmsApp_t {
     Tire tires[TIRE_NUMBER];
     uint32_t timestamp;
     LcdDriver lcdDriver;
-    Tire tires[4];
 };
 
 extern TpmsApp tpmsApp;

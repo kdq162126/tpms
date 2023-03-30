@@ -11,11 +11,12 @@ char* TirePackageJsonMessage(Tire* this, char* buff) {
     *buff++ = ',';
     buff = JsonFromString(buff, "pos", this->pos);
     *buff++ = ',';
-    buff = JsonFromInt(buff, "press", this->press);
+    // buff = JsonFromInt(buff, "press", this->press.value);
+    buff = JsonFromFloat(buff, "press", (float)this->press.value / 1000.0, 3);
     *buff++ = ',';
-    buff = JsonFromInt(buff, "bat", this->bat);
+    buff = JsonFromFloat(buff, "bat", (float)this->bat / 100.0, 1);
     *buff++ = ',';
-    buff = JsonFromInt(buff, "temp", this->temp);
+    buff = JsonFromInt(buff, "temp", this->temp.value);
     buff = JsonClose(buff);
 
     return buff;
@@ -26,6 +27,7 @@ void TireSetId(Tire* this, char* id) {
     memcpy(this->id, id, strlen(id));
 }
 
+// All Parameters were multiple by 1000
 uint32_t TireGetPressure(uint32_t press) {
-    return 824 * press + 88353;
+    return (100000 + (824 * press + 88353)) / 98;
 }

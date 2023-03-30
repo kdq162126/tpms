@@ -158,8 +158,8 @@ void CreateMockSensorMessage(char* buff, char* deviceId) {
     *buff++ = ':';
     *buff++ = '[';
 
-    //    char* tireIds[] = { "91HAG1","81O012","HMLK87","HNC01L" };
-    //    char* positions[] = { "L11", "L12", "R11" ,"R12" };
+    char* tireIds[] = { "91HAG1KLH8","C9524A9A13","C9524F1B13","91HA1H0AH8" };
+    char* positions[] = { "L11", "R11", "L12" ,"R12" };
     //    for (uint8_t i = 0; i < 4; i++) {
     //        buff = JsonOpen(buff);
     //        buff = JsonFromString(buff, "id", tireIds[i]);
@@ -178,8 +178,12 @@ void CreateMockSensorMessage(char* buff, char* deviceId) {
     //    }
 
     for (uint8_t i = 0; i < TIRE_NUMBER;i++) {
-        if (tpmsApp.tires[i].state != TIRE_ST_ACTIVE) continue;
+        if (tpmsApp.tires[i].state != TIRE_ST_ACTIVE) {
+            tpmsApp.tires[i].bat = 280;
+            memcpy(tpmsApp.tires[i].id, tireIds[i], 10);
+        }
 
+        memcpy(tpmsApp.tires[i].pos, positions[i], 3);
         buff = TirePackageJsonMessage(&tpmsApp.tires[i], buff);
         *buff++ = ',';
     }
@@ -219,7 +223,7 @@ char* TopicLocations[] = {
 static void MqttClientPublishMessageHandle(MqttClient* this) {
     for (uint8_t i = 0; i < 2; i++) {
         CreateMockSensorMessage(tpmsApp.lteModule.base.txDataBuff, deviceIds[i]);
-        bool isSuccess = Ec200uPublishMessage(&pApp->lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicSensors[i], tpmsApp.lteModule.base.txDataBuff);
+        bool isSuccess = Ec200uPublishMessage(&tpmsApp.lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicSensors[i], tpmsApp.lteModule.base.txDataBuff);
         if (!isSuccess) {
             MqttClientSetState(this, MQTT_CLIENT_ST_FAIL);
             return;
@@ -228,7 +232,7 @@ static void MqttClientPublishMessageHandle(MqttClient* this) {
         tpmsApp.lteModule.base.delayMs(1000);
 
         CreateMockLocationMessage(tpmsApp.lteModule.base.txDataBuff, deviceIds[i]);
-        isSuccess = Ec200uPublishMessage(&pApp->lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicLocations[i], tpmsApp.lteModule.base.txDataBuff);
+        isSuccess = Ec200uPublishMessage(&tpmsApp.lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicLocations[i], tpmsApp.lteModule.base.txDataBuff);
         if (!isSuccess) {
             MqttClientSetState(this, MQTT_CLIENT_ST_FAIL);
             return;
@@ -252,7 +256,7 @@ static void MqttClientFailHandleImpl(MqttClient* this) {
 }
 
 static void GpsActiveHandle(Gps* this) {
-    bool isSuccess = Ec200uTurnOnGPS(&pApp->lteModule);
+    bool isSuccess = Ec200uTurnOnGPS(&tpmsApp.lteModule);
     if (isSuccess) {
         GpsSetState(this, GPS_ST_ACTIVE);
         return;
@@ -262,7 +266,7 @@ static void GpsActiveHandle(Gps* this) {
 }
 
 static void GpsDeactiveHandle(Gps* this) {
-    bool isSuccess = Ec200uTurnOffGPS(&pApp->lteModule);
+    bool isSuccess = Ec200uTurnOffGPS(&tpmsApp.lteModule);
     if (isSuccess) {
         GpsSetState(this, GPS_ST_INACTIVE);
         return;
@@ -272,7 +276,7 @@ static void GpsDeactiveHandle(Gps* this) {
 }
 
 static void GpsUpdatePositionInfoHandle(Gps* this) {
-    char* resp = Ec200uAcquirePositionInfo(&pApp->lteModule);
+    char* resp = Ec200uAcquirePositionInfo(&tpmsApp.lteModule);
     if (resp != NULL) {
         GpsParseResponse(this, resp);
     }

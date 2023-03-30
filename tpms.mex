@@ -398,6 +398,16 @@
                   <data type="Version">1.0.0</data>
                </feature>
             </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.flexio_i2c" description="Flexio_i2c Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.flexio_i2c" description="Unsupported version of the Flexio_i2c Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">1.0.0</data>
+               </feature>
+            </dependency>
             <dependency resourceType="SWComponent" resourceId="platform.driver.lpspi" description="LPSPI Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
                <feature name="enabled" evaluation="equal">
                   <data type="Boolean">true</data>
@@ -413,6 +423,8 @@
             <file path="board/FreeRTOSConfig.h" update_enabled="true"/>
             <file path="board/peripherals_edma_config_1.c" update_enabled="true"/>
             <file path="board/peripherals_edma_config_1.h" update_enabled="true"/>
+            <file path="board/peripherals_flexio_i2c_config_1.c" update_enabled="true"/>
+            <file path="board/peripherals_flexio_i2c_config_1.h" update_enabled="true"/>
             <file path="board/peripherals_flexio_uart_config_1.c" update_enabled="true"/>
             <file path="board/peripherals_flexio_uart_config_1.h" update_enabled="true"/>
             <file path="board/peripherals_freertos_1.c" update_enabled="true"/>
@@ -609,7 +621,7 @@
                         </struct>
                      </config_set>
                   </instance>
-                  <instance name="flexio_i2c_config_1" uuid="155378c8-960f-4140-a767-d8d02116cca6" type="flexio_i2c_config" type_id="flexio_i2c" mode="general" peripheral="FLEXIO" enabled="false" comment="" custom_name_enabled="false" editing_lock="false">
+                  <instance name="flexio_i2c_config_1" uuid="155378c8-960f-4140-a767-d8d02116cca6" type="flexio_i2c_config" type_id="flexio_i2c" mode="general" peripheral="FLEXIO" enabled="true" comment="" custom_name_enabled="false" editing_lock="false">
                      <config_set name="flexio_i2c_driver">
                         <array name="flexio_i2c_Configuration">
                            <struct name="0">
