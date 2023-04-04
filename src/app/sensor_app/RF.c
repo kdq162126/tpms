@@ -239,7 +239,7 @@ void RF_LZ_check_for_message_received(void)
                     btox((char*)id, (char*)&recvBuffer[10], 10);
 
                     Tire* p_tire;
-                    for (uint8_t i = 1; i < TIRE_NUMBER; i++) {
+                    for (uint8_t i = 0; i < TIRE_NUMBER; i++) {
                         p_tire = &tpmsApp.tires[i];
                         if (memcmp(p_tire->id, id, 10) != 0) {   // Check if ID already exist
                             if (tpmsApp.tires[i].state == TIRE_ST_ACTIVE) continue;

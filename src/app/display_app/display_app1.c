@@ -69,14 +69,14 @@ void DisplayTask(void* pv) {
             break;
         case LCD_ST_ACTIVE:
             // powerSource_writeSegmentHandle(NULL, 119);
-            tpmsApp.tires[0].press.value = 2000;
-            tpmsApp.tires[3].press.value = 2100;
-            tpmsApp.tires[0].temp.value = 23;
-            tpmsApp.tires[3].temp.value = 22;
-            press0_writeSegmentHandle(&tpmsApp.tires[0].press, tpmsApp.tires[0].press.value / 100);
-            press3_writeSegmentHandle(&tpmsApp.tires[3].press, tpmsApp.tires[3].press.value / 100);
-            temp0_writeSegmentHandle(&tpmsApp.tires[0].temp, tpmsApp.tires[0].temp.value);
-            temp3_writeSegmentHandle(&tpmsApp.tires[3].temp, tpmsApp.tires[3].temp.value);
+//            tpmsApp.tires[0].press.value = 2000;
+//            tpmsApp.tires[3].press.value = 2100;
+//            tpmsApp.tires[0].temp.value = 23;
+//            tpmsApp.tires[3].temp.value = 22;
+//            press0_writeSegmentHandle(&tpmsApp.tires[0].press, tpmsApp.tires[0].press.value / 100);
+//            press3_writeSegmentHandle(&tpmsApp.tires[3].press, tpmsApp.tires[3].press.value / 100);
+//            temp0_writeSegmentHandle(&tpmsApp.tires[0].temp, tpmsApp.tires[0].temp.value);
+//            temp3_writeSegmentHandle(&tpmsApp.tires[3].temp, tpmsApp.tires[3].temp.value);
 
             // TODO: change buffer len
 //            for (uint8_t i = 0; i < 255; i++) {
@@ -142,7 +142,7 @@ static void press0_writeSegmentHandle(SegElement* this, int32_t val) {
     Digit digits[digitNum];
 
     bytes[9].bits.b7 = 1;           // Tire_0 icon  
-    bytes[3].bits.b4 = 1;           // Floating point
+    bytes[2].bits.b4 = 1;           // Floating point
     if (val >= 100) {
         bytes[0].bits.b4 = 1;
     }

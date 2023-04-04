@@ -29,5 +29,6 @@ void TireSetId(Tire* this, char* id) {
 
 // All Parameters were multiple by 1000
 uint32_t TireGetPressure(uint32_t press) {
-    return (100000 + (824 * press + 88353)) / 98;
+    return (120000 + (824 * press + 88353)) / 98;
+//	    return (0 + (824 * press + 88353)) / 98;
 }
