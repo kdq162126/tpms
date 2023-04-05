@@ -122,8 +122,6 @@
                         <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="FLEXIO" signal="fxio_d, 2" pin_num="79" pin_signal="PTA0"/>
-                  <pin peripheral="FLEXIO" signal="fxio_d, 1" pin_num="91" pin_signal="PTA11"/>
                   <pin peripheral="FLEXIO" signal="fxio_d, 7" pin_num="8" pin_signal="PTE5"/>
                   <pin peripheral="FLEXIO" signal="fxio_d, 6" pin_num="9" pin_signal="PTE4"/>
                   <pin peripheral="LPSPI0" signal="sout" pin_num="28" pin_signal="PTB4">
@@ -172,6 +170,8 @@
                         <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
                   </pin>
+                  <pin peripheral="FLEXIO" signal="fxio_d, 1" pin_num="3" pin_signal="PTD1"/>
+                  <pin peripheral="FLEXIO" signal="fxio_d, 0" pin_num="4" pin_signal="PTD0"/>
                </pins>
             </function>
          </functions_list>
@@ -508,7 +508,7 @@
                               <setting name="baudRate" value="115200"/>
                               <setting name="bitCount" value="8"/>
                               <setting name="direction" value="FLEXIO_UART_DIRECTION_TX"/>
-                              <setting name="dataPin" value="2"/>
+                              <setting name="dataPin" value="0"/>
                               <setting name="callback" value="flexio_uart_TX_Callback0"/>
                            </struct>
                            <struct name="1">

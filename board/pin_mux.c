@@ -103,8 +103,6 @@ BOARD_InitPins:
   - {pin_num: '15', peripheral: OSC, signal: extal, pin_signal: PTB7}
   - {pin_num: '81', peripheral: LPUART1, signal: rxd, pin_signal: PTC6}
   - {pin_num: '80', peripheral: LPUART1, signal: txd, pin_signal: PTC7, direction: OUTPUT}
-  - {pin_num: '79', peripheral: FLEXIO, signal: 'fxio_d, 2', pin_signal: PTA0}
-  - {pin_num: '91', peripheral: FLEXIO, signal: 'fxio_d, 1', pin_signal: PTA11}
   - {pin_num: '8', peripheral: FLEXIO, signal: 'fxio_d, 7', pin_signal: PTE5}
   - {pin_num: '9', peripheral: FLEXIO, signal: 'fxio_d, 6', pin_signal: PTE4}
   - {pin_num: '28', peripheral: LPSPI0, signal: sout, pin_signal: PTB4, direction: OUTPUT}
@@ -116,38 +114,14 @@ BOARD_InitPins:
   - {pin_num: '65', peripheral: LPSPI1, signal: sin, pin_signal: PTB15, direction: INPUT}
   - {pin_num: '64', peripheral: LPSPI1, signal: sout, pin_signal: PTB16, direction: OUTPUT}
   - {pin_num: '63', peripheral: LPSPI1, signal: 'pcs, 3', pin_signal: PTB17, direction: OUTPUT}
+  - {pin_num: '3', peripheral: FLEXIO, signal: 'fxio_d, 1', pin_signal: PTD1}
+  - {pin_num: '4', peripheral: FLEXIO, signal: 'fxio_d, 0', pin_signal: PTD0}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
 
 /* Generate array of configured pin structures */
 pin_settings_config_t g_pin_mux_InitConfigArr0[NUM_OF_CONFIGURED_PINS0] = {
-    {
-        .base            = PORTA,
-        .pinPortIdx      = 0U,
-        .pullConfig      = PORT_INTERNAL_PULL_NOT_ENABLED,
-        .driveSelect     = PORT_LOW_DRIVE_STRENGTH,
-        .passiveFilter   = false,
-        .mux             = PORT_MUX_ALT4,
-        .pinLock         = false,
-        .intConfig       = PORT_DMA_INT_DISABLED,
-        .clearIntFlag    = false,
-        .gpioBase        = NULL,
-        .digitalFilter   = false,
-    },
-    {
-        .base            = PORTA,
-        .pinPortIdx      = 11U,
-        .pullConfig      = PORT_INTERNAL_PULL_NOT_ENABLED,
-        .driveSelect     = PORT_LOW_DRIVE_STRENGTH,
-        .passiveFilter   = false,
-        .mux             = PORT_MUX_ALT4,
-        .pinLock         = false,
-        .intConfig       = PORT_DMA_INT_DISABLED,
-        .clearIntFlag    = false,
-        .gpioBase        = NULL,
-        .digitalFilter   = false,
-    },
     {
         .base            = PORTA,
         .pinPortIdx      = 14U,
@@ -397,6 +371,32 @@ pin_settings_config_t g_pin_mux_InitConfigArr0[NUM_OF_CONFIGURED_PINS0] = {
         .driveSelect     = PORT_LOW_DRIVE_STRENGTH,
         .passiveFilter   = false,
         .mux             = PORT_MUX_ALT2,
+        .pinLock         = false,
+        .intConfig       = PORT_DMA_INT_DISABLED,
+        .clearIntFlag    = false,
+        .gpioBase        = NULL,
+        .digitalFilter   = false,
+    },
+    {
+        .base            = PORTD,
+        .pinPortIdx      = 0U,
+        .pullConfig      = PORT_INTERNAL_PULL_NOT_ENABLED,
+        .driveSelect     = PORT_LOW_DRIVE_STRENGTH,
+        .passiveFilter   = false,
+        .mux             = PORT_MUX_ALT6,
+        .pinLock         = false,
+        .intConfig       = PORT_DMA_INT_DISABLED,
+        .clearIntFlag    = false,
+        .gpioBase        = NULL,
+        .digitalFilter   = false,
+    },
+    {
+        .base            = PORTD,
+        .pinPortIdx      = 1U,
+        .pullConfig      = PORT_INTERNAL_PULL_NOT_ENABLED,
+        .driveSelect     = PORT_LOW_DRIVE_STRENGTH,
+        .passiveFilter   = false,
+        .mux             = PORT_MUX_ALT6,
         .pinLock         = false,
         .intConfig       = PORT_DMA_INT_DISABLED,
         .clearIntFlag    = false,

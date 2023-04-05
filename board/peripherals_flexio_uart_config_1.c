@@ -47,7 +47,7 @@ instance:
         - baudRate: '115200'
         - bitCount: '8'
         - direction: 'FLEXIO_UART_DIRECTION_TX'
-        - dataPin: '2'
+        - dataPin: '0'
         - callback: 'flexio_uart_TX_Callback0'
       - 1:
         - name: 'Flexio_uart_Config0_RX'
@@ -76,7 +76,7 @@ const flexio_uart_user_config_t Flexio_uart_Config0_TX = {
   .baudRate = 115200UL,
   .bitCount = 8U,
   .direction = FLEXIO_UART_DIRECTION_TX,
-  .dataPin = 2U,
+  .dataPin = 0U,
   .callback = flexio_uart_TX_Callback0,
   .callbackParam = NULL
 };
