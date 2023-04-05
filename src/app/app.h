@@ -11,15 +11,26 @@
 #include "board.h"
 #include "mqtt_client.h"
 #include "ec200u.h"
+#include "gps.h"
+#include "ht16c23.h"
+#include "tire.h"
 
+#include "display_app.h"
 #include "mqtt_app.h"
+#include "sensor_app.h"
 #include "task_init.h"
+#include "tire.h"
+
+#define TIRE_NUMBER                         4
 
 typedef struct TpmsApp_t TpmsApp;
 struct TpmsApp_t {
     MqttClient mqtt;
+    Gps gps;
     Ec200u lteModule;
+    Tire tires[TIRE_NUMBER];
     uint32_t timestamp;
+    LcdDriver lcdDriver;
 };
 
 extern TpmsApp tpmsApp;

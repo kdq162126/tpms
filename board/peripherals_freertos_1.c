@@ -79,8 +79,8 @@ instance:
       - configUSE_TRACE_FACILITY: 'true'
       - configUSE_STATS_FORMATTING_FUNCTIONS: 'true'
     - co_routines_tab:
-      - configUSE_CO_ROUTINES: 'false'
-      - configMAX_CO_ROUTINE_PRIORITIES: '2'
+      - configUSE_CO_ROUTINES: 'true'
+      - configMAX_CO_ROUTINE_PRIORITIES: '3'
     - sandm_tab:
       - configUSE_MUTEXES: 'true'
       - configUSE_RECURSIVE_MUTEXES: 'true'
@@ -96,8 +96,8 @@ instance:
       - configPRE_SLEEP_PROCESSING: ''
       - configPOST_SLEEP_PROCESSING: ''
     - queue_tab:
-      - configQUEUE_REGISTRY_SIZE: '2'
-      - configUSE_QUEUE_SETS: 'false'
+      - configQUEUE_REGISTRY_SIZE: '5'
+      - configUSE_QUEUE_SETS: 'true'
     - api_tab:
       - INCLUDE_vTaskPrioritySet: 'true'
       - INCLUDE_uxTaskPriorityGet: 'true'

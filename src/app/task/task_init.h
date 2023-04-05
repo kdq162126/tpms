@@ -12,6 +12,8 @@
 #include "task.h"
 #include "queue.h"
 
-void TaskInit();
+
+void TaskInit(void);
+
 
 #endif /* APP_TASK_TASK_H_ */

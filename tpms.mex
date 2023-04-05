@@ -29,8 +29,8 @@
                <pin_label pin_num="82" pin_signal="PTA16" label="DQ2"/>
                <pin_label pin_num="54" pin_signal="PTB0" label="FLASH_CS"/>
                <pin_label pin_num="53" pin_signal="PTB1" label="FLASH_MOSI"/>
-               <pin_label pin_num="47" pin_signal="PTB3" label="FLASH_MISO"/>
-               <pin_label pin_num="48" pin_signal="PTB2" label="FLASH_CLK"/>
+               <pin_label pin_num="47" pin_signal="PTB3" label="LZ_MISO"/>
+               <pin_label pin_num="48" pin_signal="PTB2" label="LZ_CS"/>
                <pin_label pin_num="16" pin_signal="PTB6" label="XTAL"/>
                <pin_label pin_num="15" pin_signal="PTB7" label="EXTAL"/>
                <pin_label pin_num="98" pin_signal="PTA4" label="SWDIO"/>
@@ -66,15 +66,19 @@
                <pin_label pin_num="93" pin_signal="PTE1" label="LCD_GPIO21"/>
                <pin_label pin_num="85" pin_signal="PTE2" label="LCD_GPIO22"/>
                <pin_label pin_num="18" pin_signal="PTE3" label="LCD_GPIO23"/>
-               <pin_label pin_num="9" pin_signal="PTE4" label="LCD_GPIO24"/>
-               <pin_label pin_num="8" pin_signal="PTE5" label="LCD_GPIO25"/>
+               <pin_label pin_num="9" pin_signal="PTE4" label="LCD_SDA"/>
+               <pin_label pin_num="8" pin_signal="PTE5" label="LCD_SCL"/>
                <pin_label pin_num="84" pin_signal="PTE6" label="LCD_GPIO26"/>
-               <pin_label pin_num="59" pin_signal="PTE7" label="LCD_GPIO27"/>
+               <pin_label pin_num="59" pin_signal="PTE7" label="RST_N"/>
                <pin_label pin_num="26" pin_signal="PTE8" label="LCD_GPIO28"/>
                <pin_label pin_num="23" pin_signal="PTE9" label="LCD_GPIO29"/>
                <pin_label pin_num="6" pin_signal="PTE10" label="LCD_GPIO30"/>
                <pin_label pin_num="5" pin_signal="PTE11" label="LCD_GPIO31"/>
                <pin_label pin_num="19" pin_signal="PTE12" label="LCD_GPIO32"/>
+               <pin_label pin_num="24" pin_signal="PTD14" label="INT_N"/>
+               <pin_label pin_num="88" pin_signal="PTA14" label="RDY_N"/>
+               <pin_label pin_num="28" pin_signal="PTB4" label="LZ_MOSI"/>
+               <pin_label pin_num="27" pin_signal="PTB5" label="LZ_CS"/>
             </pin_labels>
          </pins_profile>
          <functions_list>
@@ -100,16 +104,6 @@
                         <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="LPSPI0" signal="pcs, 0" pin_num="54" pin_signal="PTB0">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="LPSPI0" signal="sout" pin_num="53" pin_signal="PTB1">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
                   <pin peripheral="LPSPI0" signal="sin" pin_num="47" pin_signal="PTB3">
                      <pin_features>
                         <pin_feature name="direction" value="INPUT"/>
@@ -122,12 +116,43 @@
                   </pin>
                   <pin peripheral="OSC" signal="xtal" pin_num="16" pin_signal="PTB6"/>
                   <pin peripheral="OSC" signal="extal" pin_num="15" pin_signal="PTB7"/>
-                  <pin peripheral="LPSPI1" signal="pcs, 3" pin_num="63" pin_signal="PTB17">
+                  <pin peripheral="LPUART1" signal="rxd" pin_num="81" pin_signal="PTC6"/>
+                  <pin peripheral="LPUART1" signal="txd" pin_num="80" pin_signal="PTC7">
                      <pin_features>
                         <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="LPSPI1" signal="sout" pin_num="64" pin_signal="PTB16">
+                  <pin peripheral="FLEXIO" signal="fxio_d, 2" pin_num="79" pin_signal="PTA0"/>
+                  <pin peripheral="FLEXIO" signal="fxio_d, 1" pin_num="91" pin_signal="PTA11"/>
+                  <pin peripheral="FLEXIO" signal="fxio_d, 7" pin_num="8" pin_signal="PTE5"/>
+                  <pin peripheral="FLEXIO" signal="fxio_d, 6" pin_num="9" pin_signal="PTE4"/>
+                  <pin peripheral="LPSPI0" signal="sout" pin_num="28" pin_signal="PTB4">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="PORTD" signal="port, 14" pin_num="24" pin_signal="PTD14">
+                     <pin_features>
+                        <pin_feature name="direction" value="INPUT"/>
+                        <pin_feature name="IRQC" value="state_1010"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="PORTA" signal="port, 14" pin_num="88" pin_signal="PTA14">
+                     <pin_features>
+                        <pin_feature name="direction" value="INPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="PORTE" signal="port, 7" pin_num="59" pin_signal="PTE7">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="PORTB" signal="port, 5" pin_num="27" pin_signal="PTB5">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="LPSPI1" signal="sck, sck" pin_num="66" pin_signal="PTB14">
                      <pin_features>
                         <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
@@ -137,179 +162,16 @@
                         <pin_feature name="direction" value="INPUT"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="LPSPI1" signal="sck, sck" pin_num="66" pin_signal="PTB14">
+                  <pin peripheral="LPSPI1" signal="sout" pin_num="64" pin_signal="PTB16">
                      <pin_features>
                         <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="LPUART1" signal="rxd" pin_num="81" pin_signal="PTC6"/>
-                  <pin peripheral="LPUART1" signal="txd" pin_num="80" pin_signal="PTC7">
+                  <pin peripheral="LPSPI1" signal="pcs, 3" pin_num="63" pin_signal="PTB17">
                      <pin_features>
                         <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="PORTC" signal="port, 9" pin_num="55" pin_signal="PTC9">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTC" signal="port, 10" pin_num="52" pin_signal="PTC10">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTC" signal="port, 11" pin_num="51" pin_signal="PTC11">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTC" signal="port, 12" pin_num="50" pin_signal="PTC12">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTC" signal="port, 13" pin_num="49" pin_signal="PTC13">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTC" signal="port, 14" pin_num="46" pin_signal="PTC14">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTC" signal="port, 15" pin_num="45" pin_signal="PTC15">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTC" signal="port, 16" pin_num="44" pin_signal="PTC16">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTC" signal="port, 17" pin_num="43" pin_signal="PTC17">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTD" signal="port, 6" pin_num="32" pin_signal="PTD6">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTD" signal="port, 7" pin_num="31" pin_signal="PTD7">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTD" signal="port, 8" pin_num="42" pin_signal="PTD8">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTD" signal="port, 9" pin_num="41" pin_signal="PTD9">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTD" signal="port, 10" pin_num="36" pin_signal="PTD10">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTD" signal="port, 11" pin_num="35" pin_signal="PTD11">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTD" signal="port, 12" pin_num="34" pin_signal="PTD12">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTD" signal="port, 15" pin_num="22" pin_signal="PTD15">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTD" signal="port, 16" pin_num="21" pin_signal="PTD16">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTD" signal="port, 17" pin_num="20" pin_signal="PTD17">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTE" signal="port, 0" pin_num="94" pin_signal="PTE0">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTE" signal="port, 1" pin_num="93" pin_signal="PTE1">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTE" signal="port, 2" pin_num="85" pin_signal="PTE2">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTE" signal="port, 3" pin_num="18" pin_signal="PTE3">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTE" signal="port, 4" pin_num="9" pin_signal="PTE4">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTE" signal="port, 5" pin_num="8" pin_signal="PTE5">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTE" signal="port, 6" pin_num="84" pin_signal="PTE6">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTE" signal="port, 7" pin_num="59" pin_signal="PTE7">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTE" signal="port, 8" pin_num="26" pin_signal="PTE8">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTE" signal="port, 9" pin_num="23" pin_signal="PTE9">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTE" signal="port, 10" pin_num="6" pin_signal="PTE10">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTE" signal="port, 11" pin_num="5" pin_signal="PTE11">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="PORTE" signal="port, 12" pin_num="19" pin_signal="PTE12">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="FLEXIO" signal="fxio_d, 2" pin_num="79" pin_signal="PTA0"/>
-                  <pin peripheral="FLEXIO" signal="fxio_d, 1" pin_num="91" pin_signal="PTA11"/>
                </pins>
             </function>
          </functions_list>
@@ -536,15 +398,39 @@
                   <data type="Version">1.0.0</data>
                </feature>
             </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.flexio_i2c" description="Flexio_i2c Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.flexio_i2c" description="Unsupported version of the Flexio_i2c Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">1.0.0</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.lpspi" description="LPSPI Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.lpspi" description="Unsupported version of the LPSPI Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">1.0.0</data>
+               </feature>
+            </dependency>
          </dependencies>
          <generated_project_files>
             <file path="board/FreeRTOSConfig.h" update_enabled="true"/>
             <file path="board/peripherals_edma_config_1.c" update_enabled="true"/>
             <file path="board/peripherals_edma_config_1.h" update_enabled="true"/>
+            <file path="board/peripherals_flexio_i2c_config_1.c" update_enabled="true"/>
+            <file path="board/peripherals_flexio_i2c_config_1.h" update_enabled="true"/>
             <file path="board/peripherals_flexio_uart_config_1.c" update_enabled="true"/>
             <file path="board/peripherals_flexio_uart_config_1.h" update_enabled="true"/>
             <file path="board/peripherals_freertos_1.c" update_enabled="true"/>
             <file path="board/peripherals_freertos_1.h" update_enabled="true"/>
+            <file path="board/peripherals_lpspi_1.c" update_enabled="true"/>
+            <file path="board/peripherals_lpspi_1.h" update_enabled="true"/>
             <file path="board/peripherals_lpuart_1.c" update_enabled="true"/>
             <file path="board/peripherals_lpuart_1.h" update_enabled="true"/>
             <file path="board/peripherals_osif_1.c" update_enabled="true"/>
@@ -687,8 +573,8 @@
                            <setting name="configUSE_STATS_FORMATTING_FUNCTIONS" value="true"/>
                         </struct>
                         <struct name="co_routines_tab">
-                           <setting name="configUSE_CO_ROUTINES" value="false"/>
-                           <setting name="configMAX_CO_ROUTINE_PRIORITIES" value="2"/>
+                           <setting name="configUSE_CO_ROUTINES" value="true"/>
+                           <setting name="configMAX_CO_ROUTINE_PRIORITIES" value="3"/>
                         </struct>
                         <struct name="sandm_tab">
                            <setting name="configUSE_MUTEXES" value="true"/>
@@ -708,8 +594,8 @@
                            <setting name="configPOST_SLEEP_PROCESSING" value=""/>
                         </struct>
                         <struct name="queue_tab">
-                           <setting name="configQUEUE_REGISTRY_SIZE" value="2"/>
-                           <setting name="configUSE_QUEUE_SETS" value="false"/>
+                           <setting name="configQUEUE_REGISTRY_SIZE" value="5"/>
+                           <setting name="configUSE_QUEUE_SETS" value="true"/>
                         </struct>
                         <struct name="api_tab">
                            <setting name="INCLUDE_vTaskPrioritySet" value="true"/>
@@ -733,6 +619,47 @@
                         <struct name="us_tab">
                            <setting name="configUSER_SETTINGS" value=""/>
                         </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="flexio_i2c_config_1" uuid="155378c8-960f-4140-a767-d8d02116cca6" type="flexio_i2c_config" type_id="flexio_i2c" mode="general" peripheral="FLEXIO" enabled="true" comment="" custom_name_enabled="false" editing_lock="false">
+                     <config_set name="flexio_i2c_driver">
+                        <array name="flexio_i2c_Configuration">
+                           <struct name="0">
+                              <setting name="name" value="Flexio_i2c_Config0"/>
+                              <setting name="readonly" value="true"/>
+                              <setting name="slaveAddress" value="62"/>
+                              <setting name="driverType" value="FLEXIO_DRIVER_TYPE_POLLING"/>
+                              <setting name="baudRate" value="400000"/>
+                              <setting name="sdaPin" value="6"/>
+                              <setting name="sclPin" value="7"/>
+                              <setting name="callback" value="flexio_i2c_Transmit_Callback"/>
+                           </struct>
+                        </array>
+                     </config_set>
+                  </instance>
+                  <instance name="lpspi_1" uuid="5766c9b3-fce2-4b2a-8786-3b87b14867ff" type="lpspi_config" type_id="lpspi" mode="general_soft" peripheral="LPSPI_0" enabled="true" comment="" custom_name_enabled="false" editing_lock="false">
+                     <config_set name="lpspi">
+                        <array name="lpspiMasterConfig">
+                           <struct name="0">
+                              <setting name="name" value="lpspiCom1_MasterConfig0"/>
+                              <setting name="readOnly" value="true"/>
+                              <setting name="bitsPerSec" value="2000000"/>
+                              <setting name="whichPcs" value="LPSPI_PCS0"/>
+                              <setting name="pcsPolarity" value="LPSPI_ACTIVE_LOW"/>
+                              <setting name="isPcsContinuous" value="false"/>
+                              <setting name="bitcount" value="8"/>
+                              <setting name="lpspiSrcClk" value="8000000"/>
+                              <setting name="clkPhase" value="LPSPI_CLOCK_PHASE_1ST_EDGE"/>
+                              <setting name="clkPolarity" value="LPSPI_SCK_ACTIVE_LOW"/>
+                              <setting name="lsbFirst" value="false"/>
+                              <setting name="transferType" value="LPSPI_USING_INTERRUPTS"/>
+                              <setting name="rxDMAChannel" value="0"/>
+                              <setting name="txDMAChannel" value="0"/>
+                              <setting name="callback" value="NULL"/>
+                              <setting name="callbackParam" value="NULL"/>
+                           </struct>
+                        </array>
+                        <array name="lpspiSlaveConfig"/>
                      </config_set>
                   </instance>
                </instances>
