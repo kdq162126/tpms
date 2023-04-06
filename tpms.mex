@@ -508,7 +508,7 @@
                               <setting name="baudRate" value="115200"/>
                               <setting name="bitCount" value="8"/>
                               <setting name="direction" value="FLEXIO_UART_DIRECTION_TX"/>
-                              <setting name="dataPin" value="0"/>
+                              <setting name="dataPin" value="1"/>
                               <setting name="callback" value="flexio_uart_TX_Callback0"/>
                            </struct>
                            <struct name="1">
@@ -518,7 +518,7 @@
                               <setting name="baudRate" value="115200"/>
                               <setting name="bitCount" value="8"/>
                               <setting name="direction" value="FLEXIO_UART_DIRECTION_RX"/>
-                              <setting name="dataPin" value="1"/>
+                              <setting name="dataPin" value="0"/>
                               <setting name="callback" value="flexio_uart_RX_Callback0"/>
                            </struct>
                         </array>

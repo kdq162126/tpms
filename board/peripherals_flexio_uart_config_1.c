@@ -47,7 +47,7 @@ instance:
         - baudRate: '115200'
         - bitCount: '8'
         - direction: 'FLEXIO_UART_DIRECTION_TX'
-        - dataPin: '0'
+        - dataPin: '1'
         - callback: 'flexio_uart_TX_Callback0'
       - 1:
         - name: 'Flexio_uart_Config0_RX'
@@ -56,7 +56,7 @@ instance:
         - baudRate: '115200'
         - bitCount: '8'
         - direction: 'FLEXIO_UART_DIRECTION_RX'
-        - dataPin: '1'
+        - dataPin: '0'
         - callback: 'flexio_uart_RX_Callback0'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
@@ -76,7 +76,7 @@ const flexio_uart_user_config_t Flexio_uart_Config0_TX = {
   .baudRate = 115200UL,
   .bitCount = 8U,
   .direction = FLEXIO_UART_DIRECTION_TX,
-  .dataPin = 0U,
+  .dataPin = 1U,
   .callback = flexio_uart_TX_Callback0,
   .callbackParam = NULL
 };
@@ -86,7 +86,7 @@ const flexio_uart_user_config_t Flexio_uart_Config0_RX = {
   .baudRate = 115200UL,
   .bitCount = 8U,
   .direction = FLEXIO_UART_DIRECTION_RX,
-  .dataPin = 1U,
+  .dataPin = 0U,
   .callback = flexio_uart_RX_Callback0,
   .callbackParam = NULL
 };
