@@ -630,8 +630,8 @@
                               <setting name="slaveAddress" value="62"/>
                               <setting name="driverType" value="FLEXIO_DRIVER_TYPE_POLLING"/>
                               <setting name="baudRate" value="400000"/>
-                              <setting name="sdaPin" value="6"/>
-                              <setting name="sclPin" value="7"/>
+                              <setting name="sdaPin" value="7"/>
+                              <setting name="sclPin" value="6"/>
                               <setting name="callback" value="flexio_i2c_Transmit_Callback"/>
                            </struct>
                         </array>

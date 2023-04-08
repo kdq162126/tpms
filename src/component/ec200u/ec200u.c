@@ -57,6 +57,7 @@ int8_t Ec200uOpenNetwork(Ec200u* this, char* host, char* port) {
         return (-1);
     }
 
+    // Cut out expect response from receive data
     char networkStatus = *(strstr(this->base.receiveData, expectResponse) + strlen(expectResponse));
     return atoi(&networkStatus);
 }
@@ -125,54 +126,6 @@ bool Ec200uPublishMessage(Ec200u* this, char* qos, char* retain, char* topic, ch
     return ATmodemExcutiveCmd((ATmodem*)this, message, "+QMTPUBEX: 0,0,0\r\n", 10000, 1);
 }
 
-
-
-bool Ec200uTurnOnGPS(Ec200u* this) {
-    char cmd[EC200U_TX_BUFFER_CMD_LENGTH];
-    char* buff = cmd;
-
-    AT_MODEM_BUILD_HEAD(buff);
-    buff = StringAppendString(buff, EC200U_GPS_CMD_TURN_ON);
-    AT_MODEM_BUILD_HEAD(buff);
-
-    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "OK\r\n", EC200U_NORMAL_CMD_TIMEOUT_MS, 3);
-}
-
-bool Ec200uTurnOffGPS(Ec200u* this) {
-    char cmd[EC200U_TX_BUFFER_CMD_LENGTH];
-    char* buff = cmd;
-
-    AT_MODEM_BUILD_HEAD(buff);
-    buff = StringAppendString(buff, EC200U_GPS_CMD_TURN_OFF);
-    AT_MODEM_BUILD_HEAD(buff);
-
-    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "OK\r\n", EC200U_NORMAL_CMD_TIMEOUT_MS, 3);
-}
-
-char* Ec200uAcquirePositionInfo(Ec200u* this) {
-    char cmd[EC200U_TX_BUFFER_CMD_LENGTH];
-    char* buff = cmd;
-
-    AT_MODEM_BUILD_HEAD(buff);
-    buff = StringAppendString(buff, EC200U_GPS_CMD_GET_POSITION);
-    *buff++ = '=';
-    *buff++ = '2';
-    AT_MODEM_BUILD_HEAD(buff);
-
-    bool isSuccess = ATmodemExcutiveCmd((ATmodem*)this, cmd, "OK\r\n", EC200U_NORMAL_CMD_TIMEOUT_MS, 3);
-    if (isSuccess) {
-        // Remove head string
-        char* resp = this->base.receiveData + strlen("+QGPSLOC: ");
-        // Remove tail string
-        resp[strlen(resp) - strlen("\r\n\nOK\r\n")] = '\0';
-        return resp;
-    }
-
-    return NULL;
-}
-
-
-
 bool Ec200uActiveRF(Ec200u* this) {
     char* buff = this->base.txCmdBuff;
 
@@ -193,5 +146,69 @@ bool Ec200uDeactiveRF(Ec200u* this) {
     AT_MODEM_BUILD_TAIL(buff);
 
     return ATmodemExcutiveCmd((ATmodem*)this, this->base.txCmdBuff, "OK", 5000, 3);
+}
+
+int8_t Ec200uCheckGpsTurnOnStatus(Ec200u* this) {
+    char cmd[EC200U_TX_BUFFER_CMD_LENGTH];
+    char* buff = cmd;
+
+    AT_MODEM_BUILD_HEAD(buff);
+    buff = StringAppendString(buff, EC200U_GPS_CMD_TURN_ON);
+    *buff++ = '?';
+    AT_MODEM_BUILD_TAIL(buff);
+
+    char* expectResponse = "+QGPS: ";
+    bool isSuccess = ATmodemExcutiveCmd((ATmodem*)this, cmd, expectResponse, EC200U_NORMAL_CMD_TIMEOUT_MS, 3);
+    if (!isSuccess) {
+        return (-1);
+    }
+
+    // Cut out expect response from receive data
+    char gpsStatus = *(strstr(this->base.receiveData, expectResponse) + strlen(expectResponse));
+    return atoi(&gpsStatus);
+}
+
+bool Ec200uTurnOnGPS(Ec200u* this) {
+    char cmd[EC200U_TX_BUFFER_CMD_LENGTH];
+    char* buff = cmd;
+
+    AT_MODEM_BUILD_HEAD(buff);
+    buff = StringAppendString(buff, EC200U_GPS_CMD_TURN_ON);
+    AT_MODEM_BUILD_TAIL(buff);
+
+    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "OK\r\n", EC200U_NORMAL_CMD_TIMEOUT_MS, 3);
+}
+
+bool Ec200uTurnOffGPS(Ec200u* this) {
+    char cmd[EC200U_TX_BUFFER_CMD_LENGTH];
+    char* buff = cmd;
+
+    AT_MODEM_BUILD_HEAD(buff);
+    buff = StringAppendString(buff, EC200U_GPS_CMD_TURN_OFF);
+    AT_MODEM_BUILD_TAIL(buff);
+
+    return ATmodemExcutiveCmd((ATmodem*)this, cmd, "OK\r\n", EC200U_NORMAL_CMD_TIMEOUT_MS, 3);
+}
+
+char* Ec200uAcquirePositionInfo(Ec200u* this) {
+    char cmd[EC200U_TX_BUFFER_CMD_LENGTH];
+    char* buff = cmd;
+
+    AT_MODEM_BUILD_HEAD(buff);
+    buff = StringAppendString(buff, EC200U_GPS_CMD_GET_POSITION);
+    *buff++ = '=';
+    *buff++ = '2';
+    AT_MODEM_BUILD_TAIL(buff);
+
+    bool isSuccess = ATmodemExcutiveCmd((ATmodem*)this, cmd, "OK\r\n", EC200U_NORMAL_CMD_TIMEOUT_MS, 3);
+    if (isSuccess) {
+        // Remove head string
+        char* resp = this->base.receiveData + strlen("+QGPSLOC: ");
+        // Remove tail string
+        resp[strlen(resp) - strlen("\r\n\nOK\r\n")-1] = '\0';
+        return resp;
+    }
+
+    return NULL;
 }
 
