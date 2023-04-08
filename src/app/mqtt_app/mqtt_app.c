@@ -49,6 +49,8 @@ void MqttAppInit() {
     pApp->gps.deactive = GpsDeactiveHandle;
     pApp->gps.updatePositionInfo = GpsUpdatePositionInfoHandle;
     pApp->gps.state = GPS_ST_INITALIZE;
+    pApp->gps.lat[0] = '0';
+    pApp->gps.lon[0] = '0';
 
 
     // Init MQTT Topic
@@ -83,12 +85,12 @@ void MqttHandleTask(void* pv) {
             MqttClientConnectServer(&tpmsApp.mqtt);
             break;
         case MQTT_CLIENT_ST_STREAM_DATA:
-            for (uint8_t i = 0; i < 10; i++) {
+            MqttClientPublishSensorMessageHandle(&tpmsApp.mqtt);
+            vTaskDelay(1000);
+            for (uint8_t i = 0; i < 5; i++) {
                 GpsHandleStateMachine(&tpmsApp.gps);
                 vTaskDelay(1000);
             }
-            MqttClientPublishSensorMessageHandle(&tpmsApp.mqtt);
-            vTaskDelay(1000);
             break;
         case MQTT_CLIENT_ST_FAIL:
             MqttClientFailHandle(&tpmsApp.mqtt);
@@ -165,7 +167,7 @@ void CreateMockSensorMessage(char* buff, char* deviceId) {
     *buff++ = '[';
 
     char* tireIds[] = { "91HAG1KLH8","C9524A9A13","C9524F1B13","91HA1H0AH8" };
-    char* positions[] = { "L11", "R11", "L12" ,"R12" };
+    char* positions[] = { "L11\0", "R11\0", "L12\0" ,"R12\0" };
     //    for (uint8_t i = 0; i < 4; i++) {
     //        buff = JsonOpen(buff);
     //        buff = JsonFromString(buff, "id", tireIds[i]);
@@ -184,10 +186,12 @@ void CreateMockSensorMessage(char* buff, char* deviceId) {
     //    }
 
     for (uint8_t i = 0; i < TIRE_NUMBER;i++) {
-        if (tpmsApp.tires[i].state != TIRE_ST_ACTIVE) {
-            tpmsApp.tires[i].bat = 280;
-            memcpy(tpmsApp.tires[i].id, tireIds[i], 10);
-        }
+        if (tpmsApp.tires[i].state != TIRE_ST_ACTIVE) continue;
+
+        // if (tpmsApp.tires[i].state != TIRE_ST_ACTIVE) {
+        //     tpmsApp.tires[i].bat = 280;
+        //     memcpy(tpmsApp.tires[i].id, tireIds[i], 10);
+        // }
 
         memcpy(tpmsApp.tires[i].pos, positions[i], 3);
         buff = TirePackageJsonMessage(&tpmsApp.tires[i], buff);

@@ -200,7 +200,7 @@ char* Ec200uAcquirePositionInfo(Ec200u* this) {
     *buff++ = '2';
     AT_MODEM_BUILD_TAIL(buff);
 
-    bool isSuccess = ATmodemExcutiveCmd((ATmodem*)this, cmd, "OK\r\n", EC200U_NORMAL_CMD_TIMEOUT_MS, 3);
+    bool isSuccess = ATmodemExcutiveCmd((ATmodem*)this, cmd, "OK\r\n", EC200U_NORMAL_CMD_TIMEOUT_MS, 1);
     if (isSuccess) {
         // Remove head string
         char* resp = this->base.receiveData + strlen("+QGPSLOC: ");
