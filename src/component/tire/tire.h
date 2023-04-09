@@ -21,8 +21,8 @@ typedef enum TIRE_STATE {
 typedef struct Tire_t Tire;
 struct Tire_t {
     TIRE_STATE state;
-    char id[8];
-    char pos[3];
+    char id[10];
+    char pos[4];
     SegElement press;
     SegElement temp;
     uint32_t bat;

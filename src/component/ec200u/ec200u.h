@@ -25,11 +25,12 @@
 #define EC200U_CMD_DISCONNECT_SERVER    "QMTDISC="
 #define EC200U_CMD_PUBLISH_MESSAGE      "QMTPUBEX="
 
-#define EC200U_GPS_CMD_TURN_ON          "QGPS=1"
+#define EC200U_GPS_CMD_TURN_ON          "QGPS"
 #define EC200U_GPS_CMD_TURN_OFF         "QGPSEND"
 #define EC200U_GPS_CMD_GET_POSITION     "QGPSLOC"
+#define EC200U_GPS_CMD_CONFIG           "QGPSCFG"
 
-#define EC200U_NORMAL_CMD_TIMEOUT_MS    10000UL
+#define EC200U_NORMAL_CMD_TIMEOUT_MS    500UL
 #define EC200U_TX_BUFFER_CMD_LENGTH     100UL   
 #define EC200U_TX_BUFFER_DATA_LENGTH    300UL      
 
@@ -50,6 +51,7 @@ bool Ec200uPublishMessage(Ec200u* this, char* qos, char* retain, char* topic, ch
 bool Ec200uActiveRF(Ec200u* this);
 bool Ec200uDeactiveRF(Ec200u* this);
 
+int8_t Ec200uCheckGpsTurnOnStatus(Ec200u* this);
 bool Ec200uTurnOnGPS(Ec200u* this);
 bool Ec200uTurnOffGPS(Ec200u* this);
 char* Ec200uAcquirePositionInfo(Ec200u* this);

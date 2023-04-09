@@ -36,7 +36,7 @@ instance:
 - custom_name_enabled: 'false'
 - type_id: 'lpspi'
 - functional_group: 'BOARD_InitPeripherals'
-- peripheral: 'LPSPI_0'
+- peripheral: 'LPSPI_2'
 - config_sets:
   - lpspi:
     - lpspiMasterConfig:

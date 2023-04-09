@@ -20,7 +20,7 @@ void GpsHandleStateMachine(Gps* this) {
     }
 }
 
-// Example: 1951.000,3150.7223N,11711.9293E,0.7,62.2,2,000.00,0.0,0.0,110513,09
+// Example: 102424.000,21.06823,105.80386,2.0,19.6,3,000.00,1.4,0.8,060423,09
 void GpsParseResponse(Gps* this, char* resp) {
     // UTC: Unused
     char* token = strtok(resp, ",");

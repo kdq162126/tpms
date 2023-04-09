@@ -70,23 +70,24 @@
 *******************************************************************************/
 
 /* CS GPIO pin */
-#define LZ_CS_INST                  instanceB
-#define LZ_CS_PIN                   5U
+#define LZ_CS_INST                  instanceE
+#define LZ_CS_PIN                   13U
+
 
 /* INT GPIO pin */
-#define LZ_INT_INST                 instanceD
-#define LZ_INT_PIN                  14U
+#define LZ_INT_INST                 instanceA
+#define LZ_INT_PIN                  6U
 
 /* RDY GPIO pin */
 #define LZ_RDY_INST                 instanceA
-#define LZ_RDY_PIN                  14U
+#define LZ_RDY_PIN                  7U
 
 /* RST GPIO pin */
-#define LZ_RST_INST                 instanceE
-#define LZ_RST_PIN                  7U
+#define LZ_RST_INST                 instanceA
+#define LZ_RST_PIN                  9U
 
 /* LPSPI used by Lizard device (LPSPI 0). */
-#define LZ_LPSPI_INST                0U
+#define LZ_LPSPI_INST                2U
 
 /* Define to enable or disable the prints of the received messages
  * 0u: Disabled

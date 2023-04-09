@@ -114,6 +114,13 @@ char* JsonFromString(char* buff, char* key, char* value) {
     return buff;
 }
 
+char* JsonFromStringNoQuote(char* buff, char* key, char* value) {
+    buff = StringAppendStringWithQuote(buff, key);
+    *buff++ = ':';
+    buff = StringAppendString(buff, value);
+    return buff;
+}
+
 char* JsonFromIntArray(char* buff, char* key, uint32_t value[], uint16_t len) {
     buff = StringAppendStringWithQuote(buff, key);
     *buff++ = ':';

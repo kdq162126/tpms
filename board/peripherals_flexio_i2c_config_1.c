@@ -46,8 +46,8 @@ instance:
         - slaveAddress: '62'
         - driverType: 'FLEXIO_DRIVER_TYPE_POLLING'
         - baudRate: '400000'
-        - sdaPin: '6'
-        - sclPin: '7'
+        - sdaPin: '7'
+        - sclPin: '6'
         - callback: 'flexio_i2c_Transmit_Callback'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
@@ -66,8 +66,8 @@ const flexio_i2c_master_user_config_t Flexio_i2c_Config0 = {
   .slaveAddress = 62U,
   .driverType = FLEXIO_DRIVER_TYPE_POLLING,
   .baudRate = 400000UL,
-  .sdaPin = 6U,
-  .sclPin = 7U,
+  .sdaPin = 7U,
+  .sclPin = 6U,
   .callback = flexio_i2c_Transmit_Callback,
   .callbackParam = NULL
 };

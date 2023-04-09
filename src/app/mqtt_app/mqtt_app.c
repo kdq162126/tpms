@@ -20,7 +20,8 @@ static void lteAtCmdDelay(const uint32_t timeMs);
 static void MqttClientInitHandle(MqttClient* this);
 static void MqttClientOpenNetworkHandle(MqttClient* this);
 static void MqttClientConnectServerHandle(MqttClient* this);
-static void MqttClientPublishMessageHandle(MqttClient* this);
+static void MqttClientPublishSensorMessageHandle(MqttClient* this);
+static void MqttClientPublishLocationMessageHandle(MqttClient* this);
 static void MqttClientFailHandleImpl(MqttClient* this);
 
 static char TopicSensor[32] = { 0 };
@@ -41,12 +42,15 @@ void MqttAppInit() {
     pApp->mqtt.init = MqttClientInitHandle;
     pApp->mqtt.openNetwork = MqttClientOpenNetworkHandle;
     pApp->mqtt.connectServer = MqttClientConnectServerHandle;
-    pApp->mqtt.publishMessage = MqttClientPublishMessageHandle;
+    pApp->mqtt.publishMessage = MqttClientPublishSensorMessageHandle;
     pApp->mqtt.failHandle = MqttClientFailHandleImpl;
 
     pApp->gps.active = GpsActiveHandle;
     pApp->gps.deactive = GpsDeactiveHandle;
     pApp->gps.updatePositionInfo = GpsUpdatePositionInfoHandle;
+    pApp->gps.state = GPS_ST_INITALIZE;
+    pApp->gps.lat[0] = '0';
+    pApp->gps.lon[0] = '0';
 
 
     // Init MQTT Topic
@@ -81,8 +85,12 @@ void MqttHandleTask(void* pv) {
             MqttClientConnectServer(&tpmsApp.mqtt);
             break;
         case MQTT_CLIENT_ST_STREAM_DATA:
-            MqttClientPublishMessage(&tpmsApp.mqtt);
-            vTaskDelay(5000);
+            MqttClientPublishSensorMessageHandle(&tpmsApp.mqtt);
+            vTaskDelay(1000);
+            for (uint8_t i = 0; i < 5; i++) {
+                GpsHandleStateMachine(&tpmsApp.gps);
+                vTaskDelay(1000);
+            }
             break;
         case MQTT_CLIENT_ST_FAIL:
             MqttClientFailHandle(&tpmsApp.mqtt);
@@ -159,7 +167,7 @@ void CreateMockSensorMessage(char* buff, char* deviceId) {
     *buff++ = '[';
 
     char* tireIds[] = { "91HAG1KLH8","C9524A9A13","C9524F1B13","91HA1H0AH8" };
-    char* positions[] = { "L11", "R11", "L12" ,"R12" };
+    char* positions[] = { "L11\0", "R11\0", "L12\0" ,"R12\0" };
     //    for (uint8_t i = 0; i < 4; i++) {
     //        buff = JsonOpen(buff);
     //        buff = JsonFromString(buff, "id", tireIds[i]);
@@ -178,10 +186,12 @@ void CreateMockSensorMessage(char* buff, char* deviceId) {
     //    }
 
     for (uint8_t i = 0; i < TIRE_NUMBER;i++) {
-        if (tpmsApp.tires[i].state != TIRE_ST_ACTIVE) {
-            tpmsApp.tires[i].bat = 280;
-            memcpy(tpmsApp.tires[i].id, tireIds[i], 10);
-        }
+        if (tpmsApp.tires[i].state != TIRE_ST_ACTIVE) continue;
+
+        // if (tpmsApp.tires[i].state != TIRE_ST_ACTIVE) {
+        //     tpmsApp.tires[i].bat = 280;
+        //     memcpy(tpmsApp.tires[i].id, tireIds[i], 10);
+        // }
 
         memcpy(tpmsApp.tires[i].pos, positions[i], 3);
         buff = TirePackageJsonMessage(&tpmsApp.tires[i], buff);
@@ -200,9 +210,11 @@ void CreateMockLocationMessage(char* buff, char* deviceId) {
     *buff++ = ',';
     // buff = JsonFromString(buff, "version", "123xxx");
     // *buff++ = ',';
-    buff = JsonFromFloat(buff, "lat", 21.00 + (float)(rand() % 10000) / 1000000, 6);
+    // buff = JsonFromFloat(buff, "lat", 21.00 + (float)(rand() % 10000) / 1000000, 6);
+    buff = JsonFromStringNoQuote(buff, "lat", tpmsApp.gps.lat);
     *buff++ = ',';
-    buff = JsonFromFloat(buff, "lon", 105.81 + (float)(rand() % 10000) / 1000000, 6);
+    // buff = JsonFromFloat(buff, "lon", 105.81 + (float)(rand() % 10000) / 1000000, 6);
+    buff = JsonFromStringNoQuote(buff, "lon", tpmsApp.gps.lon);
     buff = JsonClose(buff);
     *buff++ = '\0';
 }
@@ -220,8 +232,8 @@ char* TopicLocations[] = {
 
 
 
-static void MqttClientPublishMessageHandle(MqttClient* this) {
-    for (uint8_t i = 0; i < 2; i++) {
+static void MqttClientPublishSensorMessageHandle(MqttClient* this) {
+    for (uint8_t i = 0; i < 1; i++) {
         CreateMockSensorMessage(tpmsApp.lteModule.base.txDataBuff, deviceIds[i]);
         bool isSuccess = Ec200uPublishMessage(&tpmsApp.lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicSensors[i], tpmsApp.lteModule.base.txDataBuff);
         if (!isSuccess) {
@@ -229,18 +241,20 @@ static void MqttClientPublishMessageHandle(MqttClient* this) {
             return;
         }
 
-        tpmsApp.lteModule.base.delayMs(1000);
+        MqttClientSetState(this, MQTT_CLIENT_ST_STREAM_DATA);
+    }
+}
 
+static void MqttClientPublishLocationMessageHandle(MqttClient* this) {
+    for (uint8_t i = 0; i < 1; i++) {
         CreateMockLocationMessage(tpmsApp.lteModule.base.txDataBuff, deviceIds[i]);
-        isSuccess = Ec200uPublishMessage(&tpmsApp.lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicLocations[i], tpmsApp.lteModule.base.txDataBuff);
+        bool  isSuccess = Ec200uPublishMessage(&tpmsApp.lteModule, MQTT_CONFIG_QOS, MQTT_CONFIG_RETAIN, TopicLocations[i], tpmsApp.lteModule.base.txDataBuff);
         if (!isSuccess) {
             MqttClientSetState(this, MQTT_CLIENT_ST_FAIL);
             return;
         }
 
         MqttClientSetState(this, MQTT_CLIENT_ST_STREAM_DATA);
-
-        tpmsApp.lteModule.base.delayMs(1000);
     }
 }
 
@@ -256,13 +270,22 @@ static void MqttClientFailHandleImpl(MqttClient* this) {
 }
 
 static void GpsActiveHandle(Gps* this) {
-    bool isSuccess = Ec200uTurnOnGPS(&tpmsApp.lteModule);
-    if (isSuccess) {
+    int8_t gpsStatus = Ec200uCheckGpsTurnOnStatus(&tpmsApp.lteModule);
+    switch (gpsStatus) {
+    case 0:
+        if (Ec200uTurnOnGPS(&tpmsApp.lteModule) == true) {
+            GpsSetState(this, GPS_ST_ACTIVE);
+            break;
+        }
+        GpsSetState(this, GPS_ST_FAIL);
+        break;
+    case 1:
         GpsSetState(this, GPS_ST_ACTIVE);
-        return;
+        break;
+    default:
+        GpsSetState(this, GPS_ST_FAIL);
+        break;
     }
-
-    GpsSetState(this, GPS_ST_FAIL);
 }
 
 static void GpsDeactiveHandle(Gps* this) {
@@ -281,7 +304,7 @@ static void GpsUpdatePositionInfoHandle(Gps* this) {
         GpsParseResponse(this, resp);
     }
 
-    GpsSetState(this, GPS_ST_FAIL);
+    MqttClientPublishLocationMessageHandle(&tpmsApp.mqtt);
 }
 
 

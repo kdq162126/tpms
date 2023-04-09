@@ -58,15 +58,15 @@
  /**********************************************************************
   * Local macros
   **********************************************************************/
-#define SW_INT_LZ_INSTANCE	instanceD
+#define SW_INT_LZ_INSTANCE	instanceA
 #define SW_S32_INSTANCE		instanceC
-#define SW_LZ_PORT_IRQN		PORTD_IRQn
+#define SW_LZ_PORT_IRQN		PORTA_IRQn
 #define SW_S32_PORT_IRQN	PORTC_IRQn
 #define SW1_LZ_PIN_NB		(uint8_t)(3)
 #define SW2_LZ_PIN_NB		(uint8_t)(5)
 #define SW2_S32_PIN_NB		(uint8_t)(12)
 #define SW3_S32_PIN_NB		(uint8_t)(13)
-#define LZ_INT_PIN_NB		(uint8_t)(14)
+#define LZ_INT_PIN_NB		(uint8_t)(6)
 
   /**********************************************************************
    * Global variables
@@ -82,6 +82,7 @@ uint8_t u8LzIntSignal;
  **********************************************************************/
 void vPort_D_ISRHandler(void);
 void vPort_C_ISRHandler(void);
+void vPort_A_ISRHandler(void);
 
 
 void GPIO_install_int(void)
@@ -89,7 +90,7 @@ void GPIO_install_int(void)
    /* Install interrupts for GPIOs */
 
    /* Install LZ Button & INT interrupt handler */
-   INT_SYS_InstallHandler(SW_LZ_PORT_IRQN, vPort_D_ISRHandler, (isr_t*)NULL);
+   INT_SYS_InstallHandler(SW_LZ_PORT_IRQN, vPort_A_ISRHandler, (isr_t*)NULL);
    /* Enable LZ Button interrupt handler */
    INT_SYS_EnableIRQ(SW_LZ_PORT_IRQN);
 
@@ -154,6 +155,34 @@ void vPort_C_ISRHandler(void)
    {
       u8Sw3_S32_pressed = 1;
       GPIO_AML_ClearInterruptFlags(SW_S32_INSTANCE, SW3_S32_PIN_NB);
+   }
+}
+
+void vPort_A_ISRHandler(void)
+{
+   uint32_t u32Flags;
+
+   u32Flags = GPIO_AML_GetInterruptFlags(SW_INT_LZ_INSTANCE);
+
+   /* Check if interrupt comes from SW1 */
+   if (u32Flags & (1 << SW1_LZ_PIN_NB))
+   {
+      u8Sw1_LZ_pressed = 1;
+      GPIO_AML_ClearInterruptFlags(SW_INT_LZ_INSTANCE, SW1_LZ_PIN_NB);
+   }
+
+   /* Check if interrupt comes from SW2 */
+   if (u32Flags & (1 << SW2_LZ_PIN_NB))
+   {
+      u8Sw2_LZ_pressed = 1;
+      GPIO_AML_ClearInterruptFlags(SW_INT_LZ_INSTANCE, SW2_LZ_PIN_NB);
+   }
+
+   /* Check if interrupt comes from LZ INT pin */
+   if (u32Flags & (1 << LZ_INT_PIN_NB))
+   {
+      u8LzIntSignal = 1;
+      GPIO_AML_ClearInterruptFlags(SW_INT_LZ_INSTANCE, LZ_INT_PIN_NB);
    }
 }
 
