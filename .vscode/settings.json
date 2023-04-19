@@ -26,7 +26,11 @@
                 "mqtt_client.h": "c",
                 "task.h": "c",
                 "task_init.h": "c",
-                "gps.h": "c"
+                "gps.h": "c",
+                "nxp_console_adapter.h": "c",
+                "handle_cmd.h": "c",
+                "lf.h": "c",
+                "sensor_app.h": "c"
         },
         "C_Cpp.errorSquiggles": "disabled",
         "C_Cpp.dimInactiveRegions": false
