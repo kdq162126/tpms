@@ -13,43 +13,43 @@
  * Section 2.3 is expressly granted for this software.
  */
 
-/*!
- * @file osif_freertos.c
- *
- * @page misra_violations MISRA-C:2012 violations
- *
- * @section [global]
- * Violates MISRA 2012 Required Rule 1.3, Taking address of near auto variable
- * The code is not dynamically linked. An absolute stack address is obtained when
- * taking the address of the near auto variable. A source of error in writing
- * dynamic code is that the stack segment may be different from the data segment.
- *
- * @section [global]
- * Violates MISRA 2012 Advisory Directive 4.9, Function-like macro defined.
- * The macros are used to validate input parameters to driver functions.
- *
- * @section [global]
- * Violates MISRA 2012 Required Rule 7.2, Unsigned integer literal without a 'U' suffix
- * Register address defined by FreeRTOS header files.
- *
- * @section [global]
- * Violates MISRA 2012 Advisory Rule 8.7, External could be made static.
- * Function is defined for usage by application code.
- *
- * @section [global]
- * Violates MISRA 2012 Advisory Rule 8.13, Pointer variable could be declared as pointing to const
- * Type definition is done in FreeRTOS header files.
- *
- * @section [global]
- * Violates MISRA 2012 Advisory Rule 11.4, Conversion between a pointer and integer type.
- * The cast is required to initialize a pointer with an unsigned long define, representing an address.
- *
- * @section [global]
- * Violates MISRA 2012 Required Rule 11.6, Cast from unsigned int to pointer.
- * This is required for initializing pointers to the module's memory map, which is located at a
- * fixed address.
- *
- */
+ /*!
+  * @file osif_freertos.c
+  *
+  * @page misra_violations MISRA-C:2012 violations
+  *
+  * @section [global]
+  * Violates MISRA 2012 Required Rule 1.3, Taking address of near auto variable
+  * The code is not dynamically linked. An absolute stack address is obtained when
+  * taking the address of the near auto variable. A source of error in writing
+  * dynamic code is that the stack segment may be different from the data segment.
+  *
+  * @section [global]
+  * Violates MISRA 2012 Advisory Directive 4.9, Function-like macro defined.
+  * The macros are used to validate input parameters to driver functions.
+  *
+  * @section [global]
+  * Violates MISRA 2012 Required Rule 7.2, Unsigned integer literal without a 'U' suffix
+  * Register address defined by FreeRTOS header files.
+  *
+  * @section [global]
+  * Violates MISRA 2012 Advisory Rule 8.7, External could be made static.
+  * Function is defined for usage by application code.
+  *
+  * @section [global]
+  * Violates MISRA 2012 Advisory Rule 8.13, Pointer variable could be declared as pointing to const
+  * Type definition is done in FreeRTOS header files.
+  *
+  * @section [global]
+  * Violates MISRA 2012 Advisory Rule 11.4, Conversion between a pointer and integer type.
+  * The cast is required to initialize a pointer with an unsigned long define, representing an address.
+  *
+  * @section [global]
+  * Violates MISRA 2012 Required Rule 11.6, Cast from unsigned int to pointer.
+  * This is required for initializing pointers to the module's memory map, which is located at a
+  * fixed address.
+  *
+  */
 
 #include <stdbool.h>
 #include "device_registers.h"
@@ -62,17 +62,17 @@
 #error "Wrong OSIF selected. Please define symbol USING_OS_FREERTOS in project settings or change the OSIF variant"
 #endif
 
-/*******************************************************************************
- * Variables
- ******************************************************************************/
+  /*******************************************************************************
+   * Variables
+   ******************************************************************************/
 
-/*******************************************************************************
- * Private Functions
- ******************************************************************************/
+   /*******************************************************************************
+    * Private Functions
+    ******************************************************************************/
 
-/*! @cond DRIVER_INTERNAL_USE_ONLY */
+    /*! @cond DRIVER_INTERNAL_USE_ONLY */
 
-/*! @brief Converts milliseconds to ticks*/
+    /*! @brief Converts milliseconds to ticks*/
 #define MSEC_TO_TICK(msec) (pdMS_TO_TICKS(msec))
 
 /* define a macro to access the FreeRTOS mutex/semaphore handle from an
@@ -83,19 +83,19 @@
 #define SEM_HANDLE(sem) (sem)
 #endif
 
-/*FUNCTION**********************************************************************
- *
- * Function Name : osif_IsIsrContext
- * Description   : This function returns true if the current execution context
- *  is from an ISR and false if execution is in normal thread mode.
- *
- *END**************************************************************************/
+ /*FUNCTION**********************************************************************
+  *
+  * Function Name : osif_IsIsrContext
+  * Description   : This function returns true if the current execution context
+  *  is from an ISR and false if execution is in normal thread mode.
+  *
+  *END**************************************************************************/
 #if FEATURE_OSIF_FREERTOS_ISR_CONTEXT_METHOD == 1
-/* Cortex M device - read ICSR[IPSR] value */
+  /* Cortex M device - read ICSR[IPSR] value */
 static inline bool osif_IsIsrContext(void)
 {
     bool is_isr = false;
-    uint32_t ipsr_code = (uint32_t)( (S32_SCB->ICSR & S32_SCB_ICSR_VECTACTIVE_MASK) >> S32_SCB_ICSR_VECTACTIVE_SHIFT );
+    uint32_t ipsr_code = (uint32_t)((S32_SCB->ICSR & S32_SCB_ICSR_VECTACTIVE_MASK) >> S32_SCB_ICSR_VECTACTIVE_SHIFT);
     if (ipsr_code != 0u)
     {
         is_isr = true;
@@ -104,7 +104,7 @@ static inline bool osif_IsIsrContext(void)
     return is_isr;
 }
 #elif FEATURE_OSIF_FREERTOS_ISR_CONTEXT_METHOD == 2
-/* PowerPC device, for FreeRTOS 9.0.0 read the SPRG0 reg that denotes the interrupt nesting level */
+  /* PowerPC device, for FreeRTOS 9.0.0 read the SPRG0 reg that denotes the interrupt nesting level */
 #define SPRG0_ADDR (272)
 static inline bool osif_IsIsrContext(void)
 {
@@ -113,22 +113,22 @@ static inline bool osif_IsIsrContext(void)
     return is_isr;
 }
 #else
-    #error "No method to check ISR Context"
+#error "No method to check ISR Context"
 #endif /* FEATURE_OSIF_FREERTOS_ISR_CONTEXT_METHOD */
-/*! @endcond */
+  /*! @endcond */
 
-/*******************************************************************************
- * Code
- ******************************************************************************/
+  /*******************************************************************************
+   * Code
+   ******************************************************************************/
 
-/*FUNCTION**********************************************************************
- *
- * Function Name : OSIF_TimeDelay
- * Description   : This function blocks (sleep) the current thread for a number
- *  of milliseconds.
- *
- * Implements : OSIF_TimeDelay_freertos_Activity
- *END**************************************************************************/
+   /*FUNCTION**********************************************************************
+    *
+    * Function Name : OSIF_TimeDelay
+    * Description   : This function blocks (sleep) the current thread for a number
+    *  of milliseconds.
+    *
+    * Implements : OSIF_TimeDelay_freertos_Activity
+    *END**************************************************************************/
 void OSIF_TimeDelay(uint32_t delay)
 {
     /* One dependency for FreeRTOS config file */
@@ -152,7 +152,7 @@ uint32_t OSIF_GetMilliseconds(void)
      * Note: if configTICK_RATE_HZ is less than 1000, the return value will be truncated
      * to 32-bit wide for large values of the tick count.
      */
-    return (uint32_t)((((uint64_t) xTaskGetTickCount()) * 1000u) / configTICK_RATE_HZ);
+    return (uint32_t)((((uint64_t)xTaskGetTickCount()) * 1000u) / configTICK_RATE_HZ);
 }
 
 /*FUNCTION**********************************************************************
@@ -162,8 +162,8 @@ uint32_t OSIF_GetMilliseconds(void)
  *
  * Implements : OSIF_MutexLock_freertos_Activity
  *END**************************************************************************/
-status_t OSIF_MutexLock(const mutex_t * const pMutex,
-                        const uint32_t timeout)
+status_t OSIF_MutexLock(const mutex_t* const pMutex,
+    const uint32_t timeout)
 {
     /* The (pMutex == NULL) case is a valid option, signaling that the mutex does
      * not need to be locked - do not use DEV_ASSERT in this case */
@@ -218,7 +218,7 @@ status_t OSIF_MutexLock(const mutex_t * const pMutex,
  *
  * Implements : OSIF_MutexUnlock_freertos_Activity
  *END**************************************************************************/
-status_t OSIF_MutexUnlock(const mutex_t * const pMutex)
+status_t OSIF_MutexUnlock(const mutex_t* const pMutex)
 {
     /* The (pMutex == NULL) case is a valid option, signaling that the mutex does
      * not need to be unlocked - do not use DEV_ASSERT in this case */
@@ -259,7 +259,7 @@ status_t OSIF_MutexUnlock(const mutex_t * const pMutex)
  *
  * Implements : OSIF_MutexCreate_freertos_Activity
  *END**************************************************************************/
-status_t OSIF_MutexCreate(mutex_t * const pMutex)
+status_t OSIF_MutexCreate(mutex_t* const pMutex)
 {
     /* The (pMutex == NULL) case is a valid option, signaling that the mutex does
      * not need to be created - do not use DEV_ASSERT in this case */
@@ -275,7 +275,7 @@ status_t OSIF_MutexCreate(mutex_t * const pMutex)
             osif_ret_code = STATUS_ERROR; /* mutex not created successfully */
         }
 #else /* configSUPPORT_STATIC_ALLOCATION == 0, it's dynamic allocation */
-        *pMutex = xSemaphoreCreateMutex();
+        * pMutex = xSemaphoreCreateMutex();
         if (*pMutex == NULL)
         {
             osif_ret_code = STATUS_ERROR; /* mutex not created successfully */
@@ -293,7 +293,7 @@ status_t OSIF_MutexCreate(mutex_t * const pMutex)
  *
  * Implements : OSIF_MutexDestroy_freertos_Activity
  *END**************************************************************************/
-status_t OSIF_MutexDestroy(const mutex_t * const pMutex)
+status_t OSIF_MutexDestroy(const mutex_t* const pMutex)
 {
     /* The (pMutex == NULL) case is a valid option, signaling that the mutex does
      * not need to be destroyed - do not use DEV_ASSERT in this case */
@@ -316,8 +316,8 @@ status_t OSIF_MutexDestroy(const mutex_t * const pMutex)
  *
  * Implements : OSIF_SemaWait_freertos_Activity
  *END**************************************************************************/
-status_t OSIF_SemaWait(semaphore_t * const pSem,
-                       const uint32_t timeout)
+status_t OSIF_SemaWait(semaphore_t* const pSem,
+    const uint32_t timeout)
 {
     DEV_ASSERT(pSem);
 
@@ -351,7 +351,7 @@ status_t OSIF_SemaWait(semaphore_t * const pSem,
  *
  * Implements : OSIF_SemaPost_freertos_Activity
  *END**************************************************************************/
-status_t OSIF_SemaPost(semaphore_t * const pSem)
+status_t OSIF_SemaPost(semaphore_t* const pSem)
 {
     DEV_ASSERT(pSem);
 
@@ -392,8 +392,8 @@ status_t OSIF_SemaPost(semaphore_t * const pSem)
  *
  * Implements : OSIF_SemaCreate_freertos_Activity
  *END**************************************************************************/
-status_t OSIF_SemaCreate(semaphore_t * const pSem,
-                         const uint8_t initValue)
+status_t OSIF_SemaCreate(semaphore_t* const pSem,
+    const uint8_t initValue)
 {
     DEV_ASSERT(pSem);
 
@@ -406,7 +406,7 @@ status_t OSIF_SemaCreate(semaphore_t * const pSem,
         osif_ret_code = STATUS_ERROR; /* semaphore not created successfully */
     }
 #else /* configSUPPORT_STATIC_ALLOCATION == 0, it's dynamic allocation */
-    *pSem = xSemaphoreCreateCounting(0xFFu, initValue);
+    * pSem = xSemaphoreCreateCounting(0xFFu, initValue);
     if (*pSem == NULL)
     {
         osif_ret_code = STATUS_ERROR; /* semaphore not created successfully */
@@ -423,7 +423,7 @@ status_t OSIF_SemaCreate(semaphore_t * const pSem,
  *
  * Implements : OSIF_SemaDestroy_freertos_Activity
  *END**************************************************************************/
-status_t OSIF_SemaDestroy(const semaphore_t * const pSem)
+status_t OSIF_SemaDestroy(const semaphore_t* const pSem)
 {
     DEV_ASSERT(pSem);
     SemaphoreHandle_t sem_handle = SEM_HANDLE(*pSem);
