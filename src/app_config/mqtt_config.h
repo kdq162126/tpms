@@ -13,10 +13,15 @@
 #define MQTT_CONFIG_QOS					"0"
 #define MQTT_CONFIG_RETAIN				"0"
 
-#define MQTT_NETWORK_HOST				"mqtt.smiletech.vn"
-#define MQTT_NETWORK_PORT				"8885"
-#define MQTT_CLIENT_USERNAME			"tpms_device"
-#define MQTT_CLIENT_PASSWORD			"2hwkK7NVfLyHtPx"
+//#define MQTT_NETWORK_HOST				"mqtt.smiletech.vn"
+//#define MQTT_NETWORK_PORT				"8885"
+//#define MQTT_CLIENT_USERNAME			"tpms_device"
+//#define MQTT_CLIENT_PASSWORD			"2hwkK7NVfLyHtPx"
+
+#define MQTT_NETWORK_HOST				"selex.site"
+#define MQTT_NETWORK_PORT				"1883"
+#define MQTT_CLIENT_USERNAME			"selex"
+#define MQTT_CLIENT_PASSWORD			"selex"
 
 #define MQTT_TOPIC_ROOT_PATH			"/device/"
 #define MQTT_TOPIC_LOCATION_ENDPOINT	"/location"
