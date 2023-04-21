@@ -25,12 +25,13 @@ struct Tire_t {
     char pos[4];
     SegElement press;
     SegElement temp;
-    uint32_t bat;
+    uint32_t soc;
 };
 
 void TireInit(Tire* this);
 char* TirePackageJsonMessage(Tire* this, char* buff);
 void TireSetId(Tire* this, char* id);
 uint32_t TireGetPressure(uint32_t press);
+uint32_t TireGetSoc(uint32_t volx100);
 
 #endif /* COMPONENT_TIRE_TIRE_H_ */

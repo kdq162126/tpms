@@ -249,7 +249,8 @@ void RF_LZ_check_for_message_received(void)
                             memcpy(p_tire->id, id, 8);
                             p_tire->press.value = TireGetPressure(recvBuffer[16] * 256 + recvBuffer[17]);
                             SegmentWrite(&p_tire->press, p_tire->press.value / 100);
-                            p_tire->bat = recvBuffer[22] + 122;
+//                            p_tire->soc = recvBuffer[22] + 122;
+                            p_tire->soc = TireGetSoc(recvBuffer[22] + 122);
                             p_tire->temp.value = recvBuffer[23] - 55;
                             SegmentWrite(&p_tire->temp, p_tire->temp.value);
                             p_tire->state = TIRE_ST_ACTIVE;
