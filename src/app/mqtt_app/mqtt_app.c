@@ -87,9 +87,9 @@ void MqttHandleTask(void* pv) {
         case MQTT_CLIENT_ST_STREAM_DATA:
             MqttClientPublishSensorMessageHandle(&tpmsApp.mqtt);
             vTaskDelay(1000);
-            for (uint8_t i = 0; i < 5; i++) {
+            for (uint8_t i = 0; i < 6; i++) {
                 GpsHandleStateMachine(&tpmsApp.gps);
-                vTaskDelay(1000);
+                vTaskDelay(5000);
             }
             break;
         case MQTT_CLIENT_ST_FAIL:
