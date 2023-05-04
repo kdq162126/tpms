@@ -8,7 +8,7 @@
 #include "app.h"
 #include "display_app.h"
 
-#define LCD_BUFFER_LENGTH                       26
+#define LCD_BUFFER_LENGTH                       23
 
 static void LcdStartupHandle(void);
 
@@ -40,8 +40,6 @@ void DisplayAppInit(TpmsApp* pApp) {
     pApp->tires[1].temp.write = temp1_writeSegmentHandle;
     pApp->tires[2].temp.write = temp2_writeSegmentHandle;
     pApp->tires[3].temp.write = temp3_writeSegmentHandle;
-
-
 }
 
 void DisplayTask(void* pv) {
@@ -126,10 +124,19 @@ static void press0_writeSegmentHandle(SegElement* this, int32_t val) {
     const uint8_t minDigitShow = 2;
     Digit digits[digitNum];
 
-    bytes[15].bits.b4 = 1;           // Tire_0 icon
-    bytes[17].bits.b3 = 1;           // Floating point
+    if (val == -1) {
+        SegmentClearDigits(digits, digitNum);
 
-    SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
+        bytes[15].bits.b4 = 0;           // Tire_0 icon
+        bytes[17].bits.b3 = 0;           // Floating point
+    }
+    else {
+        SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
+
+        bytes[15].bits.b4 = 1;           // Tire_0 icon
+        bytes[17].bits.b3 = 1;           // Floating point
+    }
+
     for (uint8_t i = 0; i < digitNum; i++) {
         uint8_t byteShift = i * 2;
         bytes[16 + byteShift].bits.b0 = digits[i].a;
@@ -150,10 +157,19 @@ static void press1_writeSegmentHandle(SegElement* this, int32_t val) {
     const uint8_t minDigitShow = 2;
     Digit digits[digitNum];
 
-    bytes[13].bits.b4 = 1;            // Tire 1 icon
-    bytes[9].bits.b3 = 1;           // Floating point
+    if (val == -1) {
+        SegmentClearDigits(digits, digitNum);
 
-    SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
+        bytes[13].bits.b4 = 0;            // Tire 1 icon
+        bytes[9].bits.b3 = 0;           // Floating point
+    }
+    else {
+        SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
+
+        bytes[13].bits.b4 = 1;            // Tire 1 icon
+        bytes[9].bits.b3 = 1;           // Floating point
+    }
+
     for (uint8_t i = 0; i < digitNum; i++) {
         uint8_t byteShift = i * 2;
         bytes[8 + byteShift].bits.b0 = digits[i].a;
@@ -174,10 +190,19 @@ static void press2_writeSegmentHandle(SegElement* this, int32_t val) {
     const uint8_t minDigitShow = 2;
     Digit digits[digitNum];
 
-    bytes[15].bits.b6 = 1;           // Tire 2 icon
-    bytes[2].bits.b7 = 1;           // Floating point
+    if (val == -1) {
+        SegmentClearDigits(digits, digitNum);
 
-    SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
+        bytes[15].bits.b6 = 0;           // Tire 2 icon
+        bytes[2].bits.b7 = 0;           // Floating point
+    }
+    else {
+        SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
+
+        bytes[15].bits.b6 = 1;           // Tire 2 icon
+        bytes[2].bits.b7 = 1;           // Floating point
+    }
+
     for (uint8_t i = 0; i < digitNum; i++) {
         uint8_t byteShift = i * 2;
         bytes[3 - byteShift].bits.b4 = digits[i].a;
@@ -198,10 +223,19 @@ static void press3_writeSegmentHandle(SegElement* this, int32_t val) {
     const uint8_t minDigitShow = 2;
     Digit digits[digitNum];
 
-    bytes[13].bits.b5 = 1;            // Tire 3 icon
-    bytes[6].bits.b0 = 1;           // Floating point
+    if (val == -1) {
+        SegmentClearDigits(digits, digitNum);
 
-    SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
+        bytes[13].bits.b5 = 0;            // Tire 3 icon
+        bytes[6].bits.b0 = 0;           // Floating point
+    }
+    else {
+        SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
+
+        bytes[13].bits.b5 = 1;            // Tire 3 icon
+        bytes[6].bits.b0 = 1;           // Floating point
+    }
+
     for (uint8_t i = 0; i < digitNum; i++) {
         uint8_t byteShift = i * 2;
         bytes[6 - byteShift].bits.b1 = digits[i].e;
@@ -227,7 +261,13 @@ static void temp0_writeSegmentHandle(SegElement* this, int32_t val) {
     // bytes[1].bits.b0 = 1; // Negative
     // bytes[3].bits.b0 = 1; // Hundred digit
 
-    SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
+    if (val == -1) {
+        SegmentClearDigits(digits, digitNum);
+    }
+    else {
+        SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
+    }
+
     for (uint8_t i = 0; i < digitNum; i++) {
         uint8_t byteShift = i * 2;
         bytes[16 + byteShift].bits.b4 = digits[i].a;
@@ -248,12 +288,17 @@ static void temp1_writeSegmentHandle(SegElement* this, int32_t val) {
     const uint8_t minDigitShow = 2;
     Digit digits[digitNum];
 
-
     // TODO: Handle negative and 3 digits number
     // bytes[20].bits.b4 = 1; // Negative
     // bytes[22].bits.b4 = 1; // Hundred digit
 
-    SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
+    if (val == -1) {
+        SegmentClearDigits(digits, digitNum);
+    }
+    else {
+        SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
+    }
+
     for (uint8_t i = 0; i < digitNum; i++) {
         uint8_t byteShift = i * 2;
         bytes[8 + byteShift].bits.b4 = digits[i].a;
@@ -279,7 +324,13 @@ static void temp2_writeSegmentHandle(SegElement* this, int32_t val) {
     // bytes[6].bits.b0 = 1; // Negative
     // bytes[8].bits.b0 = 1; // Hundred digit
 
-    SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
+    if (val == -1) {
+        SegmentClearDigits(digits, digitNum);
+    }
+    else {
+        SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
+    }
+
     for (uint8_t i = 0; i < digitNum; i++) {
         uint8_t byteShift = i * 2;
         bytes[3 - byteShift].bits.b0 = digits[i].a;
@@ -305,7 +356,13 @@ static void temp3_writeSegmentHandle(SegElement* this, int32_t val) {
     // bytes[16].bits.b0 = 1; // Negative
     // bytes[18].bits.b0 = 1; // Hundred digit
 
-    SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
+    if (val == -1) {
+        SegmentClearDigits(digits, digitNum);
+    }
+    else {
+        SegmentUpdateDigits(digits, val, digitNum, minDigitShow);
+    }
+
     for (uint8_t i = 0; i < digitNum; i++) {
         uint8_t byteShift = i * 2;
         bytes[7 - byteShift].bits.b4 = digits[i].d;
