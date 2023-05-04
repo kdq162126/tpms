@@ -21,6 +21,7 @@ typedef enum TIRE_STATE {
 typedef struct Tire_t Tire;
 struct Tire_t {
     TIRE_STATE state;
+    uint32_t inactive_counter;
     char id[10];
     char pos[4];
     SegElement press;
@@ -33,5 +34,10 @@ char* TirePackageJsonMessage(Tire* this, char* buff);
 void TireSetId(Tire* this, char* id);
 uint32_t TireGetPressure(uint32_t press);
 uint32_t TireGetSoc(uint32_t volx100);
+
+static inline void TireSetState(Tire* this, TIRE_STATE state) {
+    this->state = state;
+    this->inactive_counter = 0;
+}
 
 #endif /* COMPONENT_TIRE_TIRE_H_ */
