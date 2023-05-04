@@ -33,7 +33,7 @@ static void SystemHandleTask(void* pv) {
                 if (pTire->state != TIRE_ST_ACTIVE) continue;
 
                 pTire->inactive_counter++;
-                if (pTire->inactive_counter >= 200000) {
+                if (pTire->inactive_counter >= 210000) {
                     TireSetState(pTire, TIRE_ST_INACTIVE);
                     SegmentWrite(&pTire->press, -1);
                     SegmentWrite(&pTire->temp, -1);
