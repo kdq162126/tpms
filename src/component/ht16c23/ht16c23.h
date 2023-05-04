@@ -10,8 +10,6 @@
 
 #include "segment.h"
 
-#define LCD_BUFFER_LENGTH                       26
-
 #define HT16C23_DISPLAY_DATA_CMD                (0x80)
 #define HT16C23_DRIVE_MODE_CMD                  (0x82)
 #define HT16C23_SYSTEM_MODE_CMD                 (0x84)

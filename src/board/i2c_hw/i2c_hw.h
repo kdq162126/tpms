@@ -11,6 +11,8 @@
 #include "stdint.h"
 
 #define I2C_SLAVE_ADDRESS                   (0x7c)
+#define LCD_SW_ON							PINS_DRV_SetPins(PTE, 1<<10);
+#define LCD_SW_OFF							PINS_DRV_ClearPins(PTE, 1<<10);
 
 void I2cHwConfig(void);
 void I2cHwSend(uint8_t* buff, uint32_t size);

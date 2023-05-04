@@ -17,6 +17,8 @@ void I2cHwConfig(void) {
     FLEXIO_DRV_InitDevice(INST_FLEXIO_I2C_CONFIG_1, &flexIODeviceState);
 
     FLEXIO_I2C_DRV_MasterInit(INST_FLEXIO_I2C_CONFIG_1, &Flexio_i2c_Config0, &i2cMasterState);
+
+    LCD_SW_ON;
 }
 
 void I2cHwSend(uint8_t* buff, uint32_t size) {

@@ -20,7 +20,7 @@ void LcdDriverInit(LcdDriver* this) {
 
 void LcdDriverConfigSettings(LcdDriver* this, uint8_t driverMode) {
     lcdDriverWriteCmd(this, HT16C23_DRIVE_MODE_CMD, driverMode);
-    lcdDriverWriteCmd(this, HT16C23_FRAME_FREQ_CMD, 0x00);           // 80Hz
+    lcdDriverWriteCmd(this, HT16C23_FRAME_FREQ_CMD, 0x01);           // 80Hz
     lcdDriverWriteCmd(this, HT16C23_IVA_SETTING_CMD, 0x30);          // VLCD ON
     lcdDriverWriteCmd(this, HT16C23_BLINKING_FREQ_CMD, 0x00);        // Blink OFF
     lcdDriverWriteCmd(this, HT16C23_SYSTEM_MODE_CMD, 0x03);          // Internal Oscillator and LCD Display ON
