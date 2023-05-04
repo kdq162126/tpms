@@ -55,7 +55,7 @@ pin_labels:
 - {pin_num: '59', pin_signal: PTE7, label: RST_N}
 - {pin_num: '26', pin_signal: PTE8, label: LCD_GPIO28}
 - {pin_num: '23', pin_signal: PTE9, label: LCD_GPIO29}
-- {pin_num: '6', pin_signal: PTE10, label: LCD_GPIO30}
+- {pin_num: '6', pin_signal: PTE10, label: LCD_SW}
 - {pin_num: '5', pin_signal: PTE11, label: LCD_GPIO31}
 - {pin_num: '19', pin_signal: PTE12, label: LCD_GPIO32}
 - {pin_num: '24', pin_signal: PTD14, label: INT_N}
@@ -123,6 +123,7 @@ BOARD_InitPins:
   - {pin_num: '58', peripheral: PORTA, signal: 'port, 6', pin_signal: PTA6, direction: INPUT, IRQC: state_1010}
   - {pin_num: '57', peripheral: PORTA, signal: 'port, 7', pin_signal: PTA7, direction: INPUT}
   - {pin_num: '99', peripheral: PORTA, signal: 'port, 9', pin_signal: PTA9, direction: OUTPUT}
+  - {pin_num: '6', peripheral: PORTE, signal: 'port, 10', pin_signal: PTE10, direction: OUTPUT}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
@@ -480,6 +481,21 @@ pin_settings_config_t g_pin_mux_InitConfigArr0[NUM_OF_CONFIGURED_PINS0] = {
         .clearIntFlag    = false,
         .gpioBase        = PTD,
         .direction       = GPIO_INPUT_DIRECTION,
+        .digitalFilter   = false,
+        .initValue       = 0U,
+    },
+    {
+        .base            = PORTE,
+        .pinPortIdx      = 10U,
+        .pullConfig      = PORT_INTERNAL_PULL_NOT_ENABLED,
+        .driveSelect     = PORT_LOW_DRIVE_STRENGTH,
+        .passiveFilter   = false,
+        .mux             = PORT_MUX_AS_GPIO,
+        .pinLock         = false,
+        .intConfig       = PORT_DMA_INT_DISABLED,
+        .clearIntFlag    = false,
+        .gpioBase        = PTE,
+        .direction       = GPIO_OUTPUT_DIRECTION,
         .digitalFilter   = false,
         .initValue       = 0U,
     },
