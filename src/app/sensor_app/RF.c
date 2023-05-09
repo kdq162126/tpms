@@ -232,52 +232,53 @@ void RF_LZ_check_for_message_received(void)
         {
             if (LZ_COM_ReadFrame(&lzDrvConfig, lzWaitRDY_INT, &recvFrame, MAX_BUFFER_LENGTH) == kStatus_Success)
             {
-                uint8_t sensorDataHeader[3] = { 0x1f, 0x0f, 0x80 };
-                if (memcmp(recvBuffer, sensorDataHeader, 3) == 0) {
-                    uint8_t id[8];
-                    memset(id, 0, 8);
-                    btox((char*)id, (char*)&recvBuffer[10], 8);
+                // uint8_t sensorDataHeader[3] = { 0x1f, 0x0f, 0x80 };
+                // if (memcmp(recvBuffer, sensorDataHeader, 3) == 0) {
+                uint8_t id[8];
+                memset(id, 0, 8);
+                btox((char*)id, (char*)&recvBuffer[10], 8);
 
-                    if (tpmsApp.lcdDriver.state == LCD_ST_ACTIVE) {
-                        Tire* p_tire;
-                        for (uint8_t i = 0; i < TIRE_NUMBER; i++) {
-                            p_tire = &tpmsApp.tires[i];
-                            if (memcmp(p_tire->id, id, 8) != 0) {   // Check if ID already exist
-                                if (tpmsApp.tires[i].state == TIRE_ST_ACTIVE) continue;
-                            }
-
-                            memcpy(p_tire->id, id, 8);
-                            p_tire->press.value = TireGetPressure(recvBuffer[16] * 256 + recvBuffer[17]);
-                            SegmentWrite(&p_tire->press, p_tire->press.value / 100);
-//                            p_tire->soc = recvBuffer[22] + 122;
-                            p_tire->soc = TireGetSoc(recvBuffer[22] + 122);
-                            p_tire->temp.value = recvBuffer[23] - 55;
-                            SegmentWrite(&p_tire->temp, p_tire->temp.value);
-                            p_tire->state = TIRE_ST_ACTIVE;
-                            break;
+                if (tpmsApp.lcdDriver.state == LCD_ST_ACTIVE) {
+                    Tire* p_tire;
+                    for (uint8_t i = 0; i < TIRE_NUMBER; i++) {
+                        p_tire = &tpmsApp.tires[i];
+                        if (memcmp(p_tire->id, id, 8) != 0) {   // Check if ID already exist
+                            if (tpmsApp.tires[i].state == TIRE_ST_ACTIVE) continue;
                         }
+
+                        memcpy(p_tire->id, id, 8);
+                        p_tire->press.value = TireGetPressure(recvBuffer[16] * 256 + recvBuffer[17]);
+                        SegmentWrite(&p_tire->press, p_tire->press.value / 100);
+                        // p_tire->soc = recvBuffer[22] + 122;
+                        p_tire->soc = TireGetSoc(recvBuffer[22] + 122);
+                        p_tire->temp.value = recvBuffer[23] - 55;
+                        SegmentWrite(&p_tire->temp, p_tire->temp.value);
+                        p_tire->state = TIRE_ST_ACTIVE;
+                        break;
                     }
-
-
-                    int i = 0;
-                    PRINTF("Ma ID Lop: 0x");
-                    for (i = 10; i < 14; i++)
-                        PRINTF("%02X", recvBuffer[i]);
-                    PRINTF("          \n\r");
-                    ///*
-                    press = recvBuffer[16] * 256 + recvBuffer[17];
-                    presure = 0.824 * (float)press + 88.353;
-                    PRINTF("\n\rAp Suat Lop: %.2fKpa         \n\r", presure);
-                    vol = (float)(recvBuffer[22]) / 100 + 1.22;
-                    PRINTF("\n\rDIen ap Pin: %.2fV       \n\r", vol);
-                    temp = recvBuffer[23] - 55;
-                    PRINTF("\n\rNhiet Do Lop: %dC       \n\r", temp);
-                    //PRINTF("\n\r-----------------%d     \n\r", i);
-                    //PRINTF("Float: %2.2f\n", 3.245);
-                    //*/
                 }
+                // }
 
-                /* If a reboot event was detected, we need to restart the reception */
+
+                int i = 0;
+                PRINTF("Ma ID Lop: 0x");
+                for (i = 10; i < 14; i++)
+                    PRINTF("%02X", recvBuffer[i]);
+                PRINTF("          \n\r");
+                ///*
+                press = recvBuffer[16] * 256 + recvBuffer[17];
+                presure = 0.824 * (float)press + 88.353;
+                PRINTF("\n\rAp Suat Lop: %.2fKpa         \n\r", presure);
+                vol = (float)(recvBuffer[22]) / 100 + 1.22;
+                PRINTF("\n\rDIen ap Pin: %.2fV       \n\r", vol);
+                temp = recvBuffer[23] - 55;
+                PRINTF("\n\rNhiet Do Lop: %dC       \n\r", temp);
+                //PRINTF("\n\r-----------------%d     \n\r", i);
+                //PRINTF("Float: %2.2f\n", 3.245);
+                //*/
+
+
+            /* If a reboot event was detected, we need to restart the reception */
                 if (1 == uLzRebootDetected)
                 {
                     //PRINTF("\n\r 1 == uLzRebootDetected \n\r ");
