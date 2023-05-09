@@ -26,20 +26,20 @@ static void SystemHandleTask(void* pv) {
         tpmsApp.timestamp++;
         ClockProcessTimeout(&tpmsApp.lteModule.base.clock);
 
-        if (tpmsApp.lcdDriver.state == LCD_ST_ACTIVE) {
-            for (uint8_t i = 0; i < TIRE_NUMBER; i++) {
-                Tire* pTire = &tpmsApp.tires[i];
+        // if (tpmsApp.lcdDriver.state == LCD_ST_ACTIVE) {
+        //     for (uint8_t i = 0; i < TIRE_NUMBER; i++) {
+        //         Tire* pTire = &tpmsApp.tires[i];
 
-                if (pTire->state != TIRE_ST_ACTIVE) continue;
+        //         if (pTire->state != TIRE_ST_ACTIVE) continue;
 
-                pTire->inactive_counter++;
-                if (pTire->inactive_counter >= 210000) {
-                    TireSetState(pTire, TIRE_ST_INACTIVE);
-                    SegmentWrite(&pTire->press, -1);
-                    SegmentWrite(&pTire->temp, -1);
-                }
-            }
-        }
+        //         pTire->inactive_counter++;
+        //         if (pTire->inactive_counter >= 210000) {
+        //             TireSetState(pTire, TIRE_ST_INACTIVE);
+        //             SegmentWrite(&pTire->press, -1);
+        //             SegmentWrite(&pTire->temp, -1);
+        //         }
+        //     }
+        // }
 
         vTaskDelay(1);
     }

@@ -20,6 +20,8 @@
 #include "sensor_app.h"
 #include "task_init.h"
 #include "tire.h"
+#include "app_config.h"
+
 
 #define TIRE_NUMBER                         4
 
