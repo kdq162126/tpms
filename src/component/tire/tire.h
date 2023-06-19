@@ -12,6 +12,8 @@
 #include "string_util.h"
 #include "segment.h"
 
+#define TIRE_DATA_FLASH_BUFFER_SIZE			20
+
 typedef enum TIRE_STATE {
     TIRE_ST_INACTIVE = 0,
     TIRE_ST_ACTIVE,

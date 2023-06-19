@@ -5,6 +5,15 @@ void TireInit(Tire* this) {
 	(void)this;
 }
 
+void TireGetPreviousData(Tire* this, uint32_t address) {
+	uint8_t *buff=(uint8_t *)address;
+
+	memcpy(buff, , TIRE_DATA_FLASH_BUFFER_SIZE);
+	memcpy(this->id, buff, 8);
+	memcpy(this->pos, buff+8, 3);
+	mem
+}
+
 char* TirePackageJsonMessage(Tire* this, char* buff) {
 	buff = JsonOpen(buff);
 	buff = JsonFromString(buff, "id", this->id);
