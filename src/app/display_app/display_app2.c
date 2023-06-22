@@ -22,6 +22,8 @@ static void temp2_writeSegmentHandle(SegElement* this, int32_t val);
 static void temp3_writeSegmentHandle(SegElement* this, int32_t val);
 static void powerSource_writeSegmentHandle(SegElement* this, int32_t val);
 
+static void GetAllTireDataInFlash(TpmsApp *pApp);
+
 static void lcdDriverSendHandle(uint8_t* buff, uint32_t len) {
     I2cHwSend(buff, len);
 }
@@ -47,6 +49,10 @@ void DisplayTask(void* pv) {
 
     LcdDriver* this = &tpmsApp.lcdDriver;
     DisplayAppInit(&tpmsApp);
+
+    // Initialize Flash to read previous tires data
+    IntFlashConfig();
+    GetAllTireDataInFlash(pApp);
 
     I2cHwConfig();
     vTaskDelay(500);
@@ -106,9 +112,35 @@ void DisplayTask(void* pv) {
 }
 
 static void GetAllTireDataInFlash(TpmsApp *pApp) {
-	for (uint8_t i=0; i < TIRE_NUMBER; i++) {
-		uint8_t buffer
+    uint8_t postionMapIds[TIRE_NUMBER][8] = { TIRE_LEFT_FRONT_ID, TIRE_RIGHT_FRONT_ID, TIRE_LEFT_BACK_ID , TIRE_RIGHT_BACK_ID };
+    uint8_t compareBuffer[8] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+
+    uint32_t size = TIRE_DATA_FLASH_BUFFER_SIZE*TIRE_NUMBER;
+    uint8_t data[size];
+    memset(data, 0, size);
+    memcpy(data, (uint8_t *)SENSOR_START_FLASH_ADDRESS, size);  
+    bool needOverwrite = false;
+
+	for (uint8_t i = 0; i < TIRE_NUMBER; i++) {
+        uint8_t offset = TIRE_DATA_FLASH_BUFFER_SIZE*i;
+
+        // Check ID storaged in Flash
+        if (memcmp(data, compareBuffer, 8) == 0) {
+            // ID == [0xff] -> No Data in Flash
+            memcpy(data+18*i, postionMapIds[i], 8);
+            needOverwrite = true;
+            continue;
+        }   
+
+        TireGetDataInFlash(&pApp.tires[i], data+offset);
 	}
+
+    if (needOverwrite) {
+        // TODO: check result returned
+        IntFlashEraseSector(SENSOR_START_FLASH_ADDRESS);
+        // TODO: Error potential, need check if size request 2^n value
+        IntFlashWriteSector(SENSOR_START_FLASH_ADDRESS, size, data);
+    }
 }
 
 static void LcdStartupHandle(void) {

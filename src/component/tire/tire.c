@@ -5,12 +5,7 @@ void TireInit(Tire* this) {
 	(void)this;
 }
 
-void TireGetDataInFlash(Tire* this, uint32_t address) {
-	uint8_t data[TIRE_DATA_FLASH_BUFFER_SIZE];
-	uint8_t* buff = &data[0];
-	memset(data, 0, TIRE_DATA_FLASH_BUFFER_SIZE);
-
-	memcpy(data, (uint8_t *)address, TIRE_DATA_FLASH_BUFFER_SIZE);
+void TireGetDataInFlash(Tire* this, uint8_t* buff) {
 	memcpy(this->id, buff, 8);
 	buff+=8;
 	memcpy(this->pos, buff, 3);
