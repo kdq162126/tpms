@@ -5,13 +5,33 @@ void TireInit(Tire* this) {
 	(void)this;
 }
 
-void TireGetPreviousData(Tire* this, uint32_t address) {
-	uint8_t *buff=(uint8_t *)address;
+void TireGetDataInFlash(Tire* this, uint32_t address) {
+	uint8_t data[TIRE_DATA_FLASH_BUFFER_SIZE];
+	uint8_t* buff = &data[0];
+	memset(data, 0, TIRE_DATA_FLASH_BUFFER_SIZE);
 
-	memcpy(buff, , TIRE_DATA_FLASH_BUFFER_SIZE);
+	memcpy(data, (uint8_t *)address, TIRE_DATA_FLASH_BUFFER_SIZE);
 	memcpy(this->id, buff, 8);
-	memcpy(this->pos, buff+8, 3);
-	mem
+	buff+=8;
+	memcpy(this->pos, buff, 3);
+	buff+=3;
+	this->press.value = (int32_t)GetUint32(buff);
+	buff+=4;
+	this->temp.value = (int32_t)GetUint16(buff);
+	buff+=2;
+	this->soc = (uint32_t)*buff;
+}
+
+void TirePackageByteBuffer(Tire* this, uint8_t* buff){
+	memcpy(buff, this->id, 8);
+	buff+=8;
+	memcpy(buff,this->pos,3);
+	buff+=3;
+	SetUint32(buff, (uint32_t)this->press.value);
+	buff+=4;
+	SetUint16(buff, (uint32_t)this->temp.value);
+	buff+=2;
+	*buff = (uint8_t)this->soc;
 }
 
 char* TirePackageJsonMessage(Tire* this, char* buff) {

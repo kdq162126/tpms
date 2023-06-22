@@ -10,6 +10,7 @@
 
 #include "stdint.h"
 #include "string_util.h"
+#include "number_util.h"
 #include "segment.h"
 
 #define TIRE_DATA_FLASH_BUFFER_SIZE			20
@@ -36,6 +37,8 @@ char* TirePackageJsonMessage(Tire* this, char* buff);
 void TireSetId(Tire* this, char* id);
 uint32_t TireGetPressure(uint32_t press);
 uint32_t TireGetSoc(uint32_t volx100);
+void TireGetDataInFlash(Tire* this, uint32_t address);
+void TirePackageByteBuffer(Tire* this, uint8_t* buff);
 
 static inline void TireSetState(Tire* this, TIRE_STATE state) {
     this->state = state;

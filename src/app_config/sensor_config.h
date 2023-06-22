@@ -6,7 +6,9 @@
 #define TIRE_RIGHT_BACK_ID              "C9524CCF"
 
 #define SENSOR_START_FLASH_ADDRESS		FEATURE_FLS_PF_BLOCK_SIZE - FEATURE_FLS_PF_BLOCK_SECTOR_SIZE
-// Memory layout:
+// Memory layout: 18 bytes/tire
 //	8 bytes: Tire ID
 //	3 bytes: Position
 //  4 bytes: Pressure
+//	2 bytes: Temperature
+//	1 bytes: SoC

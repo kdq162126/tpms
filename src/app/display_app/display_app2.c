@@ -105,6 +105,12 @@ void DisplayTask(void* pv) {
     }
 }
 
+static void GetAllTireDataInFlash(TpmsApp *pApp) {
+	for (uint8_t i=0; i < TIRE_NUMBER; i++) {
+		uint8_t buffer
+	}
+}
+
 static void LcdStartupHandle(void) {
     Byte* bytes = tpmsApp.lcdDriver.dataBuff;
 
