@@ -52,7 +52,7 @@ void DisplayTask(void* pv) {
 
     // Initialize Flash to read previous tires data
     IntFlashConfig();
-    GetAllTireDataInFlash(pApp);
+    GetAllTireDataInFlash(&tpmsApp);
 
     I2cHwConfig();
     vTaskDelay(500);
@@ -132,7 +132,7 @@ static void GetAllTireDataInFlash(TpmsApp *pApp) {
             continue;
         }   
 
-        TireGetDataInFlash(&pApp.tires[i], data+offset);
+        TireGetDataInFlash(&pApp->tires[i], data+offset);
 	}
 
     if (needOverwrite) {
