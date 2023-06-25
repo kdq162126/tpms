@@ -125,20 +125,19 @@ static void GetAllTireDataInFlash(TpmsApp *pApp) {
         uint8_t offset = TIRE_DATA_FLASH_BUFFER_SIZE*i;
 
         // Check ID storaged in Flash
-        if (memcmp(data, compareBuffer, 8) == 0) {
+        if (memcmp(data+offset, compareBuffer, 8) == 0) {
             // ID == [0xff] -> No Data in Flash
             memcpy(data+18*i, postionMapIds[i], 8);
             needOverwrite = true;
             continue;
         }   
 
-        TireGetDataInFlash(&pApp->tires[i], data+offset);
+        TireParseByteBuffer(&pApp->tires[i], data+offset);
 	}
 
     if (needOverwrite) {
-        // TODO: check result returned
+        // TODO: should check result returned
         IntFlashEraseSector(SENSOR_START_FLASH_ADDRESS);
-        // TODO: Error potential, need check if size request 2^n value
         IntFlashWriteSector(SENSOR_START_FLASH_ADDRESS, size, data);
     }
 }

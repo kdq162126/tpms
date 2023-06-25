@@ -238,7 +238,7 @@ void RF_LZ_check_for_message_received(void)
                 memset(id, 0, 8);
                 btox((char*)id, (char*)&recvBuffer[10], 8);
 
-                char postionMapIds[TIRE_NUMBER][8] = { TIRE_LEFT_FRONT_ID, TIRE_RIGHT_FRONT_ID, TIRE_LEFT_BACK_ID , TIRE_RIGHT_BACK_ID };
+//                char postionMapIds[TIRE_NUMBER][8] = { TIRE_LEFT_FRONT_ID, TIRE_RIGHT_FRONT_ID, TIRE_LEFT_BACK_ID , TIRE_RIGHT_BACK_ID };
                 if (tpmsApp.lcdDriver.state == LCD_ST_ACTIVE) {
                     Tire* p_tire;
                     for (uint8_t i = 0; i < TIRE_NUMBER; i++) {
@@ -246,7 +246,7 @@ void RF_LZ_check_for_message_received(void)
                         // if (memcmp(p_tire->id, id, 8) != 0) {   // Check if ID already exist
                         //     if (tpmsApp.tires[i].state == TIRE_ST_ACTIVE) continue;
                         // }
-                        if (memcmp(id, postionMapIds[i], 8) != 0) continue;
+                        if (memcmp(id, tpmsApp.tires[i].id, 8) != 0) continue;
                         p_tire = &tpmsApp.tires[i];
 
                         memcpy(p_tire->id, id, 8);

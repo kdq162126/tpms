@@ -16,18 +16,25 @@ void IntFlashConfig(void) {
     FLASH_DRV_SetFlexRamFunction(&flashSSDConfig, EEE_ENABLE, 0x00u, NULL);
 }
 
+/*
+ * REMEMBER TO DISABLE GLOBAL INTERRUPT BEFORE WRITE FLASH
+ *  */
 bool IntFlashWriteSector(uint32_t address, uint32_t size, uint8_t* data) {
+    DISABLE_INTERRUPTS();
 	status_t ret = FLASH_DRV_Program(&flashSSDConfig, address, size, data);
+    ENABLE_INTERRUPTS();
    if (ret != STATUS_SUCCESS) {
 	   return false;
    }
 
-    /* Verify the program operation at margin level value of 1, user margin */
-    uint32_t failAddr;
-    ret = FLASH_DRV_ProgramCheck(&flashSSDConfig, address, size, data, &failAddr, 1u);
-    if (ret != STATUS_SUCCESS) {
- 	   return false;
-    }
+//    /* Verify the program operation at margin level value of 1, user margin */
+//    uint32_t failAddr;
+//    DISABLE_INTERRUPTS();
+//    ret = FLASH_DRV_ProgramCheck(&flashSSDConfig, address, size, data, &failAddr, 1u);
+//    ENABLE_INTERRUPTS();
+//    if (ret != STATUS_SUCCESS) {
+// 	   return false;
+//    }
 
     return true;
 }
@@ -36,7 +43,9 @@ bool IntFlashEraseSector(uint32_t address) {
     address = FEATURE_FLS_PF_BLOCK_SIZE - FEATURE_FLS_PF_BLOCK_SECTOR_SIZE;
     uint32_t size = FEATURE_FLS_PF_BLOCK_SECTOR_SIZE;
 
+    DISABLE_INTERRUPTS();
     status_t ret = FLASH_DRV_EraseSector(&flashSSDConfig, address, size);
+    ENABLE_INTERRUPTS();
     if (ret != STATUS_SUCCESS) {
     	return false;
     }

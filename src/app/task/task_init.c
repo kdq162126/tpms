@@ -10,10 +10,12 @@ void TaskInit(void) {
 
     if (xQueue != NULL)
     {
-        xTaskCreate(SystemHandleTask, "System", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 4U, NULL);
-        xTaskCreate(MqttHandleTask, "MQTT", 256, NULL, configMAX_PRIORITIES - 5U, NULL);
-        xTaskCreate(HandleSensorAppTask, "Sensor", 512, NULL, configMAX_PRIORITIES - 5U, NULL);
-        xTaskCreate(DisplayTask, "Display", 256, NULL, configMAX_PRIORITIES - 5U, NULL);
+    	// High to low priority
+        xTaskCreate(SystemHandleTask, 		"System", 	configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 4U, NULL);
+        xTaskCreate(MqttHandleTask, 		"MQTT", 	256, NULL, configMAX_PRIORITIES - 5U, NULL);
+        xTaskCreate(HandleSensorAppTask, 	"Sensor", 	512, NULL, configMAX_PRIORITIES - 5U, NULL);
+        xTaskCreate(DisplayTask, 			"Display", 	256, NULL, configMAX_PRIORITIES - 5U, NULL);
+        xTaskCreate(BackupDataTask, 		"Backup", 	configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 6U, NULL);
 
         vTaskStartScheduler();
     }

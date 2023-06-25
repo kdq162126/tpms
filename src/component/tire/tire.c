@@ -1,11 +1,31 @@
 #include "tire.h"
 #include "string.h"
+#include "stdlib.h"
 
 void TireInit(Tire* this) {
 	(void)this;
 }
 
-void TireGetDataInFlash(Tire* this, uint8_t* buff) {
+bool IsNeedBackupTireData(Tire* tire, Tire* tempTire) {
+	// 2.2 -> 2.4
+	if (abs(tire->press.value-tempTire->press.value) > 200) {
+		return true;
+	}
+
+	// Position changed
+	if (memcmp(tire->pos, tempTire->pos, 3) != 0) {
+		return true;
+	}
+
+	// ID changed
+	if (memcmp(tire->id, tempTire->id, 8) != 0) {
+		return true;
+	}
+
+	return false;
+}
+
+void TireParseByteBuffer(Tire* this, uint8_t* buff) {
 	memcpy(this->id, buff, 8);
 	buff+=8;
 	memcpy(this->pos, buff, 3);

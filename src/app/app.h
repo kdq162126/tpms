@@ -15,6 +15,7 @@
 #include "ht16c23.h"
 #include "tire.h"
 
+#include "backup_app.h"
 #include "display_app.h"
 #include "mqtt_app.h"
 #include "sensor_app.h"

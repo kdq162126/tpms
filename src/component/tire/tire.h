@@ -37,8 +37,9 @@ char* TirePackageJsonMessage(Tire* this, char* buff);
 void TireSetId(Tire* this, char* id);
 uint32_t TireGetPressure(uint32_t press);
 uint32_t TireGetSoc(uint32_t volx100);
-void TireGetDataInFlash(Tire* this, uint8_t* buff);
+void TireParseByteBuffer(Tire* this, uint8_t* buff);
 void TirePackageByteBuffer(Tire* this, uint8_t* buff);
+bool IsNeedBackupTireData(Tire* tire, Tire* tempTire);
 
 static inline void TireSetState(Tire* this, TIRE_STATE state) {
     this->state = state;
